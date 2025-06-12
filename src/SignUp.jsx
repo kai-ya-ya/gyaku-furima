@@ -6,6 +6,7 @@ import { useNavigate } from "react-router-dom";
 import { auth, db } from './firebase';
 import './index.css';
 import { text as t } from './text';
+import { style as s } from './style';
 
 export default function SignUp() {
     const [username, setUsername] = useState("");
@@ -45,35 +46,35 @@ export default function SignUp() {
     };
 
     return (
-        <div className="max-w-xs mx-auto my-20 p-6 bg-white rounded-lg shadow-md">
-            <h2 className="text-center mb-4">{t.pages.signup.title}</h2>
+        <div className={s.win_popup}>
+            <h2 className={s.win_title}>{t.pages.signup.title}</h2>
             <input
-                className="w-full p-2 mb-4 border border-gray-300 rounded"
+                className={s.field_input}
                 placeholder={t.userdata.username}
                 value={username}
                 onChange={(e) => setUsername(e.target.value)}
             />
             <input
                 type="email"
-                className="w-full p-2 mb-4 border border-gray-300 rounded"
+                className={s.field_input}
                 placeholder={t.userdata.email}
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
             />
             <input
                 type="password"
-                className="w-full p-2 mb-4 border border-gray-300 rounded"
+                className={s.field_input}
                 placeholder={t.userdata.password}
                 value={password}
                 onChange={(e) => setPassword(e.target.value)}
             />
             {msg_err && (
-                <div className="mb-4 p-2 rounded text-sm bg-red-100 text-red-700 text-xs text-center">
+                <div className={s.field_err}>
                     {msg_err}
                 </div>
             )}
             <button
-                className="w-full bg-blue-500 text-white p-2 mb-2 rounded hover:bg-blue-700 cursor-pointer"
+                className={s.btn_ok}
                 onClick={register}>{t.pages.signup.go_signup}</button>
         </div>
     );

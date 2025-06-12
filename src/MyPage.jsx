@@ -6,6 +6,7 @@ import { signOut } from "firebase/auth";
 import { getFirestore, collection, query, where, getDocs, getDoc, setDoc, doc } from "firebase/firestore";
 import { useNavigate } from "react-router-dom";
 import { text as t } from './text';
+import { Loading } from "./Loading";
 
 const Mypage = () => {
   const navigate = useNavigate();
@@ -37,16 +38,16 @@ const Mypage = () => {
   }, [auth, db]);
 
   if (!userdata) {
-    return <p>Loading...</p>;
+    return <Loading />;
   }
 
   return (
-    <div className="max-w-50 mx-auto my-20 p-6 bg-gray-100 rounded-lg shadow-md">
+    <div className="container max-w-100 mx-auto my-10 p-6 bg-gray-100 rounded-lg shadow-md">
       <h2 className="text-center mb-4">{t.pages.mypage.title}</h2>
       <p>{t.userdata.uid}: {userdata.uid}</p>
       <p>{t.userdata.username}: {userdata.username}</p>
       <p>{t.userdata.email}: {userdata.email}</p>
-      <button onClick={handleLogout} className="center w-auto text-red-500 p-2 mb-2 rounded hover:bg-red-500 hover:text-white cursor-pointer">{t.pages.mypage.go_signout}</button>
+      <button onClick={handleLogout} className="w-auto text-red-500 p-2 mb-2 rounded hover:bg-red-500 hover:text-white cursor-pointer">{t.pages.mypage.go_signout}</button>
     </div>
   );
 };

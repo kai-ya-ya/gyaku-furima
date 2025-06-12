@@ -6,6 +6,7 @@ import { auth, db } from './firebase';
 import MyPage from "./MyPage";
 import SignIn from "./SignIn";
 import SignUp from "./SignUp";
+import { Loading } from "./Loading";
 
 function App() {
   const [user, setUser] = useState(null);
@@ -25,12 +26,13 @@ function App() {
 }, [auth]);
 
   if (loading) {
-    return <div>Loading authentication state...</div>;
+    return <Loading />;
   }
 
   return (
     <BrowserRouter>
       <Routes>
+        <Route path="/home" element={<SignIn />} />
         <Route path="/signin" element={<SignIn />} />
         <Route path="/signup" element={<SignUp />} />
         <Route path="/mypage" element={user ? <MyPage user={user} /> : <Navigate to="/signin" />} />
