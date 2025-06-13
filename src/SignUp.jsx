@@ -1,12 +1,13 @@
 // SignUp.jsx
-import { useState, useEffect } from "react";
-import { getAuth, signInWithEmailAndPassword, createUserWithEmailAndPassword } from "firebase/auth";
-import { getFirestore, collection, query, where, getDocs, setDoc, doc } from "firebase/firestore";
+import { useState } from "react";
+import { createUserWithEmailAndPassword } from "firebase/auth";
+import { collection, query, where, getDocs, setDoc, doc } from "firebase/firestore";
 import { useNavigate } from "react-router-dom";
 import { auth, db } from './firebase';
 import './index.css';
 import { text as t } from './text';
 import { style as s } from './style';
+import { route as r } from "./route";
 
 export default function SignUp() {
     const [username, setUsername] = useState("");
@@ -33,7 +34,7 @@ export default function SignUp() {
                     username: username,
                     email: email
                 });
-                navigate("/");
+                navigate(r.home);
             } catch (e) {
                 setMsgErr(e.message);
             }

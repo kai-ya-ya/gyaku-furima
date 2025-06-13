@@ -4,12 +4,16 @@ export const text = {
         sell: {
             title: "出品する",
         },
+        topbar: {
+            title: "逆フリマ",
+            desc: "フリマアプリとは逆に、あなたの想像する欲しい架空の商品を出品するサイトです",
+        },
         home: {
             title: "逆フリマ",
             desc: "フリマアプリとは逆に、あなたの想像する欲しい架空の商品を出品するサイトです",
         },
         mypage: {
-            title: "登録情報",
+            title: "マイページ",
             go_signout: "ログアウト",
         },
         aboutme: {
