@@ -53,7 +53,7 @@ export default function SignIn() {
                     className={s.btn_ok}
                     onClick={login}>{t.pages.signin.go_signin}</button>
                 <button
-                    className={s.btn_other}
+                    className={"w-full "+s.btn_other}
                     onClick={() => navigate(r.signup)}>{t.pages.signin.go_signup}</button>
             </div>
         </div>

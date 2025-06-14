@@ -14,15 +14,14 @@ export function useUserData() {
         setLoading(true);
         setError(null);
         try {
-          // Firestoreからユーザーデータを取得
-          const userDocRef = doc(db, "users", user.uid); // user.uid を使用
+          const userDocRef = doc(db, "users", user.uid);
           const userDocSnap = await getDoc(userDocRef);
 
           if (userDocSnap.exists()) {
             setUserData(userDocSnap.data());
           } else {
             console.log("No user data found for uid:", user.uid);
-            setUserData(null); // データが見つからない場合もnullに
+            setUserData(null);
           }
         } catch (err) {
           console.error("Error fetching user data:", err);
@@ -31,15 +30,13 @@ export function useUserData() {
           setLoading(false);
         }
       } else {
-        // ユーザーがログインしていない場合
         setUserData(null);
         setLoading(false);
       }
     });
 
-    // クリーンアップ関数: 認証状態の監視を解除
     return () => unsubscribe();
-  }, []); // 依存配列が空なので、コンポーネントマウント時に一度だけ実行
+  }, []);
 
   return { userData, loading, error };
 }

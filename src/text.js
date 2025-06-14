@@ -12,9 +12,21 @@ export const text = {
             title: "逆フリマ",
             desc: "フリマアプリとは逆に、あなたの想像する欲しい架空の商品を出品するサイトです",
         },
+        sell: {
+            title: "出品する",
+            name: "商品の名前",
+            desc: "商品の説明",
+            tag: "カテゴリタグ",
+            price: "価格",
+            upload: "出品",
+        },
         mypage: {
             title: "マイページ",
             go_signout: "ログアウト",
+        },
+        toppage: {
+            title: "トップページ",
+            latest: "新着商品",
         },
         aboutme: {
             title: "このサイトについて",

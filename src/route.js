@@ -7,4 +7,5 @@ export const route = {
     mypage: "/mypage",
     item: "/item",
     search: "/search",
+    sell: "/sell",
 }
