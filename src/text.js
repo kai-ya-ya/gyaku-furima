@@ -53,6 +53,10 @@ export const text = {
         email: "メールアドレス",
         password: "パスワード",
     },
+    item_card: {
+        username_seller: "出品者",
+        unk_seller: "不明",
+    },
     msg: {
         sell: {
             success: "出品が完了しました",

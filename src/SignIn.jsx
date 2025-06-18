@@ -28,7 +28,7 @@ export default function SignIn() {
         <div>
             <TopBar />
             <div className={s.win_popup}>
-                <h2 className={s.win_title}>{t.pages.signin.title}</h2>
+                <div className={s.win_title}>{t.pages.signin.title}</div>
                 <input
                     type="email"
                     className={s.field_input}

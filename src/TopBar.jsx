@@ -19,15 +19,13 @@ export default function TopBar() {
     
     return (
         <div>
-            <div className="h-16"></div>
-            <div className="w-full bg-red-400 text-white flex justify-between items-center shadow-md fixed top-0 left-0 w-full z-50">
-                <div className="flex items-center mx-4 my-2">
-                    <Link to={r.toppage} className="text-white text-2xl font-bold">{t.pages.topbar.title}</Link>
-                </div>
+            <div className={s.topbar.dummy}></div>
+            <div className="bg-red-400 text-white flex justify-between items-center px-4 py-2 fixed top-0 left-0 w-full z-50">
+                <Link to={r.toppage} className={s.topbar.title}>{t.pages.topbar.title}</Link>
 
-                <div className="flex items-center mx-4 my-2">
-                    <button onClick={() => navigate(r.sell)} className={s.btn_other}>{t.pages.sell.title}</button>
-                    <button onClick={() => navigate(btn_lnk)} className={s.btn_other}>{btn_txt}</button>
+                <div className="flex items-center">
+                    <button onClick={() => navigate(userData ? r.sell : r.signin)} className={s.topbar.btn}>{t.pages.sell.title}</button>
+                    <button onClick={() => navigate(btn_lnk)} className={s.topbar.btn}>{btn_txt}</button>
                 </div>
             </div>
         </div>

@@ -18,7 +18,7 @@ const Mypage = () => {
   const handleLogout = async () => {
     try {
       await signOut(auth);
-      
+
     } catch (logoutError) {
       console.error("ログアウト中にエラーが発生しました:", logoutError);
     }
@@ -37,12 +37,20 @@ const Mypage = () => {
   return (
     <div>
       <TopBar />
-      <div className={s.win_frame}>
-        <h2 className={s.win_title}>{t.pages.mypage.title}</h2>
-        <p>{t.userdata.uid}: {userData.uid}</p>
-        <p>{t.userdata.username}: {userData.username}</p>
-        <p>{t.userdata.email}: {userData.email}</p>
-        <button onClick={handleLogout} className="w-auto text-red-500 p-2 mb-2 rounded hover:bg-red-500 hover:text-white cursor-pointer">{t.pages.mypage.go_signout}</button>
+      <div className={s.win.flexbox}>
+        <div className={s.item.title}>{t.pages.mypage.title}</div>
+        <div className="grid grid-cols-1 sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 p-4">
+          <div className="flex flex-row justify-between border-b-2 border-red-300/50">
+            <div>{t.userdata.uid}</div><div>{userData.uid}</div>
+          </div>
+          <div className="flex flex-row justify-between border-b-2 border-red-300/50">
+            <div>{t.userdata.username}</div><div>{userData.username}</div>
+          </div>
+          <div className="flex flex-row justify-between border-b-2 border-red-300/50">
+            <div>{t.userdata.email}</div><div>{userData.email}</div>
+          </div>
+        </div>
+        <button onClick={handleLogout} className={s.item.btn.other}>{t.pages.mypage.go_signout}</button>
       </div>
     </div>
   );
