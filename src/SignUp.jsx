@@ -52,35 +52,35 @@ export default function SignUp() {
     return (
     <div>
         <TopBar />
-            <div className={s.win_popup}>
-                <h2 className={s.win_title}>{t.pages.signup.title}</h2>
+            <div className={s.win.flexbox}>
+                <h2 className={s.item.title}>{t.pages.signup.title}</h2>
                 <input
-                    className={s.field_input}
+                    className={s.item.field.input}
                     placeholder={t.userdata.username}
                     value={username}
                     onChange={(e) => setUsername(e.target.value)}
                 />
                 <input
                     type="email"
-                    className={s.field_input}
+                    className={s.item.field.input}
                     placeholder={t.userdata.email}
                     value={email}
                     onChange={(e) => setEmail(e.target.value)}
                 />
                 <input
                     type="password"
-                    className={s.field_input}
+                    className={s.item.field.input}
                     placeholder={t.userdata.password}
                     value={password}
                     onChange={(e) => setPassword(e.target.value)}
                 />
                 {msg_err && (
-                    <div className={s.field_err}>
+                    <div className={s.item.field.err}>
                         {msg_err}
                     </div>
                 )}
                 <button
-                    className={s.btn_ok}
+                    className={s.item.btn.ok}
                     onClick={register}>{t.pages.signup.go_signup}</button>
             </div>
         </div>
