@@ -20,9 +20,9 @@ export default function ItemCard(props) {
 
 
     return (
-        <div onClick={goItem} role="button" className="grid grid-cols-2 justify-items-stretch gap-2 p-2 bg-white rounded-2xl border-4 border-white/100 hover:border-red-400/50 h-auto">
+        <div onClick={goItem} role="button" className="grid grid-cols-2 justify-items-stretch gap-2 p-2 bg-white border-b-2 border-red-300 h-auto">
             <div className="">
-                <img src={item.imageUrl || "https://dummyimage.com/320x320/eee/aaa.png&text=Not+Found"} alt={item.name} className="w-auto" />
+                <img src={item.imageUrl || t.url.thumb_default} alt={item.name} className="w-auto" />
             </div>
             <div className="flex flex-col w-full aspect-square overflow-hidden gap-2">
                     <div className={s.item.tag.xs.flexbox}>
@@ -41,8 +41,8 @@ export default function ItemCard(props) {
                 <div className={s.text.meta}>{t.item_card.username_seller}: {item.username_seller || t.item_card.unk_seller}</div>
                 <div className={s.text.meta}>{timeAgo(item.dt_upload)}</div>
             </div>
-            <div className="flex flex-row flex-nowrap gap-1">
-                <button className={s.item.btn.like.no} onClick={handleLikeClick} type="button">💬</button>
+            <div className="flex flex-row justify-end flex-nowrap gap-1">
+                <button className={s.item.btn.like.no} onClick={(e) => {e.stopPropagation();}} type="button">💬</button>
                 <button className={liked ? s.item.btn.like.yes : s.item.btn.like.no} onClick={handleLikeClick} type="button">{liked ? "♡" : "♡"}</button>
             </div>
         </div>

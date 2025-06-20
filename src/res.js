@@ -84,7 +84,9 @@ export const text = {
             unk_err: `ログアウトに失敗しました`,
         },
     },
-    
+    url: {
+        thumb_default: "https://firebasestorage.googleapis.com/v0/b/gyaku-furima.firebasestorage.app/o/thumb.png?alt=media&token=0f7b6830-1f65-4c39-9e4e-52801c486263",
+    }
 };
 
 export const route = {
@@ -129,8 +131,8 @@ export const style = {
             ok: `bg-red-400 text-white px-4 py-2 rounded-2xl hover:bg-red-500 cursor-pointer `,
             other: `text-black px-4 py-2 rounded-2xl hover:bg-black/30 cursor-pointer `,
             like: {
-                yes: `w-1/2 h-8 text-m rounded-full bg-red-400 text-white text-center overflow-hidden border-2 border-red-400/50 hover:text-xl `,
-                no: `w-1/2 h-8 text-m rounded-full bg-white text-red-400 text-center overflow-hidden border-2 border-red-400/50 hover:text-xl `,
+                yes: `aspect-square rounded-full text-xl bg-red-400 text-white text-center overflow-hidden border-none border-red-300 `,
+                no: `aspect-square rounded-full text-xl bg-white text-red-400 text-center overflow-hidden border-none border-red-300 `,
             },
         },
         field: {
@@ -139,7 +141,7 @@ export const style = {
             err: `p-2 rounded-2xl text-sm bg-red-100 text-red-700 `,
         },
         tag: {
-            view: `bg-red-400 text-white px-3 py-1 rounded-full `,
+            view: `bg-red-400 text-white px-3 py-1 rounded-full truncate `,
             flexbox: `flex flex-row flex-none gap-2 flex-wrap overflow-hidden items-start `,
             xs: {
                 view: `text-xs bg-red-400 text-white px-2 py-0.5 rounded-full truncate mx-0.5`,

@@ -83,12 +83,12 @@ export default function Item() {
         <div>
             <TopBar />
             <main className={s.win.flexbox}>
-                <div className="grid grid-cols-2 justify-items-stretch gap-2 p-2 bg-white rounded-2xl h-auto">
-                    <div className="">
-                        <img src={item.imageUrl || "https://dummyimage.com/320x320/eee/aaa.png&text=Not+Found"} alt={item.name} className="w-full" />
+                <div className="grid grid-cols-1 md:grid-cols-2 justify-items-stretch gap-2 p-2 bg-white rounded-2xl h-auto">
+                    <div className="col-span-2 md:col-span-1 w-full aspect-square">
+                            <img src={item.imageUrl || t.url.thumb_default} alt={item.name} className="w-full object-cover rounded" />
                     </div>
-                    <div className="flex flex-col w-full aspect-square overflow-hidden gap-2">
-                        <div className="p-2 text-justify">{item.desc}</div>
+                    <div className="col-span-1 flex flex-col w-full gap-2 overflow-y-scroll">
+                        <div className="p-2 text-justify break-words">{item.desc}</div>
                     </div>
                     <div className="col-span-2 flex flex-col justify-start gap-2">
                         <div className="text-lg font-semibold truncate flex-none">{item.name || "No Title"}</div>
