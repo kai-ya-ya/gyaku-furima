@@ -51,7 +51,7 @@ function TopPage() {
         <div className="">
             <TopBar />
             <main className={s.win.flexbox}>
-                <p className={s.item.title}>{t.pages.toppage.latest}</p>
+                <div className={s.item.title}>{t.pages.toppage.latest}</div>
                 {items.length === 0 ? (
                     <p className="text-center text-gray-600">{t.pages.toppage.no_items_found}</p>
                 ) : (
