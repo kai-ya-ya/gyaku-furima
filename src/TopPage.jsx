@@ -4,9 +4,7 @@ import { db } from './firebase';
 import TopBar from './TopBar';
 import { useUser } from './contexts/UserContext';
 import { Loading } from "./Loading";
-import { text as t } from './text';
-import { style as s } from './style';
-import { route as r } from './route';
+import { text as t, style as s, route as r } from './res';
 import { collection, query, orderBy, limit, getDocs } from 'firebase/firestore';
 import { timeAgo } from './utils/timeAgo';
 import ItemCard from './ItemCard';
@@ -14,7 +12,8 @@ import ItemCard from './ItemCard';
 function TopPage() {
     const { userData, loading, error } = useUser();
     const [items, setItems] = useState([]);
-    const [itemsLoadingg, setItemsLoading] = useState(true);
+    const [likes, setLikes] = useState({});
+    const [itemsLoading, setItemsLoading] = useState(true);
     const [itemsError, setItemsError] = useState(null);
 
     useEffect(() => {
@@ -58,7 +57,7 @@ function TopPage() {
                 ) : (
                     <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-2">
                         {items.map(item => (
-                            <ItemCard item={item} />
+                            <ItemCard key={item.id} item={item} />
                         ))}
                     </div>
                 )}

@@ -7,7 +7,7 @@ import TopPage from "./TopPage";
 import Sell from "./Sell";
 import Item from "./Item";
 import { UserProvider } from './contexts/UserContext';
-import { route as r } from "./route";
+import { text as t, style as s, route as r } from './res';
 
 function App() {
   return (

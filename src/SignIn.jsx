@@ -4,9 +4,7 @@ import { signInWithEmailAndPassword, } from "firebase/auth";
 import { useNavigate } from "react-router-dom";
 import { auth } from './firebase';
 import './index.css';
-import { text as t } from './text';
-import { style as s } from './style';
-import { route as r } from "./route";
+import { text as t, style as s, route as r } from './res';
 import TopBar from './TopBar';
 
 export default function SignIn() {

@@ -1,8 +1,6 @@
 // TopBar.jsx
 import React from 'react';
-import { text as t } from './text';
-import { style as s } from './style';
-import { route as r } from './route';
+import { text as t, style as s, route as r } from './res';
 import { useUser } from './contexts/UserContext';
 import { useNavigate, Link } from "react-router-dom";
 
