@@ -3,10 +3,12 @@ import { useState } from "react";
 import { createUserWithEmailAndPassword } from "firebase/auth";
 import { collection, query, where, getDocs, setDoc, doc } from "firebase/firestore";
 import { useNavigate } from "react-router-dom";
-import { auth, db } from './firebase';
-import './index.css';
-import { text as t, style as s, route as r } from './res';
-import TopBar from './TopBar';
+
+import { auth, db, storage } from "@firebaseApp";
+import { UserContext } from "@contexts";
+import { TopBar, Loading } from "@components";
+import { t, s, r, img } from "@res";
+import { timeAgo } from '@utils';
 
 export default function SignUp() {
     const [username, setUsername] = useState("");

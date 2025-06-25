@@ -1,3 +1,37 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+/* ★すべてのページでスクロールバーのスペースを確保する★ */
+html {
+  overflow-y: scroll;
+}
+
+/* もしbodyタグをスクロールさせているなら */
+/* body {
+  overflow-y: scroll;
+} */
+
+/* スクロールバー自体の見た目をカスタマイズ（任意）*/
+/* Webkit系ブラウザ (Chrome, Safari, Edge) */
+::-webkit-scrollbar {
+  width: 8px; /* スクロールバーの幅を細くする */
+  height: 8px; /* 横スクロールバーの場合の高さ */
+  background-color: transparent; /* 背景を透明に */
+}
+
+::-webkit-scrollbar-thumb {
+  background-color: rgba(0, 0, 0, 0.2); /* スクロールバーのツマミの色 */
+  border-radius: 4px;
+}
+
+/* Firefox */
+html {
+  scrollbar-width: thin; /* 'auto' または 'thin' */
+  scrollbar-color: rgba(0, 0, 0, 0.2) transparent; /* ツマミの色 トラックの色 */
+}
+
+/* IE/Edge (古いブラウザ向け) */
+/* body {
+  -ms-overflow-style: scrollbar;
+} */

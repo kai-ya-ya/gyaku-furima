@@ -1,7 +1,9 @@
 // src/utils/timeAgo.js
 
-export function timeAgo(date) {
-  const seconds = Math.floor((new Date() - new Date(date.toDate())) / 1000); // FirestoreのTimestampをDateオブジェクトに変換
+import { t } from "@res";
+
+export default function timeAgo(date) {
+  const seconds = Math.floor((new Date() - new Date(date.toDate())) / 1000);
 
   let interval = seconds / 31536000;
   if (interval > 1) {
@@ -24,6 +26,6 @@ export function timeAgo(date) {
   if (interval > 1) {
     return Math.floor(interval) + "分前";
   }
-//   return Math.floor(seconds) + "秒前";
-    return "ほんの少し前";
+  // return Math.floor(seconds) + "秒前";
+  return "ほんの少し前";
 }

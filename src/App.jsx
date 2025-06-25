@@ -1,13 +1,11 @@
 // App.jsx
 import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
-import MyPage from "./MyPage";
-import SignIn from "./SignIn";
-import SignUp from "./SignUp";
-import TopPage from "./TopPage";
-import Sell from "./Sell";
-import Item from "./Item";
-import { UserProvider } from './contexts/UserContext';
-import { text as t, style as s, route as r } from './res';
+import "./index.css";
+import "draft-js/dist/Draft.css";
+
+import { UserProvider } from "@contexts";
+import { MyPage, SignIn, SignUp, TopPage, Sell, Item, Search } from "@pages";
+import { t, s, r, img } from "@res";
 
 function App() {
   return (
@@ -20,7 +18,8 @@ function App() {
           <Route path={r.mypage} element={<MyPage />} />
           <Route path={r.sell} element={<Sell />} />
           <Route path={r.item} element={<Item />} />
-          <Route path="*" element={<Navigate to={ r.toppage} />} />
+          <Route path={r.search} element={<Search />} />
+          <Route path="*" element={<Navigate to={r.toppage} />} />
         </Routes>
       </BrowserRouter>
     </UserProvider>

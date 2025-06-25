@@ -1,17 +1,18 @@
 // src/Mypage.jsx
 import React from "react";
-import { useState, useEffect } from "react";
-import { auth, db } from './firebase';
+import { useState, useEffect, useContext } from "react";
 import { signOut } from "firebase/auth";
 import { useNavigate } from "react-router-dom";
-import { text as t, style as s, route as r } from './res';
-import { Loading } from "./Loading";
-import TopBar from './TopBar';
-import { useUser } from './contexts/UserContext';
 
-const Mypage = () => {
+import { auth, db, storage } from "@firebaseApp";
+import { UserContext } from "@contexts";
+import { TopBar, Loading } from "@components";
+import { t, s, r, img } from "@res";
+import { timeAgo } from '@utils';
+
+export default function Mypage() {
   const navigate = useNavigate();
-  const { userData, loading, error } = useUser();
+  const { userData, loading, error } = useContext(UserContext);
 
   const handleLogout = async () => {
     try {
@@ -53,5 +54,3 @@ const Mypage = () => {
     </div>
   );
 };
-
-export default Mypage;
