@@ -27,7 +27,6 @@ export default function ItemCard(props) {
 
     if (!userData || !userData.uid) {
       alert("いいねするにはログインが必要です。");
-      navigate(r.signin); // Redirect to sign-in page
       return;
     }
 
@@ -42,17 +41,15 @@ export default function ItemCard(props) {
         await deleteDoc(likeDocRef);
         console.log(`User ${userData.uid} unliked item ${item.id}`);
       } else {
-        // If it was not liked, add a new like document
         await setDoc(likeDocRef, {
           userId: userData.uid,
           itemId: item.id,
-          timestamp: new Date(), // Store timestamp of the like
+          timestamp: new Date(),
         });
         console.log(`User ${userData.uid} liked item ${item.id}`);
       }
     } catch (error) {
       console.error("いいねの操作中にエラーが発生しました:", error);
-      // Revert UI if there's an error
       setLiked(prevLiked);
       setCurrentLikeCount(prevLikeCount);
       alert("いいねの操作に失敗しました。時間をおいてもう一度お試しください。");
@@ -64,8 +61,13 @@ export default function ItemCard(props) {
     navigate(`${r.search}?q=${encodeURIComponent(tag)}`);
   };
 
+  const handleCommentClick = (e) => {
+    e.stopPropagation();
+    navigate(`${r.item}?id=${item.id}`);
+  };
+
   const goItem = (e) => {
-    e.stopPropagation(); // Prevent propagation to parent div in case of nested clickables
+    e.stopPropagation();
     navigate(`${r.item}?id=${item.id}`);
   };
 
@@ -114,20 +116,36 @@ export default function ItemCard(props) {
         </div>
         <div className={s.text.meta}>{timeAgo(item.dt_upload)}</div>
       </div>
-      <div className="flex flex-row justify-end flex-nowrap gap-1">
-        <div className="text-sm text-gray-600 flex items-center justify-center">
-          {currentLikeCount}
+      <div className="grid grid-cols-[1fr_min-content_min-content] grid-rows-2 gap-x-4 h-full place-items-center">
+        <div></div>
+        <div className="text text-red-400 text-center truncate">
+          {currentLikeCount > 99 ? "99+" : currentLikeCount}
+        </div>
+        <div className="text text-yellow-400 text-center truncate">
+          {currentLikeCount > 99 ? "99+" : currentLikeCount}
+        </div>
+        <div></div>
+        <div
+          onClick={handleCommentClick}
+          type="button"
+          className="w-8 text-center cursor-pointer"
+        >
+          <img
+            src={img.comment}
+            className="w-full inline-block"
+            alt="いいね"
+          />
         </div>
         <div
           onClick={handleLikeClick}
           type="button"
-          className="w-1/4 flex items-center justify-center cursor-pointer"
+          className="w-8 text-center cursor-pointer"
         >
           <img
             src={liked ? img.like_yes : img.like_no}
-            className="w-8"
+            className="w-full inline-block"
             alt="いいね"
-          />{" "}
+          />
         </div>
       </div>
     </div>
