@@ -77,7 +77,7 @@ export default function ItemCard(props) {
         goItem(e);
       }}
       role="button"
-      className="grid grid-cols-2 justify-items-stretch gap-2 p-2 bg-white border-b-2 border-red-300 h-auto"
+      className="grid grid-cols-2 justify-items-stretch gap-2 p-2 bg-white border-b-2 border-red-400 h-auto"
     >
       <div className="">
         <img

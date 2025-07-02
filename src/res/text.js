@@ -16,6 +16,14 @@ export default {
             price: `価格`,
             upload: `出品`,
         },
+        sell_ai: {
+            title: `AI出品`,
+            name: `商品の名前`,
+            desc: `商品の説明`,
+            tag: `カテゴリタグ`,
+            price: `価格`,
+            upload: `出品`,
+        },
         mypage: {
             title: `マイページ`,
             go_signout: `ログアウト`,

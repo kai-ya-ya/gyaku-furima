@@ -206,7 +206,11 @@ export default function Sell() {
     <div>
       <TopBar />
       <div className={s.win.flexbox}>
-        <div className={s.item.title}>{t.pages.sell.title}</div>
+        <div className="flex flex-row justify-center gap-2">
+          <button className={s.item.title}>{t.pages.sell.title}</button>
+          <div className={s.item.title}>|</div>
+          <button className={s.item.title_gray} onClick={() => navigate(r.sell_ai)}>{t.pages.sell_ai.title}</button>
+        </div>
         <input
           className={s.item.field.input}
           placeholder={t.pages.sell.name}

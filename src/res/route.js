@@ -7,4 +7,5 @@ export default {
     item: `/item`,
     search: `/search`,
     sell: `/sell`,
+    sell_ai: `/sell_ai`,
 }

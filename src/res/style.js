@@ -12,6 +12,7 @@ export default {
     },
     item: {
         title: `text-center text-xl font-bold text-red-400 `,
+        title_gray: `text-center text-xl font-bold text-gray-400 `,
         btn: {
             ok: `bg-red-400 text-white px-4 py-2 hover:bg-red-500 cursor-pointer `,
             other: `text-black px-4 py-2 hover:bg-black/30 cursor-pointer `,
@@ -21,8 +22,8 @@ export default {
             },
         },
         field: {
-            input: `p-2 bg-white border-b-2 border-red-300/50 `,
-            input_lg: `p-2 bg-white min-h-48 border-b-2 border-red-300/50 `,
+            input: `p-2 bg-white border-b-2 border-red-400 `,
+            input_lg: `p-2 bg-white min-h-48 border-b-2 border-red-400 `,
             err: `p-2 rounded-2xl text-sm bg-red-100 text-red-700 `,
         },
         tag: {
