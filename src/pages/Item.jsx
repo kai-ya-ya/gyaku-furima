@@ -12,7 +12,7 @@ import { useNavigate, Link } from "react-router-dom";
 
 import { auth, db, storage } from "@firebaseApp";
 import { UserContext } from "@contexts";
-import { TopBar, Loading } from "@components";
+import { Display, Frame, Loading } from "@components";
 import { t, s, r, img } from "@res";
 import { timeAgo } from "@utils";
 
@@ -59,24 +59,22 @@ export default function Item() {
   }
   if (itemsError) {
     return (
-      <div>
-        <TopBar />
-        <main className={s.win.flexbox}>
+      <Display>
+        <div className={s.win.flexbox}>
           <div className={s.item.title}>エラー: {itemsError.message}</div>
           <p>商品情報の取得に失敗しました。URLを確認してください。</p>
-        </main>
-      </div>
+        </div>
+      </Display>
     );
   }
   if (!item) {
     return (
-      <div>
-        <TopBar />
-        <main className={s.win.flexbox}>
+      <Display>
+        <div className={s.win.flexbox}>
           <div className={s.item.title}>{t.item.not_found}</div>
           <p>指定された商品は見つかりませんでした。</p>
-        </main>
-      </div>
+        </div>
+      </Display>
     );
   }
 
@@ -85,19 +83,10 @@ export default function Item() {
     navigate(`${r.search}?q=${encodeURIComponent(tag)}`);
   };
 
-  // ★ userData のローディングと存在チェックは、
-  // 商品表示の必須条件であれば残すか、別の useEffect で管理する
-  // 今回は商品詳細表示自体は userData に依存しない可能性があるので、
-  // 上の if (loading || !userData) を一旦コメントアウトして確認しても良い
-  // if (loading || !userData) {
-  //     return <Loading />;
-  // }
-
   return (
-    <div>
-      <TopBar />
-      <main className={s.win.flexbox}>
-        <div className="grid grid-cols-1 md:grid-cols-2 justify-items-stretch gap-2 p-2 bg-white h-auto">
+    <Display loading={itemsLoading}>
+      <Frame title="商品ページ">
+        <div className="grid grid-cols-1 sm:grid-cols-2 justify-center w-full bg-white p-2 gap-2">
           <div className="col-span-2 md:col-span-1 w-full aspect-square">
             <img
               src={item.imageUrl || img.thumb_default}
@@ -138,7 +127,7 @@ export default function Item() {
             </div>
           </div>
         </div>
-      </main>
-    </div>
+      </Frame>
+    </Display>
   );
 }

@@ -2,27 +2,27 @@ export default {
     topbar: {
         dummy: `h-14 bg-gray-100/50 `,
         title: `text-center text-2xl font-bold text-white`,
-        btn: `text-white px-4 py-1 hover:border-white/50 border-white/0 border-b-2 cursor-pointer`,
+        btn: `text-white hover:border-white/50 border-white/0 border-b-2 cursor-pointer `,
         field: {
             input: `py-2 bg-red-400 border-white/50 border-b-2 text-white h-8`,
         }
     },
     win: {
-        flexbox: `flex flex-col flex-auto gap-y-4 bg-gray-100/50 p-4`,
+        flexbox: `flex flex-col flex-auto gap-y-4 bg-gray-100/50 p-4 items-center`,
     },
     item: {
         title: `text-center text-xl font-bold text-red-400 `,
         title_gray: `text-center text-xl font-bold text-gray-400 `,
         btn: {
-            ok: `bg-red-400 text-white px-4 py-2 hover:bg-red-500 cursor-pointer `,
-            other: `text-black px-4 py-2 hover:bg-black/30 cursor-pointer `,
+            ok: `bg-red-400 text-white px-4 py-2 hover:bg-red-500 cursor-pointer w-full`,
+            other: `text-black px-4 py-2 hover:bg-black/30 cursor-pointer w-full`,
             like: {
                 yes: `aspect-square text-xl bg-yellow-400 text-white text-center overflow-hidden border-none border-red-300 `,
                 no: `aspect-square text-xl bg-white text-red-400 text-center overflow-hidden border-none border-red-300 `,
             },
         },
         field: {
-            input: `p-2 bg-white border-b-2 border-red-400 `,
+            input: `p-2 bg-white border-b-2 border-red-400 w-full `,
             input_lg: `p-2 bg-white min-h-48 border-b-2 border-red-400 `,
             err: `p-2 rounded-2xl text-sm bg-red-100 text-red-700 `,
         },
@@ -34,6 +34,14 @@ export default {
                 flexbox: `flex flex-row flex-none gap-1 flex-wrap overflow-hidden`,
             },
         },
+        message: {
+            user: {
+                view: `bg-red-400 text-white px-4 py-1 rounded-2xl order-last break-all`,
+            },
+            system: {
+                view: `bg-white text-black px-4 py-1 rounded-2xl order-first break-all`,
+            },
+        }
     },
     item_card: {
         grid: `grid`

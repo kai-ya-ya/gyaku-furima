@@ -5,7 +5,7 @@ import { useNavigate, Link } from "react-router-dom";
 
 import { auth, db, storage } from "@firebaseApp";
 import { UserContext } from "@contexts";
-import { TopBar, Loading, ItemCard } from "@components";
+import { Display, Frame, Loading, ItemCard } from "@components";
 import { t, s, r, img } from "@res";
 import { timeAgo } from "@utils";
 import {
@@ -54,12 +54,9 @@ export default function () {
     fetchitems();
   }, []);
 
-  if (loading) {
-    return <Loading />;
-  }
-
   const handleSearchEditorChange = (state) => {
-    if (!state.getCurrentContent().getPlainText().startsWith("#")) state = EditorState.createWithText("#");
+    if (!state.getCurrentContent().getPlainText().startsWith("#"))
+      state = EditorState.createWithText("#");
     setSearchEditorState(state);
     const plainText = state.getCurrentContent().getPlainText();
     setSearchQuery(plainText);
@@ -72,18 +69,15 @@ export default function () {
   };
 
   const handleReturn = (e) => {
-    // Enterキーが押されたら検索を実行し、改行しない
     handleSearch();
-    return "handled"; // 'handled' を返すことでDraft.jsのデフォルトの改行処理を防ぐ
+    return "handled";
   };
 
   return (
-    <div className="">
-      <TopBar />
-      <div className={s.win.flexbox}>
-        <div className={s.item.title}>探す</div>
+    <Display loading={loading}>
+      <Frame title="探す">
         <div
-          className={`${s.item.field.input} draftjs-topbar-search-input flex-row max-full`}
+          className={`${s.item.field.input} draftjs-topbar-search-input flex-row w-full`}
         >
           <Editor
             editorState={searchEditorState}
@@ -91,10 +85,8 @@ export default function () {
             handleReturn={handleReturn}
           />
         </div>
-      </div>
-
-      <div className={s.win.flexbox}>
-        <div className={s.item.title}>{t.pages.toppage.latest}</div>
+      </Frame>
+      <Frame title={t.pages.toppage.latest}>
         {items.length === 0 ? (
           <p className="text-center text-gray-600">
             {t.pages.toppage.no_items_found}
@@ -110,7 +102,7 @@ export default function () {
             ))}
           </div>
         )}
-      </div>
-    </div>
+      </Frame>
+    </Display>
   );
 }

@@ -26,8 +26,8 @@ html {
 }
 
 /* Firefox */
-html {
-  scrollbar-width: thin; /* 'auto' または 'thin' */
+* {
+  scrollbar-width: none; /* 'auto' または 'thin' */
   scrollbar-color: rgba(0, 0, 0, 0.2) transparent; /* ツマミの色 トラックの色 */
 }
 

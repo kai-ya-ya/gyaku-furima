@@ -7,33 +7,59 @@ import "draft-js/dist/Draft.css";
 
 import { auth, db, storage } from "@firebaseApp";
 import { UserContext } from "@contexts";
-import { TopBar, Loading } from "@components";
-import { t, s, r, img } from "@res";
+import { Display, Frame, Loading } from "@components";
+import { t, s, r, c, img } from "@res";
 
-export default function Sell() {
+export default function (props) {
   const navigate = useNavigate();
   const { userData, loading, error } = useContext(UserContext);
-  const [name, setName] = useState("");
   const [editorState, setEditorState] = useState(() =>
     EditorState.createEmpty()
   );
-  const [tags, setTags] = useState([]);
-  const [price, setPrice] = useState("");
-  const [image, setImage] = useState(null);
-  const [imagePreviewUrl, setImagePreviewUrl] = useState(null);
-  const [originalImageFileName, setOriginalImageFileName] = useState("");
   const [uploading, setUploading] = useState(false);
+  const [currentPage, setCurrentPage] = useState(
+    Math.random().toString(36).substring(2, 10)
+  );
+  const [sellInfo, setSellInfo] = useState({
+    title: "",
+    pages: {
+      [currentPage]: {
+        imgURL: "",
+        desc: "",
+        prev: "",
+        next: "",
+      },
+    },
+    tags: [],
+    level: 0,
+    price: 0,
+    sellerInfo: {
+      uid: null,
+      username: null,
+    },
+  });
+  const [imgData, setImgData] = useState({
+    [currentPage]: {
+      name: "",
+      data: img.thumb_default,
+    },
+  });
+  const [msg_err, setMsgErr] = useState("");
 
-  const HASHTAG_CLASS = "text-blue-600 font-semibold";
-  const HASHTAG_REGEX = /(#\S+?)(?=#|\s|$)/g;
+  const updateSellInfo = (props) => {
+    setSellInfo((sellInfo) => ({
+      ...sellInfo,
+      ...props,
+    }));
+  };
 
   const decorator = new ((function () {
     const HashtagSpan = (props) => {
-      return <span className={HASHTAG_CLASS}>{props.children}</span>;
+      return <span className={c.HASHTAG_CLASS}>{props.children}</span>;
     };
 
     const findHashtags = (contentBlock, callback, contentState) => {
-      contentBlock.getText().replace(HASHTAG_REGEX, (match, offset) => {
+      contentBlock.getText().replace(c.HASHTAG_REGEX, (match, offset) => {
         callback(offset, offset + match.length);
       });
     };
@@ -52,14 +78,13 @@ export default function Sell() {
     if (!loading && !userData) {
       navigate(r.signin);
     }
+    updateSellInfo({
+      sellerInfo: {
+        uid: userData?.uid,
+        username: userData?.username,
+      },
+    });
   }, [loading, userData, navigate, r.toppage]);
-
-  if (loading) {
-    return <Loading />;
-  }
-  if (!userData && !loading) {
-    navigate(r.toppage);
-  }
 
   const handleEditorChange = (state) => {
     setEditorState(state);
@@ -67,42 +92,48 @@ export default function Sell() {
 
     const extractedTags = [];
     let match;
-    while ((match = HASHTAG_REGEX.exec(plainText)) !== null) {
+    while ((match = c.HASHTAG_REGEX.exec(plainText)) !== null) {
       extractedTags.push(match[0]);
     }
-    setTags([...new Set(extractedTags)]);
+    updateSellInfo({
+      pages: {
+        ...sellInfo.pages,
+        [currentPage]: {
+          ...sellInfo.pages[currentPage],
+          desc: plainText,
+        },
+      },
+      tags: [...new Set(extractedTags)],
+    });
   };
-  
+
   const handleImageChange = (e) => {
     if (e.target.files[0]) {
       const selectedFile = e.target.files[0];
-      setOriginalImageFileName(selectedFile.name);
-
       const reader = new FileReader();
 
       reader.onload = (event) => {
         const img = new Image();
         img.onload = () => {
           const canvas = document.createElement("canvas");
-          const MAX_SIZE = 640;
 
           let width = img.width;
           let height = img.height;
 
           if (width > height) {
-            if (width > MAX_SIZE) {
-              height *= MAX_SIZE / width;
-              width = MAX_SIZE;
+            if (width > c.THUMB_MAX_SIZE) {
+              height *= c.THUMB_MAX_SIZE / width;
+              width = c.THUMB_MAX_SIZE;
             }
           } else {
-            if (height > MAX_SIZE) {
-              width *= MAX_SIZE / height;
-              height = MAX_SIZE;
+            if (height > c.THUMB_MAX_SIZE) {
+              width *= c.THUMB_MAX_SIZE / height;
+              height = c.THUMB_MAX_SIZE;
             }
           }
 
-          const targetWidth = MAX_SIZE;
-          const targetHeight = MAX_SIZE;
+          const targetWidth = c.THUMB_MAX_SIZE;
+          const targetHeight = c.THUMB_MAX_SIZE;
 
           canvas.width = targetWidth;
           canvas.height = targetHeight;
@@ -137,56 +168,78 @@ export default function Sell() {
             targetHeight
           );
 
-          canvas.toBlob(
-            (blob) => {
-              setImage(blob);
-              setImagePreviewUrl(canvas.toDataURL("image/jpeg", 0.8));
+          setImgData({
+            ...imgData,
+            [currentPage]: {
+              name: selectedFile.name,
+              data: canvas.toDataURL("image/png", 0.8),
             },
-            "image/jpeg",
-            0.8
-          );
+          });
         };
         img.src = event.target.result;
       };
       reader.readAsDataURL(selectedFile);
     } else {
-      setImage(null);
-      setImagePreviewUrl(null);
-      setOriginalImageFileName("");
+      setImgData({
+        ...imgData,
+        [currentPage]: {
+          name: "",
+          data: img.thumb_default,
+        },
+      });
     }
   };
 
   const upload = async () => {
-    if (!image) {
-      alert("画像をアップロードしてください。");
+    console.log(sellInfo);
+    // return;
+    if (!userData) {
+      setMsgErr("もう一度ログインしてください");
+      return;
+    }
+    if (sellInfo.title == "") {
+      setMsgErr("商品の名前を決めてください");
+      return;
+    }
+    if (sellInfo.desc == "") {
+      setMsgErr("商品の説明をしてください");
       return;
     }
 
     setUploading(true);
+    // upload images
     let imageUrl = null;
     try {
-      const fileExtension = originalImageFileName.split(".").pop();
-      const imageFileName = `${Date.now()}_${Math.random()
-        .toString(36)
-        .substring(2, 8)}.${fileExtension || "jpeg"}`;
-      const imageRef = ref(
-        storage,
-        `item_images/${userData.uid}/${imageFileName}`
+      const uploadPromises = Object.entries(sellInfo.pages).map(
+        async ([key, value]) => {
+          // const fileExtension = imgData[key].name.split(".").pop();
+          const imageFileName = `${Date.now()}_${Math.random()
+            .toString(36)
+            .substring(2, 8)}.png`;
+
+          const imageRef = ref(
+            storage,
+            `item_images/${userData.uid}/${imageFileName}`
+          );
+
+          const snapshot = await uploadBytes(
+            imageRef,
+            imgData[key].data
+          );
+          imageUrl = await getDownloadURL(snapshot.ref);
+          console.log("画像アップロード成功:", imgData[key].data);
+
+          sellInfo.pages[key].imgURL = imageUrl; // without update component
+          return null;
+        }
       );
+      await Promise.all(uploadPromises);
 
-      const snapshot = await uploadBytes(imageRef, image);
-      imageUrl = await getDownloadURL(snapshot.ref);
-      console.log("画像アップロード成功:", imageUrl);
+      // console.log(sellInfo);
+      return;
 
-      const desc = editorState.getCurrentContent().getPlainText();
-      await addDoc(collection(db, "items"), {
-        name: name,
-        desc: desc,
-        tags: tags,
-        price: price,
-        imageUrl: imageUrl,
-        username_seller: userData.username,
-        uid_seller: userData.uid,
+      await addDoc(collection(db, "items_v2"), {
+        ...sellInfo,
         dt_upload: new Date(),
       });
       console.log("Firestoreに商品情報と画像URLを保存成功");
@@ -203,76 +256,64 @@ export default function Sell() {
   };
 
   return (
-    <div>
-      <TopBar />
-      <div className={s.win.flexbox}>
-        <div className="flex flex-row justify-center gap-2">
+    <Display loading={loading}>
+      <Frame>
+        <div className="flex flex-row justify-center gap-2 w-full">
           <button className={s.item.title}>{t.pages.sell.title}</button>
           <div className={s.item.title}>|</div>
-          <button className={s.item.title_gray} onClick={() => navigate(r.sell_ai)}>{t.pages.sell_ai.title}</button>
-        </div>
-        <input
-          className={s.item.field.input}
-          placeholder={t.pages.sell.name}
-          value={name}
-          onChange={(e) => setName(e.target.value)}
-        />
-
-        <div className="mb-4">
-          <label
-            htmlFor="image-upload"
-            className="block text-gray-700 text-sm font-bold mb-2"
+          <button
+            className={s.item.title_gray}
+            onClick={() => navigate(r.sell_ai)}
           >
-            {t.pages.sell.image} (640x640に自動リサイズされます)
-          </label>
-          <input
-            id="image-upload"
-            type="file"
-            accept="image/*"
-            onChange={handleImageChange}
-            className="block w-full text-sm text-gray-500
-                                  file:mr-4 file:py-2 file:px-4
-                                  file:rounded-full file:border-0
-                                  file:text-sm file:font-semibold
-                                  file:bg-violet-50 file:text-violet-700
-                                  hover:file:bg-violet-100"
-          />
-          {imagePreviewUrl && (
-            <div className="mt-4 flex justify-center">
+            {t.pages.sell_ai.title}
+          </button>
+        </div>
+
+        <div className="grid grid-cols-1 sm:grid-cols-2 justify-center w-full bg-white p-2 gap-2">
+          <div className="flex flex-col items-center gap-2">
+            <div className="w-full">
               <img
-                src={imagePreviewUrl}
-                alt="Image Preview"
-                className="max-w-xs h-auto rounded shadow-md"
+                src={imgData[currentPage].data}
+                className="w-full"
               />
             </div>
-          )}
-        </div>
-
-        <div
-          className={`${s.item.field.input_lg} draftjs-editor-container flex flex-col gap-y-4 justify-between`}
-        >
-          <Editor
-            editorState={editorState}
-            onChange={handleEditorChange}
-            placeholder={t.pages.sell.desc}
-            decorator={decorator}
-          />
-          <div className={s.item.tag.flexbox}>
-            {tags &&
-              tags.map((tag) => (
-                <span key={tag} className={s.item.tag.view}>
-                  {tag}
-                </span>
-              ))}
+            <div className="flex flex-row items-start w-full">
+              <input
+                id="image-upload"
+                type="file"
+                accept="image/*"
+                onChange={handleImageChange}
+                className="text-sm text-gray-500 file:mr-2 file:py-2 file:px-3 file:border-none file:bg-red-400 file:text-white hover:file:bg-red-500 file:cursor-pointer"
+              />
+            </div>
           </div>
+
+          <div
+            className={`${s.item.field.input_lg} draftjs-editor-container flex flex-col gap-y-4 justify-between w-full`}
+          >
+            <Editor
+              editorState={editorState}
+              onChange={handleEditorChange}
+              placeholder={t.pages.sell.desc}
+              decorator={decorator}
+            />
+            <div className={s.item.tag.flexbox}>
+              {sellInfo.tags &&
+                sellInfo.tags.map((tag) => (
+                  <span key={tag} className={s.item.tag.view}>
+                    {tag}
+                  </span>
+                ))}
+            </div>
+          </div>
+          <input
+            className={s.item.field.input + "col-span-2"}
+            placeholder={t.pages.sell.name}
+            value={sellInfo.title}
+            onChange={(e) => updateSellInfo({ title: e.target.value })}
+          />
         </div>
-        <input
-          type="number"
-          className={s.item.field.input}
-          placeholder={t.pages.sell.price}
-          value={price}
-          onChange={(e) => setPrice(e.target.value)}
-        />
+        {msg_err && <div className={s.item.field.err}>{msg_err}</div>}
         <button
           className={`${s.item.btn.ok} ${
             uploading ? "opacity-50 cursor-not-allowed" : ""
@@ -280,9 +321,9 @@ export default function Sell() {
           onClick={upload}
           disabled={uploading}
         >
-          {uploading ? "t.common.uploading" : t.pages.sell.upload}
+          {uploading ? "アップロードしています" : t.pages.sell.upload}
         </button>
-      </div>
-    </div>
+      </Frame>
+    </Display>
   );
 }

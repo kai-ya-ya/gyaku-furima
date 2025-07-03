@@ -4,7 +4,7 @@ import { useSearchParams } from "react-router-dom";
 
 import { auth, db, storage } from "@firebaseApp";
 import { UserContext } from "@contexts";
-import { TopBar, Loading, ItemCard } from "@components";
+import { Display, Frame, Loading, ItemCard } from "@components";
 import { t, s, r, img } from "@res";
 import { timeAgo } from "@utils";
 
@@ -51,10 +51,8 @@ export default function Search() {
   }
 
   return (
-    <div className="">
-      <TopBar />
-      <div className={s.win.flexbox}>
-        <div className={s.item.title}>{searchWord} の検索結果</div>
+    <Display>
+      <Frame title={`${searchWord}の検索結果`}>
         {items.length === 0 ? (
           <p className="text-center text-gray-600">
             {t.pages.toppage.no_items_found}
@@ -70,7 +68,7 @@ export default function Search() {
             ))}
           </div>
         )}
-      </div>
-    </div>
+      </Frame>
+    </Display>
   );
 }

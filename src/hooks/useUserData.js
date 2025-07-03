@@ -2,6 +2,7 @@
 import { useState, useEffect } from "react";
 import { doc, getDoc, collection, query, where, getDocs } from "firebase/firestore";
 import { auth, db } from "@firebaseApp";
+import { t, s, r, img } from "@res";
 
 export function useUserData() {
   const [userData, setUserData] = useState(null);
@@ -30,6 +31,8 @@ export function useUserData() {
           likesQuerySnap.forEach(likeDoc => {
             likedItemIds.add(likeDoc.data().itemId);
           });
+
+          if(!profileData.iconURL) profileData.iconURL = img.thumb_default;
 
           setUserData({ 
             uid: user.uid, 
