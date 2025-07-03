@@ -1,0 +1,42 @@
+[debug] [2025-07-02T06:34:39.697Z] ----------------------------------------------------------------------
+[debug] [2025-07-02T06:34:39.699Z] Command:       C:\Program Files\nodejs\node.exe C:\Users\nekky\AppData\Roaming\npm\node_modules\firebase-tools\lib\bin\firebase.js deploy
+[debug] [2025-07-02T06:34:39.700Z] CLI Version:   14.8.0
+[debug] [2025-07-02T06:34:39.700Z] Platform:      win32
+[debug] [2025-07-02T06:34:39.700Z] Node Version:  v22.16.0
+[debug] [2025-07-02T06:34:39.700Z] Time:          Wed Jul 02 2025 15:34:39 GMT+0900 (Japan Standard Time)
+[debug] [2025-07-02T06:34:39.700Z] ----------------------------------------------------------------------
+[debug] 
+[debug] [2025-07-02T06:34:39.702Z] >>> [apiv2][query] GET https://firebase-public.firebaseio.com/cli.json [none]
+[debug] [2025-07-02T06:34:39.927Z] > command requires scopes: ["email","openid","https://www.googleapis.com/auth/cloudplatformprojects.readonly","https://www.googleapis.com/auth/firebase","https://www.googleapis.com/auth/cloud-platform"]
+[debug] [2025-07-02T06:34:39.927Z] > authorizing via signed-in user (yakuwa.kai.yl5@g.ext.naist.jp)
+[debug] [2025-07-02T06:34:39.927Z] [iam] checking project gyaku-furima for permissions ["cloudfunctions.functions.create","cloudfunctions.functions.delete","cloudfunctions.functions.get","cloudfunctions.functions.list","cloudfunctions.functions.update","cloudfunctions.operations.get","datastore.indexes.create","datastore.indexes.delete","datastore.indexes.list","datastore.indexes.update","firebase.projects.get","firebasehosting.sites.update"]
+[debug] [2025-07-02T06:34:39.927Z] Checked if tokens are valid: false, expires at: 1751250602057
+[debug] [2025-07-02T06:34:39.928Z] Checked if tokens are valid: false, expires at: 1751250602057
+[debug] [2025-07-02T06:34:39.928Z] > refreshing access token with scopes: []
+[debug] [2025-07-02T06:34:39.928Z] >>> [apiv2][query] POST https://www.googleapis.com/oauth2/v3/token [none]
+[debug] [2025-07-02T06:34:39.928Z] >>> [apiv2][body] POST https://www.googleapis.com/oauth2/v3/token [omitted]
+[debug] [2025-07-02T06:34:40.121Z] <<< [apiv2][status] POST https://www.googleapis.com/oauth2/v3/token 200
+[debug] [2025-07-02T06:34:40.121Z] <<< [apiv2][body] POST https://www.googleapis.com/oauth2/v3/token [omitted]
+[debug] [2025-07-02T06:34:40.131Z] >>> [apiv2][query] POST https://cloudresourcemanager.googleapis.com/v1/projects/gyaku-furima:testIamPermissions [none]
+[debug] [2025-07-02T06:34:40.131Z] >>> [apiv2][(partial)header] POST https://cloudresourcemanager.googleapis.com/v1/projects/gyaku-furima:testIamPermissions x-goog-quota-user=projects/gyaku-furima
+[debug] [2025-07-02T06:34:40.131Z] >>> [apiv2][body] POST https://cloudresourcemanager.googleapis.com/v1/projects/gyaku-furima:testIamPermissions {"permissions":["cloudfunctions.functions.create","cloudfunctions.functions.delete","cloudfunctions.functions.get","cloudfunctions.functions.list","cloudfunctions.functions.update","cloudfunctions.operations.get","datastore.indexes.create","datastore.indexes.delete","datastore.indexes.list","datastore.indexes.update","firebase.projects.get","firebasehosting.sites.update"]}
+[debug] [2025-07-02T06:34:40.305Z] <<< [apiv2][status] GET https://firebase-public.firebaseio.com/cli.json 200
+[debug] [2025-07-02T06:34:40.305Z] <<< [apiv2][body] GET https://firebase-public.firebaseio.com/cli.json {"cloudBuildErrorAfter":1594252800000,"cloudBuildWarnAfter":1590019200000,"defaultNode10After":1594252800000,"minVersion":"3.0.5","node8DeploysDisabledAfter":1613390400000,"node8RuntimeDisabledAfter":1615809600000,"node8WarnAfter":1600128000000}
+[debug] [2025-07-02T06:34:41.001Z] <<< [apiv2][status] POST https://cloudresourcemanager.googleapis.com/v1/projects/gyaku-furima:testIamPermissions 200
+[debug] [2025-07-02T06:34:41.001Z] <<< [apiv2][body] POST https://cloudresourcemanager.googleapis.com/v1/projects/gyaku-furima:testIamPermissions {"permissions":["cloudfunctions.functions.create","cloudfunctions.functions.delete","cloudfunctions.functions.get","cloudfunctions.functions.list","cloudfunctions.functions.update","cloudfunctions.operations.get","datastore.indexes.create","datastore.indexes.delete","datastore.indexes.list","datastore.indexes.update","firebase.projects.get","firebasehosting.sites.update"]}
+[debug] [2025-07-02T06:34:41.002Z] Checked if tokens are valid: true, expires at: 1751441679121
+[debug] [2025-07-02T06:34:41.002Z] Checked if tokens are valid: true, expires at: 1751441679121
+[debug] [2025-07-02T06:34:41.002Z] >>> [apiv2][query] POST https://iam.googleapis.com/v1/projects/gyaku-furima/serviceAccounts/gyaku-furima@appspot.gserviceaccount.com:testIamPermissions [none]
+[debug] [2025-07-02T06:34:41.002Z] >>> [apiv2][body] POST https://iam.googleapis.com/v1/projects/gyaku-furima/serviceAccounts/gyaku-furima@appspot.gserviceaccount.com:testIamPermissions {"permissions":["iam.serviceAccounts.actAs"]}
+[debug] [2025-07-02T06:34:41.402Z] <<< [apiv2][status] POST https://iam.googleapis.com/v1/projects/gyaku-furima/serviceAccounts/gyaku-furima@appspot.gserviceaccount.com:testIamPermissions 200
+[debug] [2025-07-02T06:34:41.403Z] <<< [apiv2][body] POST https://iam.googleapis.com/v1/projects/gyaku-furima/serviceAccounts/gyaku-furima@appspot.gserviceaccount.com:testIamPermissions {"permissions":["iam.serviceAccounts.actAs"]}
+[debug] [2025-07-02T06:34:41.404Z] Checked if tokens are valid: true, expires at: 1751441679121
+[debug] [2025-07-02T06:34:41.404Z] Checked if tokens are valid: true, expires at: 1751441679121
+[debug] [2025-07-02T06:34:41.404Z] >>> [apiv2][query] GET https://firebase.googleapis.com/v1beta1/projects/gyaku-furima [none]
+[debug] [2025-07-02T06:34:41.785Z] <<< [apiv2][status] GET https://firebase.googleapis.com/v1beta1/projects/gyaku-furima 200
+[debug] [2025-07-02T06:34:41.785Z] <<< [apiv2][body] GET https://firebase.googleapis.com/v1beta1/projects/gyaku-furima {"projectId":"gyaku-furima","projectNumber":"885620010102","displayName":"gyaku-furima","name":"projects/gyaku-furima","resources":{"hostingSite":"gyaku-furima"},"state":"ACTIVE","etag":"1_0fa7eca6-3631-4477-8fe4-7039a76b15a8"}
+[info] 
+[info] === Deploying to 'gyaku-furima'...
+[info] 
+[info] i  deploying firestore, functions, hosting 
+[info] Running command: npm --prefix "$RESOURCE_DIR" run lint
