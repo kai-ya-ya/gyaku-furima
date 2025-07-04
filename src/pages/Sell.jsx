@@ -1,33 +1,29 @@
-import React, { useState, useEffect, useContext } from "react";
+import React, { useState, useEffect, useContext, useCallback, useRef } from "react";
 import { collection, addDoc } from "firebase/firestore";
 import { ref, uploadBytes, getDownloadURL } from "firebase/storage";
 import { useNavigate } from "react-router-dom";
-import { Editor, EditorState } from "draft-js";
-import "draft-js/dist/Draft.css";
 
 import { auth, db, storage } from "@firebaseApp";
 import { UserContext } from "@contexts";
-import { Display, Frame, Loading } from "@components";
+import { Display, Frame, TextField } from "@components";
 import { t, s, r, c, img } from "@res";
+import { extractTags, decorateTags, img2url, url2blob } from "@utils";
 
 export default function (props) {
   const navigate = useNavigate();
   const { userData, loading, error } = useContext(UserContext);
-  const [editorState, setEditorState] = useState(() =>
-    EditorState.createEmpty()
-  );
   const [uploading, setUploading] = useState(false);
-  const [currentPage, setCurrentPage] = useState(
-    Math.random().toString(36).substring(2, 10)
-  );
+  const [currentPage, setCurrentPage] = useState(Math.random().toString(36).substring(2, 10));
+  const fileInputRef = useRef(null);
   const [sellInfo, setSellInfo] = useState({
     title: "",
+    thumb: currentPage,
     pages: {
       [currentPage]: {
         imgURL: "",
         desc: "",
-        prev: "",
-        next: "",
+        prev: currentPage,
+        next: currentPage,
       },
     },
     tags: [],
@@ -37,14 +33,14 @@ export default function (props) {
       uid: null,
       username: null,
     },
+    dt_upload: null,
   });
-  const [imgData, setImgData] = useState({
+  const [imgInfo, setImgInfo] = useState({
     [currentPage]: {
-      name: "",
-      data: img.thumb_default,
+      dataURL: img.thumb_default,
     },
   });
-  const [msg_err, setMsgErr] = useState("");
+  const [msgErr, setMsgErr] = useState("");
 
   const updateSellInfo = (props) => {
     setSellInfo((sellInfo) => ({
@@ -53,26 +49,24 @@ export default function (props) {
     }));
   };
 
-  const decorator = new ((function () {
-    const HashtagSpan = (props) => {
-      return <span className={c.HASHTAG_CLASS}>{props.children}</span>;
-    };
+  const handleDescUpdate = useCallback(
+    (desc) => {
+      const tags = extractTags(desc);
 
-    const findHashtags = (contentBlock, callback, contentState) => {
-      contentBlock.getText().replace(c.HASHTAG_REGEX, (match, offset) => {
-        callback(offset, offset + match.length);
-      });
-    };
-
-    return function CompositeDecoratorWrapper() {
-      return new (require("draft-js").CompositeDecorator)([
-        {
-          strategy: findHashtags,
-          component: HashtagSpan,
+      setSellInfo((prevSellInfo) => ({
+        ...prevSellInfo,
+        pages: {
+          ...prevSellInfo.pages,
+          [currentPage]: {
+            ...(prevSellInfo.pages[currentPage] || {}),
+            desc: desc,
+          },
         },
-      ]);
-    };
-  })())();
+        tags: [...new Set(tags)],
+      }));
+    },
+    [currentPage, setSellInfo]
+  );
 
   useEffect(() => {
     if (!loading && !userData) {
@@ -86,108 +80,39 @@ export default function (props) {
     });
   }, [loading, userData, navigate, r.toppage]);
 
-  const handleEditorChange = (state) => {
-    setEditorState(state);
-    const plainText = state.getCurrentContent().getPlainText();
-
-    const extractedTags = [];
-    let match;
-    while ((match = c.HASHTAG_REGEX.exec(plainText)) !== null) {
-      extractedTags.push(match[0]);
-    }
-    updateSellInfo({
-      pages: {
-        ...sellInfo.pages,
-        [currentPage]: {
-          ...sellInfo.pages[currentPage],
-          desc: plainText,
-        },
-      },
-      tags: [...new Set(extractedTags)],
-    });
-  };
-
   const handleImageChange = (e) => {
-    if (e.target.files[0]) {
-      const selectedFile = e.target.files[0];
+    const selectedFile = e.target.files[0];
+
+    if (selectedFile) {
       const reader = new FileReader();
 
       reader.onload = (event) => {
         const img = new Image();
+
         img.onload = () => {
-          const canvas = document.createElement("canvas");
-
-          let width = img.width;
-          let height = img.height;
-
-          if (width > height) {
-            if (width > c.THUMB_MAX_SIZE) {
-              height *= c.THUMB_MAX_SIZE / width;
-              width = c.THUMB_MAX_SIZE;
-            }
-          } else {
-            if (height > c.THUMB_MAX_SIZE) {
-              width *= c.THUMB_MAX_SIZE / height;
-              height = c.THUMB_MAX_SIZE;
-            }
-          }
-
-          const targetWidth = c.THUMB_MAX_SIZE;
-          const targetHeight = c.THUMB_MAX_SIZE;
-
-          canvas.width = targetWidth;
-          canvas.height = targetHeight;
-          const ctx = canvas.getContext("2d");
-
-          let sx = 0,
-            sy = 0,
-            sWidth = img.width,
-            sHeight = img.height;
-          const imgAspectRatio = img.width / img.height;
-          const canvasAspectRatio = targetWidth / targetHeight;
-
-          if (imgAspectRatio > canvasAspectRatio) {
-            sHeight = img.height;
-            sWidth = img.height * canvasAspectRatio;
-            sx = (img.width - sWidth) / 2;
-          } else {
-            sWidth = img.width;
-            sHeight = img.width / canvasAspectRatio;
-            sy = (img.height - sHeight) / 2;
-          }
-
-          ctx.drawImage(
-            img,
-            sx,
-            sy,
-            sWidth,
-            sHeight,
-            0,
-            0,
-            targetWidth,
-            targetHeight
-          );
-
-          setImgData({
-            ...imgData,
+          setImgInfo({
+            ...imgInfo,
             [currentPage]: {
-              name: selectedFile.name,
-              data: canvas.toDataURL("image/png", 0.8),
+              dataURL: img2url(img),
             },
           });
         };
         img.src = event.target.result;
       };
       reader.readAsDataURL(selectedFile);
-    } else {
-      setImgData({
-        ...imgData,
-        [currentPage]: {
-          name: "",
-          data: img.thumb_default,
-        },
-      });
     }
+  };
+
+  const handleImageClear = () => {
+    if (fileInputRef.current) {
+      fileInputRef.current.value = null;
+    }
+    setImgInfo({
+      ...imgInfo,
+      [currentPage]: {
+        dataURL: img.thumb_default,
+      },
+    });
   };
 
   const upload = async () => {
@@ -196,48 +121,34 @@ export default function (props) {
     if (!userData) {
       setMsgErr("もう一度ログインしてください");
       return;
-    }
-    if (sellInfo.title == "") {
+    } else if (sellInfo.title == "") {
       setMsgErr("商品の名前を決めてください");
       return;
-    }
-    if (sellInfo.desc == "") {
+    } else if (sellInfo.desc == "") {
       setMsgErr("商品の説明をしてください");
       return;
     }
 
     setUploading(true);
-    // upload images
-    let imageUrl = null;
     try {
-      const uploadPromises = Object.entries(sellInfo.pages).map(
-        async ([key, value]) => {
-          // const fileExtension = imgData[key].name.split(".").pop();
-          const imageFileName = `${Date.now()}_${Math.random()
-            .toString(36)
-            .substring(2, 8)}.png`;
-
-          const imageRef = ref(
-            storage,
-            `item_images/${userData.uid}/${imageFileName}`
-          );
+      // upload all images
+      await Promise.all(
+        Object.entries(sellInfo.pages).map(async ([key, value]) => {
+          const imageFileName = `${Date.now()}_${Math.random().toString(36).substring(2, 8)}.jpeg`;
 
           const snapshot = await uploadBytes(
-            imageRef,
-            imgData[key].data
+            ref(storage, `item_images/${userData.uid}/${imageFileName}`),
+            url2blob(imgInfo[key].dataURL)
           );
-          imageUrl = await getDownloadURL(snapshot.ref);
-          console.log("画像アップロード成功:", imgData[key].data);
+          const imageUrl = await getDownloadURL(snapshot.ref);
+          console.log("画像アップロード成功:", imageUrl);
 
           sellInfo.pages[key].imgURL = imageUrl; // without update component
           return null;
-        }
+        })
       );
-      await Promise.all(uploadPromises);
 
-      // console.log(sellInfo);
-      return;
-
+      // upload sellInfo
       await addDoc(collection(db, "items_v2"), {
         ...sellInfo,
         dt_upload: new Date(),
@@ -246,10 +157,7 @@ export default function (props) {
       navigate(r.toppage);
     } catch (e) {
       console.error("アップロード中にエラーが発生しました:", e.message);
-      alert(
-        "画像のアップロードまたは商品情報の保存に失敗しました。詳細: " +
-          e.message
-      );
+      alert("画像のアップロードまたは商品情報の保存に失敗しました。詳細: " + e.message);
     } finally {
       setUploading(false);
     }
@@ -261,63 +169,63 @@ export default function (props) {
         <div className="flex flex-row justify-center gap-2 w-full">
           <button className={s.item.title}>{t.pages.sell.title}</button>
           <div className={s.item.title}>|</div>
-          <button
-            className={s.item.title_gray}
-            onClick={() => navigate(r.sell_ai)}
-          >
+          <button className={s.item.title_gray} onClick={() => navigate(r.sell_ai)}>
             {t.pages.sell_ai.title}
           </button>
         </div>
 
-        <div className="grid grid-cols-1 sm:grid-cols-2 justify-center w-full bg-white p-2 gap-2">
-          <div className="flex flex-col items-center gap-2">
+        <div className="grid grid-cols-1 sm:grid-cols-2 w-full bg-white p-2 gap-2">
+          <div className="relative flex flex-col items-center gap-2">
             <div className="w-full">
-              <img
-                src={imgData[currentPage].data}
-                className="w-full"
-              />
+              <img src={imgInfo[currentPage].dataURL} className="w-full" />
             </div>
-            <div className="flex flex-row items-start w-full">
-              <input
-                id="image-upload"
-                type="file"
-                accept="image/*"
-                onChange={handleImageChange}
-                className="text-sm text-gray-500 file:mr-2 file:py-2 file:px-3 file:border-none file:bg-red-400 file:text-white hover:file:bg-red-500 file:cursor-pointer"
-              />
-            </div>
-          </div>
-
-          <div
-            className={`${s.item.field.input_lg} draftjs-editor-container flex flex-col gap-y-4 justify-between w-full`}
-          >
-            <Editor
-              editorState={editorState}
-              onChange={handleEditorChange}
-              placeholder={t.pages.sell.desc}
-              decorator={decorator}
-            />
-            <div className={s.item.tag.flexbox}>
-              {sellInfo.tags &&
-                sellInfo.tags.map((tag) => (
-                  <span key={tag} className={s.item.tag.view}>
-                    {tag}
-                  </span>
-                ))}
+            <div className="absolute flex flex-row justify-between w-full h-14 gap-4 p-2">
+                <input
+                  id="image-upload"
+                  type="file"
+                  accept="image/*"
+                  onChange={handleImageChange}
+                  ref={fileInputRef}
+                  className="text-sm text-gray-500 file:mr-2 file:py-2 file:px-3 file:border-none file:bg-red-400/50 file:text-white hover:file:bg-red-500/50 file:cursor-pointer"
+                />
+                <button
+                  className="bg-red-400/50 text-white aspect-square text-2xl hover:bg-red-500/50 h-9"
+                  onClick={handleImageClear}
+                >
+                  {"×"}
+                </button>
             </div>
           </div>
+          <TextField
+          classname={s.item.field.input_lg+"col-span-2 sm:col-span-1"}
+            text={sellInfo.pages[currentPage]?.desc || ""}
+            onChange={(desc) => handleDescUpdate(desc)}
+            placeholder={t.pages.sell.desc}
+            decorator={decorateTags()}
+          />
           <input
             className={s.item.field.input + "col-span-2"}
             placeholder={t.pages.sell.name}
             value={sellInfo.title}
             onChange={(e) => updateSellInfo({ title: e.target.value })}
           />
+          <div className={s.item.tag.flexbox + "col-span-2 h-8"}>
+            {sellInfo.tags.length > 0 ? (
+              sellInfo.tags.map((tag) => (
+                <span key={tag} className={s.item.tag.view}>
+                  {tag}
+                </span>
+              ))
+            ) : (
+              <div className="w-full h-full flex flex-col justify-center items-start col-span-2">
+                <div className="text-sm text-gray-400 text-center">（タグなし）</div>
+              </div>
+            )}
+          </div>
         </div>
-        {msg_err && <div className={s.item.field.err}>{msg_err}</div>}
+        {msgErr && <div className={s.item.field.err}>{msgErr}</div>}
         <button
-          className={`${s.item.btn.ok} ${
-            uploading ? "opacity-50 cursor-not-allowed" : ""
-          }`}
+          className={`${s.item.btn.ok} ${uploading ? "opacity-50 cursor-not-allowed" : ""}`}
           onClick={upload}
           disabled={uploading}
         >

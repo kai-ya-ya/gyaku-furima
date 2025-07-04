@@ -1,5 +1,6 @@
 export default {
-    HASHTAG_CLASS: "text-blue-600 font-semibold",
-    HASHTAG_REGEX: /(#\S+?)(?=#|\s|$)/g,
-    THUMB_MAX_SIZE: 640,
+    hashtag_regex: /(#\S+?)(?=#|\s|$)/g,
+    thumb_def_size: 640,
+    thumb_def_type: "image/jpeg",
+    thumb_def_quality: 0.8,
 }

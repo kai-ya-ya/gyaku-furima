@@ -4,3 +4,4 @@ export { default as TopBar } from './TopBar';
 export { default as Footer } from './Footer';
 export { default as Display } from './Display';
 export { default as Frame } from './Frame';
+export { default as TextField } from './TextField';

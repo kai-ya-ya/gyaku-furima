@@ -41,7 +41,8 @@ export default {
             system: {
                 view: `bg-white text-black px-4 py-1 rounded-2xl order-first break-all`,
             },
-        }
+        },
+        hashtag: "text-blue-600 font-semibold",
     },
     item_card: {
         grid: `grid`
