@@ -6,9 +6,8 @@ import { useNavigate } from "react-router-dom";
 
 import { auth, db, storage } from "@firebaseApp";
 import { UserContext } from "@contexts";
-import { Display, Frame, Loading } from "@components";
+import { Page, Frame } from "@components";
 import { t, s, r, img } from "@res";
-import { timeAgo } from "@utils";
 
 export default function Mypage() {
   const navigate = useNavigate();
@@ -16,24 +15,15 @@ export default function Mypage() {
 
   const handleLogout = async () => {
     try {
+      navigate(r.toppage)
       await signOut(auth);
     } catch (logoutError) {
       console.error("ログアウト中にエラーが発生しました:", logoutError);
     }
   };
 
-  useEffect(() => {
-    if (!loading && !userData) {
-      navigate(r.toppage);
-    }
-  }, [loading, userData, navigate, r.toppage]);
-
-  if (loading || !userData) {
-    return <Loading />;
-  }
-
   return (
-    <Display>
+    <Page permission="login_only">
       <Frame title={t.pages.mypage.title}>
         <div className="flex flex-col items-center w-full align-center">
           <div className="w-1/4 aspect-square rounded-full">
@@ -58,6 +48,6 @@ export default function Mypage() {
           {t.pages.mypage.go_signout}
         </button>
       </Frame>
-    </Display>
+    </Page>
   );
 }

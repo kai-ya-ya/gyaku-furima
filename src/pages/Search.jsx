@@ -4,7 +4,7 @@ import { useSearchParams } from "react-router-dom";
 
 import { auth, db, storage } from "@firebaseApp";
 import { UserContext } from "@contexts";
-import { Display, Frame, Loading, ItemCard } from "@components";
+import { Page, Frame, Loading, ItemCard } from "@components";
 import { t, s, r, img } from "@res";
 import { timeAgo } from "@utils";
 
@@ -46,12 +46,8 @@ export default function Search() {
     fetchitems();
   }, []);
 
-  if (loading) {
-    return <Loading />;
-  }
-
   return (
-    <Display>
+    <Page>
       <Frame title={`${searchWord}の検索結果`}>
         {items.length === 0 ? (
           <p className="text-center text-gray-600">
@@ -69,6 +65,6 @@ export default function Search() {
           </div>
         )}
       </Frame>
-    </Display>
+    </Page>
   );
 }

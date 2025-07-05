@@ -5,7 +5,7 @@ import { useNavigate, Link } from "react-router-dom";
 
 import { auth, db, storage } from "@firebaseApp";
 import { UserContext } from "@contexts";
-import { Display, Frame, Loading, ItemCard } from "@components";
+import { Page, Frame, Loading, ItemCard } from "@components";
 import { t, s, r, img } from "@res";
 import { timeAgo } from "@utils";
 import {
@@ -74,7 +74,7 @@ export default function () {
   };
 
   return (
-    <Display loading={loading}>
+    <Page loading={loading}>
       <Frame title="探す">
         <div
           className={`${s.item.field.input} draftjs-topbar-search-input flex-row w-full`}
@@ -103,6 +103,6 @@ export default function () {
           </div>
         )}
       </Frame>
-    </Display>
+    </Page>
   );
 }

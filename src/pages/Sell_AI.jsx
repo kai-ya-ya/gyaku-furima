@@ -7,7 +7,7 @@ import "draft-js/dist/Draft.css";
 
 import { auth, db, storage } from "@firebaseApp";
 import { UserContext } from "@contexts";
-import { Display, Loading } from "@components";
+import { Page, Frame, Loading } from "@components";
 import { t, s, r, img } from "@res";
 import { extractTags, decorateTags, img2url, url2blob } from "@utils";
 
@@ -29,6 +29,7 @@ export default function () {
     setChats([
       ...chats,
       {
+        uid: Math.random().toString(36).substring(2, 10),
         type: "system",
         function: {
           type: "sell",
@@ -54,10 +55,10 @@ export default function () {
           },
           imgInfo: {
             [currentPage]: {
-                dataURL: img.test,
-                isSet: true,
+              dataURL: img.test,
+              isSet: true,
             },
-          }
+          },
         },
         text: "autofill_by_system",
         dt_submit: new Date(),
@@ -71,11 +72,12 @@ export default function () {
     }
   }, [chats]);
 
-  const submitMessage = () => {
+  const handleSendChat = () => {
     if (typeText) {
       setChats([
         ...chats,
         {
+          uid: Math.random().toString(36).substring(2, 10),
           type: "user",
           text: typeText,
           dt_submit: new Date(),
@@ -83,13 +85,12 @@ export default function () {
       ]);
     }
     setTypeText("");
-    console.log(chats);
   };
 
   const handleKeyDown = (event) => {
     if (event.key === "Enter") {
       event.preventDefault();
-      submitMessage(typeText);
+      handleSendChat(typeText);
     }
   };
 
@@ -132,7 +133,7 @@ export default function () {
   };
 
   return (
-    <Display>
+    <Page permission="login_only">
       <div className={"flex flex-col gap-y-4 bg-gray-100/50 p-4 flex-grow"}>
         <div className="flex flex-row justify-center gap-2 flex-shrink-0">
           <button className={s.item.title_gray} onClick={() => navigate(r.sell)}>
@@ -159,7 +160,7 @@ export default function () {
                     cname = s.item.message.system.view;
                 }
                 return (
-                  <div className="flex flex-row w-full">
+                  <div className="flex flex-row w-full" key={chat.uid}>
                     <div className="flex-grow min-w-[10%]"></div>
                     <div key={chat.dt_submit} className={cname + " flex flex-col gap-2"}>
                       <div>{chat.text}</div>
@@ -178,12 +179,12 @@ export default function () {
               onChange={(e) => setTypeText(e.target.value)}
               onKeyDown={handleKeyDown}
             />
-            <button className="h-full aspect-square h-full" onClick={submitMessage}>
+            <button className="h-full aspect-square h-full" onClick={handleSendChat}>
               <img src={typeText ? img.chat_send_yes : img.chat_send_no}></img>
             </button>
           </div>
         </div>
       </div>
-    </Display>
+    </Page>
   );
 }

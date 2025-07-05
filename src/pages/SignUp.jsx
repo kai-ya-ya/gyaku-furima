@@ -13,7 +13,7 @@ import { useNavigate } from "react-router-dom";
 
 import { auth, db, storage } from "@firebaseApp";
 import { UserContext } from "@contexts";
-import { Display, Frame, Loading } from "@components";
+import { Page, Frame, Loading } from "@components";
 import { t, s, r, img } from "@res";
 import { timeAgo } from "@utils";
 
@@ -57,7 +57,7 @@ export default function SignUp() {
   };
 
   return (
-    <Display>
+    <Page permission="logout_only">
       <Frame title={t.pages.signup.title}>
         <input
           className={s.item.field.input}
@@ -84,6 +84,6 @@ export default function SignUp() {
           {t.pages.signup.go_signup}
         </button>
       </Frame>
-    </Display>
+    </Page>
   );
 }

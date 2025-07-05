@@ -4,7 +4,7 @@ import { useNavigate } from "react-router-dom";
 
 import { auth, db, storage } from "@firebaseApp";
 import { UserContext } from "@contexts";
-import { Display, Loading } from "@components";
+import { Page, Frame } from "@components";
 import { t, s, r, img } from "@res";
 import { timeAgo } from "@utils";
 
@@ -24,9 +24,8 @@ export default function SignIn() {
   };
 
   return (
-    <Display>
-      <div className={s.win.flexbox}>
-        <div className={s.item.title}>{t.pages.signin.title}</div>
+    <Page permission="logout_only">
+      <Frame title={t.pages.signin.title}>
         <input
           type="email"
           className={s.item.field.input}
@@ -49,7 +48,7 @@ export default function SignIn() {
         <button className={s.item.btn.other} onClick={() => navigate(r.signup)}>
           {t.pages.signin.go_signup}
         </button>
-      </div>
-    </Display>
+      </Frame>
+    </Page>
   );
 }

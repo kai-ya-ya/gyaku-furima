@@ -5,7 +5,7 @@ import { useNavigate, useLocation } from "react-router-dom";
 
 import { auth, db, storage } from "@firebaseApp";
 import { UserContext } from "@contexts";
-import { Display, Frame, TextField } from "@components";
+import { Page, Frame, TextField } from "@components";
 import { t, s, r, c, img } from "@res";
 import { extractTags, decorateTags, img2url, url2blob } from "@utils";
 
@@ -46,20 +46,17 @@ export default function (props) {
   const receivedData = location.state;
 
   useEffect(() => {
-    console.log("受信したデータ:", receivedData);
     switch(receivedData?.type) {
       case "sell":
         setCurrentPage(receivedData.sellInfo.thumb);
         setImgInfo(receivedData.imgInfo);
         setSellInfo(receivedData.sellInfo);
         break;
+      case null:
       default:
-        console.log("ignored received data")
         break;
     }
   }, [receivedData]);
-
-  useEffect(() => console.log(imgInfo), [imgInfo])
 
   const updateSellInfo = (props) => {
     setSellInfo((sellInfo) => ({
@@ -185,7 +182,7 @@ export default function (props) {
   };
 
   return (
-    <Display loading={loading}>
+    <Page permission="login_only">
       <Frame>
         <div className="flex flex-row justify-center gap-2 w-full">
           <button className={s.item.title}>{t.pages.sell.title}</button>
@@ -207,18 +204,18 @@ export default function (props) {
                 accept="image/*"
                 onChange={handleImageChange}
                 ref={fileInputRef}
-                className={imgInfo[currentPage].isSet ? "invisible " : "" + "text-sm text-gray-500 file:mr-2 file:py-2 file:px-3 file:border-none file:bg-red-400/50 file:text-white hover:file:bg-red-500/50 file:cursor-pointer"}
+                className={`${imgInfo[currentPage].isSet ? "invisible" : ""} text-sm text-gray-500 file:mr-2 file:py-2 file:px-3 file:border-none file:bg-red-400/50 file:text-white hover:file:bg-red-500/50 file:cursor-pointer`}
               />
               <button
-                className={imgInfo[currentPage].isSet ? "" : "invisible " + "bg-red-400/50 text-white aspect-square text-2xl hover:bg-red-500/50 h-9"}
+                className={`${imgInfo[currentPage].isSet ? "" : "invisible"} text-white bg-red-400/50 aspect-square text-xl hover:bg-red-500/50 h-full flex flex-col justify-center items-center`}
                 onClick={handleImageClear}
               >
-                {"×"}
+                <div className="">{"✕"}</div>
               </button>
             </div>
           </div>
           <TextField
-            classname={s.item.field.input_lg + "col-span-2 sm:col-span-1"}
+            classname={s.item.field.input_lg + "col-span-2 sm:col-span-1 min-h-64"}
             text={sellInfo.pages[currentPage]?.desc || ""}
             onChange={(desc) => handleDescUpdate(desc)}
             placeholder={t.pages.sell.desc}
@@ -230,7 +227,7 @@ export default function (props) {
             value={sellInfo.title}
             onChange={(e) => updateSellInfo({ title: e.target.value })}
           />
-          <div className={s.item.tag.flexbox + "col-span-2 h-8"}>
+          <div className={s.item.tag.flexbox + "col-span-2"}>
             {sellInfo.tags?.length > 0 ? (
               sellInfo.tags.map((tag) => (
                 <span key={tag} className={s.item.tag.view}>
@@ -253,6 +250,6 @@ export default function (props) {
           {uploading ? "アップロードしています" : t.pages.sell.upload}
         </button>
       </Frame>
-    </Display>
+    </Page>
   );
 }
