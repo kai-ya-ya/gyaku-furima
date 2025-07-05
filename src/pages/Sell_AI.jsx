@@ -37,7 +37,7 @@ export default function () {
             thumb: currentPage,
             pages: {
               [currentPage]: {
-                imgURL: img.test,
+                imgURL: "",
                 desc: "desc_by_system\n#tags\n#by\n#system",
                 prev: currentPage,
                 next: currentPage,
@@ -52,6 +52,12 @@ export default function () {
             },
             dt_upload: new Date(),
           },
+          imgInfo: {
+            [currentPage]: {
+                dataURL: img.test,
+                isSet: true,
+            },
+          }
         },
         text: "autofill_by_system",
         dt_submit: new Date(),
@@ -88,7 +94,7 @@ export default function () {
   };
 
   const handleClinkFuncChat = (chat) => {
-    navigate(r.sell, { state: chat.function?.sellInfo });
+    navigate(r.sell, { state: chat.function });
   };
 
   const getFuncChat = (chat) => {
@@ -102,7 +108,7 @@ export default function () {
               <div>{sellInfo.title || "Not Found"}</div>
               <div>画像:</div>
               <div className="w-32">
-                <img src={sellInfo.pages[sellInfo.thumb].imgURL}></img>
+                <img src={chat.function?.imgInfo[sellInfo.thumb]?.dataURL || img.thumb_default}></img>
               </div>
               <div>商品説明:</div>
               <div>{sellInfo.pages[sellInfo.thumb].desc || "Not Found"}</div>

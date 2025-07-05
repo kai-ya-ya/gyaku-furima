@@ -38,6 +38,7 @@ export default function (props) {
   const [imgInfo, setImgInfo] = useState({
     [currentPage]: {
       dataURL: img.thumb_default,
+      isSet: false,
     },
   });
   const [msgErr, setMsgErr] = useState("");
@@ -46,11 +47,19 @@ export default function (props) {
 
   useEffect(() => {
     console.log("受信したデータ:", receivedData);
-    if (receivedData) {
-      setSellInfo(receivedData);
-      setCurrentPage(receivedData.thumb);
+    switch(receivedData?.type) {
+      case "sell":
+        setCurrentPage(receivedData.sellInfo.thumb);
+        setImgInfo(receivedData.imgInfo);
+        setSellInfo(receivedData.sellInfo);
+        break;
+      default:
+        console.log("ignored received data")
+        break;
     }
   }, [receivedData]);
+
+  useEffect(() => console.log(imgInfo), [imgInfo])
 
   const updateSellInfo = (props) => {
     setSellInfo((sellInfo) => ({
@@ -104,6 +113,7 @@ export default function (props) {
             ...imgInfo,
             [currentPage]: {
               dataURL: img2url(img),
+              isSet: true,
             },
           });
         };
@@ -121,6 +131,7 @@ export default function (props) {
       ...imgInfo,
       [currentPage]: {
         dataURL: img.thumb_default,
+        isSet: false,
       },
     });
   };
@@ -187,7 +198,7 @@ export default function (props) {
         <div className="grid grid-cols-1 sm:grid-cols-2 w-full bg-white p-2 gap-2">
           <div className="relative flex flex-col items-center gap-2 aspect-square">
             <div className="w-full">
-              <img src={imgInfo[currentPage]?.dataURL} className="w-full" />
+              <img src={imgInfo[currentPage]?.dataURL || ""} className="w-full" />
             </div>
             <div className="absolute flex flex-row justify-between w-full h-14 gap-4 p-2">
               <input
@@ -196,10 +207,10 @@ export default function (props) {
                 accept="image/*"
                 onChange={handleImageChange}
                 ref={fileInputRef}
-                className="text-sm text-gray-500 file:mr-2 file:py-2 file:px-3 file:border-none file:bg-red-400/50 file:text-white hover:file:bg-red-500/50 file:cursor-pointer"
+                className={imgInfo[currentPage].isSet ? "invisible " : "" + "text-sm text-gray-500 file:mr-2 file:py-2 file:px-3 file:border-none file:bg-red-400/50 file:text-white hover:file:bg-red-500/50 file:cursor-pointer"}
               />
               <button
-                className="bg-red-400/50 text-white aspect-square text-2xl hover:bg-red-500/50 h-9"
+                className={imgInfo[currentPage].isSet ? "" : "invisible " + "bg-red-400/50 text-white aspect-square text-2xl hover:bg-red-500/50 h-9"}
                 onClick={handleImageClear}
               >
                 {"×"}
