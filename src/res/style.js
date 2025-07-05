@@ -22,8 +22,8 @@ export default {
             },
         },
         field: {
-            input: `p-2 bg-white border-b-2 border-red-400 w-full `,
-            input_lg: `p-2 bg-white min-h-48 border-b-2 border-red-400 `,
+            input: `p-2 bg-white border-b-2 border-b-red-400/50 w-full `,
+            input_lg: `p-2 bg-white w-full border-b-2 border-b-2 border-b-red-400/50 overflow-y-scroll `,
             err: `p-2 rounded-2xl text-sm bg-red-100 text-red-700 `,
         },
         tag: {

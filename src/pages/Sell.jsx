@@ -1,7 +1,7 @@
 import React, { useState, useEffect, useContext, useCallback, useRef } from "react";
 import { collection, addDoc } from "firebase/firestore";
 import { ref, uploadBytes, getDownloadURL } from "firebase/storage";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useLocation } from "react-router-dom";
 
 import { auth, db, storage } from "@firebaseApp";
 import { UserContext } from "@contexts";
@@ -41,6 +41,16 @@ export default function (props) {
     },
   });
   const [msgErr, setMsgErr] = useState("");
+  const location = useLocation();
+  const receivedData = location.state;
+
+  useEffect(() => {
+    console.log("受信したデータ:", receivedData);
+    if (receivedData) {
+      setSellInfo(receivedData);
+      setCurrentPage(receivedData.thumb);
+    }
+  }, [receivedData]);
 
   const updateSellInfo = (props) => {
     setSellInfo((sellInfo) => ({
@@ -175,29 +185,29 @@ export default function (props) {
         </div>
 
         <div className="grid grid-cols-1 sm:grid-cols-2 w-full bg-white p-2 gap-2">
-          <div className="relative flex flex-col items-center gap-2">
+          <div className="relative flex flex-col items-center gap-2 aspect-square">
             <div className="w-full">
-              <img src={imgInfo[currentPage].dataURL} className="w-full" />
+              <img src={imgInfo[currentPage]?.dataURL} className="w-full" />
             </div>
             <div className="absolute flex flex-row justify-between w-full h-14 gap-4 p-2">
-                <input
-                  id="image-upload"
-                  type="file"
-                  accept="image/*"
-                  onChange={handleImageChange}
-                  ref={fileInputRef}
-                  className="text-sm text-gray-500 file:mr-2 file:py-2 file:px-3 file:border-none file:bg-red-400/50 file:text-white hover:file:bg-red-500/50 file:cursor-pointer"
-                />
-                <button
-                  className="bg-red-400/50 text-white aspect-square text-2xl hover:bg-red-500/50 h-9"
-                  onClick={handleImageClear}
-                >
-                  {"×"}
-                </button>
+              <input
+                id="image-upload"
+                type="file"
+                accept="image/*"
+                onChange={handleImageChange}
+                ref={fileInputRef}
+                className="text-sm text-gray-500 file:mr-2 file:py-2 file:px-3 file:border-none file:bg-red-400/50 file:text-white hover:file:bg-red-500/50 file:cursor-pointer"
+              />
+              <button
+                className="bg-red-400/50 text-white aspect-square text-2xl hover:bg-red-500/50 h-9"
+                onClick={handleImageClear}
+              >
+                {"×"}
+              </button>
             </div>
           </div>
           <TextField
-          classname={s.item.field.input_lg+"col-span-2 sm:col-span-1"}
+            classname={s.item.field.input_lg + "col-span-2 sm:col-span-1"}
             text={sellInfo.pages[currentPage]?.desc || ""}
             onChange={(desc) => handleDescUpdate(desc)}
             placeholder={t.pages.sell.desc}
@@ -210,7 +220,7 @@ export default function (props) {
             onChange={(e) => updateSellInfo({ title: e.target.value })}
           />
           <div className={s.item.tag.flexbox + "col-span-2 h-8"}>
-            {sellInfo.tags.length > 0 ? (
+            {sellInfo.tags?.length > 0 ? (
               sellInfo.tags.map((tag) => (
                 <span key={tag} className={s.item.tag.view}>
                   {tag}
