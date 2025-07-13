@@ -7,3 +7,4 @@ export { default as Sell_AI } from './Sell_AI';
 export { default as SignIn } from './SignIn';
 export { default as SignUp } from './SignUp';
 export { default as TopPage } from './TopPage';
+export { default as Item_chat } from './Item_chat';

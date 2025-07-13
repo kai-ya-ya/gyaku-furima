@@ -4,7 +4,7 @@ import "./index.css";
 import "draft-js/dist/Draft.css";
 
 import { UserProvider } from "@contexts";
-import { MyPage, SignIn, SignUp, TopPage, Sell, Sell_AI, Item, Search } from "@pages";
+import { MyPage, SignIn, SignUp, TopPage, Sell, Sell_AI, Item, Item_chat, Search } from "@pages";
 import { t, s, r, img } from "@res";
 
 function App() {
@@ -20,6 +20,7 @@ function App() {
           <Route path={r.sell_ai} element={<Sell_AI />} />
           <Route path={r.item} element={<Item />} />
           <Route path={r.search} element={<Search />} />
+          <Route path={r.item_comment} element={<Item_chat />} />
           <Route path="*" element={<Navigate to={r.toppage} />} />
         </Routes>
       </BrowserRouter>

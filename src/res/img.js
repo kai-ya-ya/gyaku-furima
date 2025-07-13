@@ -8,4 +8,9 @@ export default {
     chat_send_no: require("./Picture31.svg").default,
     thumb_default: require("./thumb_default.png"),
     test: require("./Test_640x640.png"),
+    chara_01: require("./chara_01.png"),
+    chara_02: require("./chara_02.png"),
+    banner_01: require("./banner_01.png"),
+    banner_02: require("./banner_02.png"),
+    banner_03: require("./banner_03.png"),
 }

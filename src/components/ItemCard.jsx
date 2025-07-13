@@ -4,6 +4,7 @@ import { doc, setDoc, deleteDoc } from "firebase/firestore";
 
 import { auth, db } from "@firebaseApp";
 import { UserContext } from "@contexts";
+import { TagList } from "@components";
 import { t, s, r, img } from "@res";
 import { timeAgo } from "@utils";
 
@@ -55,12 +56,7 @@ export default function ItemCard(props) {
       alert("いいねの操作に失敗しました。時間をおいてもう一度お試しください。");
     }
   };
-
-  const handleTagClick = (e, tag) => {
-    e.stopPropagation();
-    navigate(`${r.search}?q=${encodeURIComponent(tag)}`);
-  };
-
+  
   const handleCommentClick = (e) => {
     e.stopPropagation();
     navigate(`${r.item}?id=${item.id}`);
@@ -80,72 +76,31 @@ export default function ItemCard(props) {
       className="grid grid-cols-2 justify-items-stretch gap-2 p-2 bg-white border-b-2 border-red-400 h-auto"
     >
       <div className="">
-        <img
-          src={item.imageUrl || img.thumb_default}
-          alt={item.name}
-          className="w-auto"
-        />
+        <img src={item.imageUrl || img.thumb_default} alt={item.name} className="w-auto" />
       </div>
-      <div className="flex flex-col w-full aspect-square overflow-hidden gap-2">
-        <div className={s.item.tag.xs.flexbox}>
-          {Array.isArray(item.tags) && item.tags.length > 0 ? (
-            item.tags.map((tag) => (
-              <button
-                key={tag}
-                className={s.item.tag.xs.view}
-                onClick={(e) => {
-                  handleTagClick(e, tag);
-                }}
-              >
-                {tag}
-              </button>
-            ))
-          ) : (
-            <span className={s.text.meta}>タグなし</span>
-          )}
-        </div>
+      <div className="flex flex-col w-full aspect-square overflow-y-scroll gap-2">
+        <TagList tags={item.tags} size="xs"/>
       </div>
-      <div className="col-span-2 text-lg font-semibold truncate flex-none">
-        {item.name || "No Title"}
-      </div>
+      <div className="col-span-2 text-lg font-semibold truncate flex-none">{item.name || "No Title"}</div>
       <div className="flex flex-col justify-end">
         {/* <div className={s.text.normal}>¥{item.price || "???"}</div> */}
         <div className={s.text.meta}>
-          {t.item_card.username_seller}:{" "}
-          {item.username_seller || t.item_card.unk_seller}
+          {t.item_card.username_seller}: {item.username_seller || t.item_card.unk_seller}
         </div>
         <div className={s.text.meta}>{timeAgo(item.dt_upload)}</div>
       </div>
       <div className="grid grid-cols-[1fr_min-content_min-content] grid-rows-2 gap-x-4 h-full place-items-center">
         <div></div>
-        <div className="text text-red-400 text-center truncate">
-          {currentLikeCount > 99 ? "99+" : currentLikeCount}
-        </div>
-        <div className="text text-yellow-400 text-center truncate">
+        <div className="font-bold text-red-400 text-center truncate">{currentLikeCount > 99 ? "99+" : currentLikeCount}</div>
+        <div className="font-bold text-yellow-400 text-center truncate">
           {currentLikeCount > 99 ? "99+" : currentLikeCount}
         </div>
         <div></div>
-        <div
-          onClick={handleCommentClick}
-          type="button"
-          className="w-8 text-center cursor-pointer"
-        >
-          <img
-            src={img.comment}
-            className="w-full inline-block"
-            alt="いいね"
-          />
+        <div onClick={handleCommentClick} type="button" className="w-8 text-center cursor-pointer">
+          <img src={img.comment} className="w-full inline-block" alt="いいね" />
         </div>
-        <div
-          onClick={handleLikeClick}
-          type="button"
-          className="w-8 text-center cursor-pointer"
-        >
-          <img
-            src={liked ? img.like_yes : img.like_no}
-            className="w-full inline-block"
-            alt="いいね"
-          />
+        <div onClick={handleLikeClick} type="button" className="w-8 text-center cursor-pointer">
+          <img src={liked ? img.like_yes : img.like_no} className="w-full inline-block" alt="いいね" />
         </div>
       </div>
     </div>

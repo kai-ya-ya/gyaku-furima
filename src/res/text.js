@@ -44,6 +44,12 @@ export default {
             title: `新規会員登録`,
             go_signup: `登録`,
         },
+        item: {
+            title: `商品ページ`,
+        },
+        item_comment: {
+            title: `コメント`,
+        }
     },
     item: {
         name: `商品名`,

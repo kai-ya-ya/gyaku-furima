@@ -28,10 +28,10 @@ export default {
         },
         tag: {
             view: `bg-red-400 text-white px-3 py-1 rounded-full truncate `,
-            flexbox: `flex flex-row flex-none gap-2 flex-wrap overflow-hidden items-start `,
+            flexbox: `flex flex-row flex-none gap-2 flex-wrap overflow-x-scroll items-start `,
             xs: {
                 view: `text-xs bg-red-400 text-white px-2 py-0.5 rounded-full truncate mx-0.5`,
-                flexbox: `flex flex-row flex-none gap-1 flex-wrap overflow-hidden`,
+                flexbox: `flex flex-row flex-none gap-1 flex-wrap overflow-x-scroll`,
             },
         },
         message: {

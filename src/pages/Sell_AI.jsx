@@ -129,13 +129,6 @@ export default function () {
           }
         });
       } else {
-        // const initialMessage = {
-        //   uid: Math.random().toString(36).substring(2, 10),
-        //   role: "model",
-        //   text: "こんにちは！どのような商品をお探しですか？AIがあなたの商品作りをお手伝いします。",
-        //   dt_submit: new Date(),
-        // };
-        // setChats([initialMessage]);
       }
     };
 
@@ -167,7 +160,7 @@ export default function () {
         modelMessage = {
           uid: Math.random().toString(36).substring(2, 10),
           role: "model",
-          text: responseData.message || "No response text.", // "content"を"text"に修正
+          text: responseData.message || "No response text.",
           dt_submit: new Date(),
         };
       } else if (responseData.type === "sell") {
@@ -277,60 +270,83 @@ export default function () {
     }
   };
 
+  const [chatTopbarDim, setChatTopbarDim] = useState({ h: 0, w: 0 });
+  const chatTopbarRef = useRef(null);
+  useEffect(() => {
+    // setup topbar
+    const c = chatTopbarRef.current;
+    if (c) {
+      setChatTopbarDim({ h: c.offsetHeight, w: c.offsetWidth });
+    }
+  }, []);
+
   return (
     <Page permission="login_only">
-      <div className={"flex flex-col gap-y-4 bg-gray-100/50 p-4 flex-grow"}>
-        <div className="flex flex-row justify-center gap-2 flex-shrink-0">
+      <Frame>
+        <div className="flex flex-row justify-center gap-2">
           <button className={s.item.title_gray} onClick={() => navigate(r.sell)}>
             {t.pages.sell.title}
           </button>
           <div className={s.item.title}>|</div>
           <button className={s.item.title}>{t.pages.sell_ai.title}</button>
         </div>
-        <div className="w-full flex-grow bg-yellow-100 flex flex-col p-2 gap-2 h-0">
-          {chats.length === 0 ? (
-            <div className="flex-grow text-center text-gray-600">まだメッセージがありません</div>
-          ) : (
-            <div className="flex flex-col h-auto gap-2 flex-grow overflow-y-scroll " ref={scrollRef}>
-              {chats.map((chat) => {
-                let cname = "";
-                switch (chat.role) {
-                  case "system":
-                  case "model":
-                    cname = s.item.message.system.view;
-                    break;
-                  case "user":
-                    cname = s.item.message.user.view;
-                    break;
-                  default:
-                    cname = s.item.message.system.view;
-                }
-                return (
-                  <div className="flex flex-row w-full" key={chat.uid}>
-                    <div className="flex-grow min-w-[10%]"></div>
-                    <div key={chat.uid} className={cname + " flex flex-col gap-2"}>
-                      <div>{chat.text}</div>
-                      {chat.function && getFuncChat(chat)}
-                    </div>
-                  </div>
-                );
-              })}
+        <div className="relative w-full flex-grow bg-yellow-100 flex flex-col p-0 gap-0 h-0">
+          <div
+            ref={chatTopbarRef}
+            className="bg-red-400 text-white flex justify-between items-center px-4 py-2 absolute top-0 left-0 w-full z-50 gap-4 "
+          >
+            <button className="text-lg">設定</button>
+            <div className="flex flex-row items-center gap-2"><img src={img.chara_02} className="rounded-full w-8"></img><div>キャラ１</div></div>
+            <div className="text-lg">AI Chat</div>
+          </div>
+          <div className="flex flex-col overflow-y-scroll p-2">
+            <div className="w-full shrink-0" style={{ height: `${chatTopbarDim.h}px` }} />
+            <div className="flex flex-col overflow-y-scroll gap-2">
+              {chats.length === 0 ? (
+                <div className="flex-grow text-center text-gray-600">まだメッセージがありません</div>
+              ) : (
+                <div className="flex flex-col h-auto gap-2 flex-grow overflow-y-scroll " ref={scrollRef}>
+                  {chats.map((chat) => {
+                    let cname = "";
+                    switch (chat.role) {
+                      case "system":
+                      case "model":
+                        cname = s.item.message.system.view;
+                        break;
+                      case "user":
+                        cname = s.item.message.user.view;
+                        break;
+                      default:
+                        cname = s.item.message.system.view;
+                    }
+                    return (
+                      <div className="flex flex-row w-full" key={chat.uid}>
+                        <div className="flex-grow min-w-[10%]"></div>
+                        <div key={chat.uid} className={cname + " flex flex-col gap-2"}>
+                          <div>{chat.text}</div>
+                          {chat.function && getFuncChat(chat)}
+                        </div>
+                      </div>
+                    );
+                  })}
+                </div>
+              )}
+              <div className="w-full h-10 flex flex-row gap-2">
+                <input
+                  className={s.item.field.input + "w-full"}
+                  placeholder={"メッセージを入力"}
+                  value={typeText}
+                  onChange={(e) => setTypeText(e.target.value)}
+                  onKeyDown={handleKeyDown}
+                />
+                <button className="h-full aspect-square h-full" onClick={handleSendChat} disabled={isSending}>
+                  <img src={typeText ? img.chat_send_yes : img.chat_send_no}></img>
+                </button>
+              </div>
             </div>
-          )}
-          <div className="w-full h-10 flex flex-row gap-2">
-            <input
-              className={s.item.field.input + "w-full"}
-              placeholder={"メッセージを入力"}
-              value={typeText}
-              onChange={(e) => setTypeText(e.target.value)}
-              onKeyDown={handleKeyDown}
-            />
-            <button className="h-full aspect-square h-full" onClick={handleSendChat} disabled={isSending}>
-              <img src={typeText ? img.chat_send_yes : img.chat_send_no}></img>
-            </button>
           </div>
         </div>
-      </div>
+      </Frame>
     </Page>
   );
 }
