@@ -1,7 +1,7 @@
 export default {
     pages: {
         topbar: {
-            title: `逆フリマ`,
+            title: `QED(仮)`,
             desc: `フリマアプリとは逆に、あなたの想像する欲しい架空の商品を出品するサイトです`,
         },
         home: {
