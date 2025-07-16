@@ -63,8 +63,8 @@ export default function (props) {
   };
 
   return (
-    <div className="grid grid-cols-2 gap-2">
-      <div className="flex flex-col gap-2">
+    <div className="grid grid-cols-2 gap-2 h-full p-0">
+      <div className="flex flex-col gap-2 border-yellow-500 border-r-2 border-0 p-4">
         {Object.keys(threads) && Object.keys(threads).length > 0 ? (
           Object.keys(threads).map((key) => (
             <button key={key} className={(key == activeThread ? "text-red-400 " : "" ) + "w-full"} onClick={() => setActiveThread(key)}>
@@ -72,7 +72,7 @@ export default function (props) {
             </button>
           ))
         ) : (
-          <div>スレッドがありません</div>
+          <div className={s.text.meta + "text-center"}>スレッドがありません</div>
         )}
         {showCreateThreadForm ? (
           <div className="w-full h-10 flex flex-row gap-2">
@@ -88,7 +88,7 @@ export default function (props) {
             </button>
           </div>
         ) : (
-          <button className={s.item.btn.other} onClick={() => setShowCreateThreadForm(true)}>
+          <button className={s.item.btn.ok} onClick={() => setShowCreateThreadForm(true)}>
             新しいスレッドの作成
           </button>
         )}

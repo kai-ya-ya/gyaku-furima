@@ -46,7 +46,7 @@ export default function (props) {
   const receivedData = location.state;
 
   useEffect(() => {
-    switch(receivedData?.type) {
+    switch (receivedData?.type) {
       case "sell":
         setCurrentPage(receivedData.sellInfo.thumb);
         setImgInfo(receivedData.imgInfo);
@@ -152,6 +152,10 @@ export default function (props) {
       // upload all images
       await Promise.all(
         Object.entries(sellInfo.pages).map(async ([key, value]) => {
+          if (imgInfo[key].dataURL == img.test) {
+            sellInfo.pages[key].imgURL = img.test;
+            return;
+          }
           const imageFileName = `${Date.now()}_${Math.random().toString(36).substring(2, 8)}.jpeg`;
 
           const snapshot = await uploadBytes(
@@ -167,8 +171,18 @@ export default function (props) {
       );
 
       // upload sellInfo
-      await addDoc(collection(db, "items_v2"), {
-        ...sellInfo,
+      // await addDoc(collection(db, "items_v2"), {
+      //   ...sellInfo,
+      //   dt_upload: new Date(),
+      // });
+      await addDoc(collection(db, "items"), {
+        desc: sellInfo.pages[currentPage].desc,
+        imageUrl: sellInfo.pages[currentPage].imgURL,
+        likeCount: 0,
+        name: sellInfo.title,
+        tags: sellInfo.tags,
+        uid_seller: sellInfo.sellerInfo.uid,
+        username_seller: sellInfo.sellerInfo.username,
         dt_upload: new Date(),
       });
       console.log("Firestoreに商品情報と画像URLを保存成功");
@@ -204,10 +218,14 @@ export default function (props) {
                 accept="image/*"
                 onChange={handleImageChange}
                 ref={fileInputRef}
-                className={`${imgInfo[currentPage].isSet ? "invisible" : ""} text-sm text-gray-500 file:mr-2 file:py-2 file:px-3 file:border-none file:bg-red-400/50 file:text-white hover:file:bg-red-500/50 file:cursor-pointer`}
+                className={`${
+                  imgInfo[currentPage].isSet ? "invisible" : ""
+                } text-sm text-gray-500 file:mr-2 file:py-2 file:px-3 file:border-none file:bg-red-400/50 file:text-white hover:file:bg-red-500/50 file:cursor-pointer`}
               />
               <button
-                className={`${imgInfo[currentPage].isSet ? "" : "invisible"} text-white bg-red-400/50 aspect-square text-xl hover:bg-red-500/50 h-full flex flex-col justify-center items-center`}
+                className={`${
+                  imgInfo[currentPage].isSet ? "" : "invisible"
+                } text-white bg-red-400/50 aspect-square text-xl hover:bg-red-500/50 h-full flex flex-col justify-center items-center`}
                 onClick={handleImageClear}
               >
                 <div className="">{"✕"}</div>

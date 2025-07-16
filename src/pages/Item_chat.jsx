@@ -49,7 +49,7 @@ export default function () {
           <div className={s.item.title}>|</div>
           <button className={s.item.title}>{t.pages.item_comment.title}</button>
         </div>
-        <div>
+        <div className="relative w-full flex-grow bg-yellow-100 flex flex-col gap-0 h-0">
           <ThreadList itemid={itemid} />
         </div>
       </Frame>

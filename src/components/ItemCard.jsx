@@ -59,7 +59,7 @@ export default function ItemCard(props) {
   
   const handleCommentClick = (e) => {
     e.stopPropagation();
-    navigate(`${r.item}?id=${item.id}`);
+    navigate(`${r.item_comment}?id=${item.id}`);
   };
 
   const goItem = (e) => {
@@ -91,7 +91,7 @@ export default function ItemCard(props) {
       </div>
       <div className="grid grid-cols-[1fr_min-content_min-content] grid-rows-2 gap-x-4 h-full place-items-center">
         <div></div>
-        <div className="font-bold text-red-400 text-center truncate">{currentLikeCount > 99 ? "99+" : currentLikeCount}</div>
+        <div></div>
         <div className="font-bold text-yellow-400 text-center truncate">
           {currentLikeCount > 99 ? "99+" : currentLikeCount}
         </div>

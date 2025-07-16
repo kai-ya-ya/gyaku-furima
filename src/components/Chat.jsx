@@ -5,9 +5,11 @@ import { useNavigate, Link, useSearchParams } from "react-router-dom";
 
 import { auth, db, storage } from "@firebaseApp";
 import { t, s, r, img } from "@res";
+import { UserContext } from "@contexts";
 import { extractTags, decorateTags, img2url, url2blob, genDateID } from "@utils";
 
 export default function (props) {
+  const { userData, loading, error } = useContext(UserContext);
   const [chats, setChats] = useState(null);
   const [isSubmitting, setIsSubmitting] = useState(false);
   const itemid = props.itemid;
@@ -45,6 +47,7 @@ export default function (props) {
       role: "user",
       text: typeText,
       dt_submit: dt_submit,
+      userid: userData.uid,
     });
     setTypeText("");
 
@@ -60,18 +63,39 @@ export default function (props) {
   };
 
   return (
-    <div className="flex flex-col gap-2">
-      {!chats ? (
-        <div>スレッドを選択してください</div>
-      ) : Object.keys(chats).length === 0 ? (
-        <div>コメントがありません</div>
-      ) : (
-        Object.keys(chats).map((key) => (
-          <div className="w-full" key={key}>
-            {chats[key].text}
-          </div>
-        ))
-      )}
+    <div className="flex flex-col gap-2 p-2 h-full">
+      <div className="h-full flex flex-col gap-2">
+        {!chats ? (
+          <div className="text-center">スレッドを選択してください</div>
+        ) : Object.keys(chats).length === 0 ? (
+          <div className="text-center">コメントがありません</div>
+        ) : (
+          Object.keys(chats).map((key) => {
+            let cname = "";
+            const chat = chats[key];
+            switch (chat.role) {
+              case "system":
+              case "model":
+                cname = s.item.message.system.view;
+                break;
+              case "user":
+                if(!chat.userid || chat.userid != userData.uid) cname = s.item.message.system.view;
+                else cname = s.item.message.user.view;
+                break;
+              default:
+                cname = s.item.message.system.view;
+            }
+            return (
+              <div className="flex flex-row w-full" key={key}>
+                <div className="flex-grow min-w-[10%]"></div>
+                <div className={cname + " flex flex-col gap-2"}>
+                  <div>{chat.text}</div>
+                </div>
+              </div>
+            );
+          })
+        )}
+      </div>
       {chats && (
         <div className="w-full h-10 flex flex-row gap-2">
           <input

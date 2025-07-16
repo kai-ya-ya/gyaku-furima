@@ -48,37 +48,37 @@ export default function Item() {
   }, [itemid]);
 
   useEffect(() => {
-      const fetchitems = async () => {
-        setItemsLoading(true);
-        setItemsError(null);
-        try {
-          const q = query(
-            collection(db, "items"),
-            where("tags", "array-contains", item.tags[0]),
-            orderBy("dt_upload", "desc"),
-            limit(100)
-          );
-  
-          const querySnapshot = await getDocs(q);
-          const itemsList = querySnapshot.docs.map((doc) => ({
-            id: doc.id,
-            ...doc.data(),
-            likeCount: Number(doc.data().likeCount) || 0,
-          }));
-          setItems(itemsList);
-        } catch (err) {
-          console.error("商品データの取得中にエラーが発生しました:", err);
-          setItemsError(err);
-        } finally {
-          setItemsLoading(false);
-        }
-      };
-      if(item && item.tags && item.tags.length !== 0) fetchitems();
-    }, [item]);
+    const fetchitems = async () => {
+      setItemsLoading(true);
+      setItemsError(null);
+      try {
+        const q = query(
+          collection(db, "items"),
+          where("tags", "array-contains", item.tags[0]),
+          orderBy("dt_upload", "desc"),
+          limit(100)
+        );
 
-  useEffect(() => {
-    console.log(itemsLoading);
-  }, [itemsLoading]);
+        const querySnapshot = await getDocs(q);
+        const itemsList = querySnapshot.docs.map((doc) => ({
+          id: doc.id,
+          ...doc.data(),
+          likeCount: Number(doc.data().likeCount) || 0,
+        }));
+        setItems(itemsList);
+      } catch (err) {
+        console.error("商品データの取得中にエラーが発生しました:", err);
+        setItemsError(err);
+      } finally {
+        setItemsLoading(false);
+      }
+    };
+    if (item && item.tags && item.tags.length !== 0) fetchitems();
+  }, [item]);
+
+  // useEffect(() => {
+  //   console.log(itemsLoading);
+  // }, [itemsLoading]);
 
   if (itemsError) {
     return (
@@ -101,10 +101,39 @@ export default function Item() {
     );
   }
 
-  const handleTagClick = (e, tag) => {
-    e.stopPropagation();
-    navigate(`${r.search}?q=${encodeURIComponent(tag)}`);
-  };
+  const handleLikeClick = async (event) => {}
+  //   event.stopPropagation();
+
+  //   if (!userData || !userData.uid) {
+  //     alert("いいねするにはログインが必要です。");
+  //     return;
+  //   }
+
+  //   const likeDocRef = doc(db, "likes", `${userData.uid}_${item.id}`);
+  //   const prevLiked = liked;
+  //   const prevLikeCount = currentLikeCount;
+  //   setLiked((prev) => !prev);
+  //   setCurrentLikeCount((prev) => (prevLiked ? prev - 1 : prev + 1));
+
+  //   try {
+  //     if (prevLiked) {
+  //       await deleteDoc(likeDocRef);
+  //       console.log(`User ${userData.uid} unliked item ${item.id}`);
+  //     } else {
+  //       await setDoc(likeDocRef, {
+  //         userId: userData.uid,
+  //         itemId: item.id,
+  //         timestamp: new Date(),
+  //       });
+  //       console.log(`User ${userData.uid} liked item ${item.id}`);
+  //     }
+  //   } catch (error) {
+  //     console.error("いいねの操作中にエラーが発生しました:", error);
+  //     setLiked(prevLiked);
+  //     setCurrentLikeCount(prevLikeCount);
+  //     alert("いいねの操作に失敗しました。時間をおいてもう一度お試しください。");
+  //   }
+  // };
 
   return (
     <Page>
@@ -132,13 +161,29 @@ export default function Item() {
                   {timeAgo(item.dt_upload)}
                 </div>
               </div>
-              <div className="col-span-2 flex flex-col w-full overflow-hidden gap-2">
+              <div className="flex flex-col w-full overflow-hidden gap-2">
                 <TagList tags={item.tags} />
               </div>
+              {/* <div className="grid grid-cols-[1fr_min-content_min-content] grid-rows-2 gap-x-4 h-full place-items-center">
+                <div></div>
+                <div></div>
+                <div className="font-bold text-yellow-400 text-center truncate">
+                  {!item ? 0 : item.likeCount > 99 ? "99+" : item.likeCount}
+                </div>
+                <div></div>
+                <div onClick={()=>{}} type="button" className="w-8 text-center cursor-pointer">
+                  <img src={img.comment} className="w-full inline-block" alt="いいね" />
+                </div>
+                <div onClick={()=>{}} type="button" className="w-8 text-center cursor-pointer">
+                  <img src={liked ? img.like_yes : img.like_no} className="w-full inline-block" alt="いいね" />
+                </div>
+              </div> */}
             </div>
           </Frame>
           <Swipe />
-          <Frame title="関連商品"><ItemList items={items} userData={userData} /></Frame>
+          <Frame title="関連商品">
+            <ItemList items={items} userData={userData} />
+          </Frame>
         </>
       ) : (
         <Frame>
