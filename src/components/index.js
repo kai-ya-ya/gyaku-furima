@@ -10,3 +10,5 @@ export { default as TagList } from './TagList';
 export { default as ItemList } from './ItemList';
 export { default as ThreadList } from './ThreadList';
 export { default as Chat } from './Chat';
+export { default as FormulaPreview } from './FormulaPreview';
+export { default as FormulaList } from './FormulaList';

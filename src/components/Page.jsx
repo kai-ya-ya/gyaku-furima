@@ -42,10 +42,11 @@ export default function (props) {
   }, [props.permission, loading, userData, navigate]);
 
   return (
-    <div className="flex flex-col h-screen overflow-y-scroll">
+    <div className="flex flex-col h-screen overflow-y-scroll items-center font-SanariFontB002 p-2 gap-4">
       <TopBar ref={topbarRef} />
       <div className="w-full shrink-0" style={{ height: `${topbarDim.h}px` }} />
       {loading ? <Loading /> : props.children}
+      <div className="flex-grow"></div>
       <Footer />
     </div>
   );

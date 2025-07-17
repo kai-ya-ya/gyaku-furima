@@ -47,21 +47,21 @@ export default function Swipe() {
   };
 
   return (
-    <div className="flex items-center justify-center bg-gray-100">
-      <div className="relative w-full overflow-hidden">
+    <div className="flex items-center justify-center border-black border-2 rounded-xl w-full h-32">
+      <div className="relative overflow-hidden">
         <div
-          className="flex transition-transform duration-500 ease-in-out w-full"
+          className="flex transition-transform duration-500 ease-in-out"
           style={{ transform: `translateX(-${currentIndex * 100}%)` }}
           onTouchStart={handleTouchStart}
           onTouchMove={handleTouchMove}
           onTouchEnd={handleTouchEnd}
         >
           {images.map((image, index) => (
-            <div key={index} className="flex-shrink-0 bg-white flex flex-col justify-center items-center w-full">
+            <div key={index} className="flex-shrink-0 bg-opacity-100 flex flex-col justify-center items-center rounded-xl w-full">
               <img
                 src={image}
                 alt={`Slide ${index + 1}`}
-                className="max-w-[50%] w-full"
+                className="max-h-32 p-2"
                 onError={(e) => {
                   e.target.onerror = null;
                   e.target.src = img.thumb_default;
@@ -73,7 +73,7 @@ export default function Swipe() {
 
         <button
           onClick={goToPrevious}
-          className="absolute top-1/2 left-0 -translate-y-1/2 p-3 rounded-full transition-all duration-300 text-red-400"
+          className="absolute top-1/2 left-0 -translate-y-1/2 p-3 rounded-full transition-all duration-300 text-black rounded-xl"
           aria-label="Previous slide"
         >
           <svg
@@ -89,7 +89,7 @@ export default function Swipe() {
 
         <button
           onClick={goToNext}
-          className="absolute top-1/2 right-0 -translate-y-1/2 p-3 rounded-full transition-all duration-300 text-red-400"
+          className="absolute top-1/2 right-0 -translate-y-1/2 p-3 rounded-full transition-all duration-300 text-black"
           aria-label="Next slide"
         >
           <svg
@@ -103,13 +103,13 @@ export default function Swipe() {
           </svg>
         </button>
 
-        <div className="absolute bottom-0 left-0 right-0 flex justify-center gap-2 bg-white/50 p-1">
+        <div className="absolute bottom-0 left-0 right-0 flex justify-center gap-2 bg-white/50 p-1 rounded-xl">
           {images.map((_, index) => (
             <button
               key={index}
               onClick={() => setCurrentIndex(index)}
               className={`h-2 w-2 rounded-full transition-colors duration-300 ${
-                currentIndex === index ? "bg-red-400" : "bg-gray-300"
+                currentIndex === index ? "bg-black" : "bg-gray-300"
               }`}
               aria-label={`Go to slide ${index + 1}`}
             ></button>

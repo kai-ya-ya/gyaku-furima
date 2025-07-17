@@ -2,6 +2,22 @@
 @tailwind components;
 @tailwind utilities;
 
+@font-face {
+  font-family: 'noerifu-regular'; /* Tailwindで使用するフォント名 */
+  src: url('./res/fonts/noerifu-regular.otf') format('truetype'); /* フォントファイルへのパス */
+  font-weight: normal;
+  font-style: normal;
+  font-display: swap; /* フォントの読み込み中にテキストをどのように表示するか */
+}
+
+@font-face {
+  font-family: 'SanariFontB002';
+  src: url('./res/fonts/SanariFontB002.ttf') format('truetype');
+  font-weight: normal;
+  font-style: normal;
+  font-display: swap;
+}
+
 /* ★すべてのページでスクロールバーのスペースを確保する★ */
 html {
   overflow-y: scroll;
