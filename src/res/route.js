@@ -9,4 +9,7 @@ export default {
     sell: `/sell`,
     sell_ai: `/sell_ai`,
     item_comment: `/item_comment`,
+    term: `/term`,
+    formula: `/formula`,
+
 }

@@ -7,7 +7,7 @@ import { UserContext } from "@contexts";
 import { TopBar, Footer, Loading } from "@components";
 import { t, s, r, img } from "@res";
 
-export default function (props) {
+export default function ({ children, permission }) {
   const [topbarDim, setTopbarDim] = useState({ h: 0, w: 0 });
   const topbarRef = useRef(null);
   const { userData, loading, error } = useContext(UserContext);
@@ -24,7 +24,7 @@ export default function (props) {
 
   // check login
   useEffect(() => {
-    switch (props.permission) {
+    switch (permission) {
       case "login_only":
         if (!loading && !userData) {
           navigate(r.signin);
@@ -39,15 +39,23 @@ export default function (props) {
       default:
         break;
     }
-  }, [props.permission, loading, userData, navigate]);
+  }, [permission, loading, userData, navigate]);
 
   return (
     <div className="flex flex-col h-screen overflow-y-scroll items-center font-SanariFontB002 p-2 gap-4">
       <TopBar ref={topbarRef} />
       <div className="w-full shrink-0" style={{ height: `${topbarDim.h}px` }} />
-      {loading ? <Loading /> : props.children}
+      {loading ? <Loading /> : children}
       <div className="flex-grow"></div>
       <Footer />
+      <svg className="hidden">
+        <filter id="handDrawnNoise">
+          <feTurbulence type="fractalNoise" baseFrequency="0.03" numOctaves="3" result="noise" />
+          <feDisplacementMap in="SourceGraphic" in2="noise" scale="5" xChannelSelector="R" yChannelSelector="G" />
+          <feGaussianBlur in="noise" stdDeviation="0.5" result="blurredNoise" />
+          <feDisplacementMap in="SourceGraphic" in2="blurredNoise" scale="3" xChannelSelector="R" yChannelSelector="G" />
+        </filter>
+      </svg>
     </div>
   );
 }

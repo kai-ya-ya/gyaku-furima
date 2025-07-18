@@ -4,22 +4,26 @@ import { useNavigate, Link, useSearchParams } from "react-router-dom";
 
 import { auth, db, storage } from "@firebaseApp";
 import { UserContext } from "@contexts";
-import { Page, Frame, Loading, TagList, ItemList, Swipe } from "@components";
-import { t, s, r, img, operations, terms_test, formulas_test } from "@res";
+import { Page, Frame, Loading, Formula, Flex, Swipe, Text } from "@components";
+import { t, s, r, img, operations, formulas_test, terms_test } from "@res";
 import { timeAgo } from "@utils";
 
 export default function () {
   const { userData, loading, error } = useContext(UserContext);
-  const [item, setItem] = useState(null);
+  const [formula, setFormula] = useState(null);
   const [itemsLoading, setItemsLoading] = useState(true);
   const [itemsError, setItemsError] = useState(null);
   const [searchParams, setSearchParams] = useSearchParams();
-  const itemid = searchParams.get("id");
+  const formulaId = searchParams.get("id");
   const navigate = useNavigate();
   const [items, setItems] = useState(null);
+  const [showHighlight, setShowHighlight] = useState(true);
 
   useEffect(() => {
-    if (!itemid) {
+    setItemsLoading(false);
+    setFormula(formulas_test[formulaId]);
+    return;
+    if (!formulaId) {
       setItemsLoading(false);
       setItemsError(new Error("商品IDがURLに指定されていません。"));
       return;
@@ -29,13 +33,13 @@ export default function () {
       setItemsLoading(true);
       setItemsError(null);
       try {
-        const itemDocRef = doc(db, "items", itemid);
+        const itemDocRef = doc(db, "items", formulaId);
         const itemDocSnap = await getDoc(itemDocRef);
 
         if (itemDocSnap.exists()) {
-          setItem({ id: itemDocSnap.id, ...itemDocSnap.data() });
+          setFormula({ id: itemDocSnap.id, ...itemDocSnap.data() });
         } else {
-          setItem(null);
+          setFormula(null);
         }
       } catch (err) {
         setItemsError(err);
@@ -45,7 +49,7 @@ export default function () {
     };
 
     fetchItem();
-  }, [itemid]);
+  }, [formulaId]);
 
   useEffect(() => {
     const fetchitems = async () => {
@@ -54,7 +58,7 @@ export default function () {
       try {
         const q = query(
           collection(db, "items"),
-          where("tags", "array-contains", item.tags[0]),
+          where("tags", "array-contains", formula.tags[0]),
           orderBy("dt_upload", "desc"),
           limit(100)
         );
@@ -73,35 +77,14 @@ export default function () {
         setItemsLoading(false);
       }
     };
-    if (item && item.tags && item.tags.length !== 0) fetchitems();
-  }, [item]);
+    if (formula && formula.tags && formula.tags.length !== 0) fetchitems();
+  }, [formula]);
 
   // useEffect(() => {
   //   console.log(itemsLoading);
   // }, [itemsLoading]);
 
-  if (itemsError) {
-    return (
-      <Page>
-        <div className={s.win.flexbox}>
-          <div className={s.item.title}>エラー: {itemsError.message}</div>
-          <p>商品情報の取得に失敗しました。URLを確認してください。</p>
-        </div>
-      </Page>
-    );
-  }
-  if (!itemsLoading && !item) {
-    return (
-      <Page>
-        <div className={s.win.flexbox}>
-          <div className={s.item.title}>{t.item.not_found}</div>
-          <p>指定された商品は見つかりませんでした。</p>
-        </div>
-      </Page>
-    );
-  }
-
-  const handleLikeClick = async (event) => {}
+  const handleLikeClick = async (event) => {};
   //   event.stopPropagation();
 
   //   if (!userData || !userData.uid) {
@@ -137,27 +120,48 @@ export default function () {
 
   return (
     <Page>
-      {!itemsLoading ? (
-        <>
-          <Frame tabs={[{title: t.pages.item.title}, {title: t.pages.item_comment.title}]}>
-            <div className="grid grid-cols-1 sm:grid-cols-2 justify-center w-full bg-white p-2 gap-2">
-              <div className="col-span-1 flex flex-col w-full gap-2 overflow-y-scroll">
-                <div className="p-2 text-justify break-words">{item.data.itemInfo.desc}</div>
-              </div>
-              <div className="col-span-2 flex flex-col justify-start gap-2">
-                <div className="text-lg font-semibold truncate flex-none">{item.data.itemInfo.name || "No Title"}</div>
-                <div className={s.text.meta}>
-                  {/* {t.item_card.username_seller}: {item.username_seller || t.item_card.unk_seller},{" "} */}
-                  {timeAgo(item.data.itemInfo.createdAt)}
-                </div>
-              </div>
-            </div>
+      {itemsError ? (
+        <Frame tabs={[]}>
+          <Text cname={"text-center"} text={`${itemsError}`} />
+        </Frame>
+      ) : !itemsLoading ? (
+        !formula ? (
+          <Frame tabs={[]}>
+            <Text cname={"text-center"} text={"指定された商品は見つかりませんでした。"} />
           </Frame>
-          <Swipe />
-          {/* <Frame title="関連商品">
+        ) : (
+          <>
+            <Frame
+              tabs={[
+                { id: "0", title: "定義" },
+                { id: "1", title: "コメント" },
+                { id: "2", title: "他の定義" },
+              ]}
+            >
+              <div id="0">
+                <Flex cname="items-center gap-2">
+                  <div className="flex flex-row gap-1 flex-wrap items-center px-4">
+                    <Formula formula={formula} showHighlight={showHighlight} />
+                  </div>
+                  <button onClick={() => setShowHighlight(!showHighlight)}>
+                    <Text text={showHighlight ? ">>ハイライトを非表示<<" : ">>ハイライトを表示<<"} />
+                  </button>
+                  <Text
+                    cname={s.text.meta}
+                    text={`by ${formula.data.uploadInfo.userId}, ${timeAgo(formula.data.uploadInfo.createdAt)}`}
+                  />
+                  <Text text={formula.data.itemInfo.desc} />
+                </Flex>
+              </div>
+              <div id="1">aiueo</div>
+              <div id="2">cdcnj</div>
+            </Frame>
+            <Swipe />
+            {/* <Frame title="関連商品">
             <ItemList items={items} userData={userData} />
           </Frame> */}
-        </>
+          </>
+        )
       ) : (
         <Frame>
           <Loading />

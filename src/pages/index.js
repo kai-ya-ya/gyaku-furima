@@ -8,3 +8,5 @@ export { default as SignIn } from './SignIn';
 export { default as SignUp } from './SignUp';
 export { default as TopPage } from './TopPage';
 export { default as Item_chat } from './Item_chat';
+export { default as TermPage } from './TermPage';
+export { default as FormulaPage } from './FormulaPage';

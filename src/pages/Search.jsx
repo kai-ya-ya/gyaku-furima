@@ -49,7 +49,7 @@ export default function Search() {
   return (
     <Page>
       <Frame title={`${searchWord}の検索結果`}>
-        {items.length === 0 ? (
+        {/* {items.length === 0 ? (
           <p className="text-center text-gray-600">
             {t.pages.toppage.no_items_found}
           </p>
@@ -63,7 +63,7 @@ export default function Search() {
               />
             ))}
           </div>
-        )}
+        )} */}
       </Frame>
     </Page>
   );

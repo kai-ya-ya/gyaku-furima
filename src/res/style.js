@@ -53,27 +53,27 @@ export default {
     },
     term: {
         needs: {
-            text: "border-b-2 border-green-400",
+            text: "bg-green-400/50 px-0",
             tag: "px-2 text-center font-bold border-2 border-green-400 text-xs rounded-full text-green-400",
             name: "ニーズ",
         },
         wants: {
-            text: "border-b-2 border-orange-400",
+            text: "bg-orange-400/50 px-0",
             tag: "px-2 text-center font-bold border-2 border-orange-400 text-xs rounded-full text-orange-400",
             name: "ウォンツ",
         },
         pains: {
-            text: "border-b-2 border-purple-400",
+            text: "bg-purple-400/50 px-0",
             tag: "px-2 text-center font-bold border-2 border-purple-400 text-xs rounded-full text-purple-400",
             name: "ペインポイント",
         },
         seeds: {
-            text: "border-b-2 border-sky-400",
+            text: "bg-sky-400/50 px-0",
             tag: "px-2 text-center font-bold border-2 border-sky-400 text-xs rounded-full text-sky-400",
             name: "シーズ",
         },
         ideas: {
-            text: "border-b-2 border-yellow-400",
+            text: "bg-yellow-400/50 px-0",
             tag: "px-2 text-center font-bold border-2 border-yellow-400 text-xs rounded-full text-yellow-400",
             name: "アイデア",
         },
