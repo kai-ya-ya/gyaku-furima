@@ -14,8 +14,12 @@ const TopBar = forwardRef((props, ref) => {
 
   return (
     <div ref={ref} className="fixed top-0 left-0 w-full z-50">
-      <HandDrawnBorderBox cname_box="bg-white py-1 px-4" cname_bg="border-b-2 border-black">
-        <Flex dim="row" className="flex justify-between items-center gap-4">
+      <HandDrawnBorderBox
+        cname_box="py-1 px-4"
+        cname_bg="border-b-2 border-black"
+        style_box={{ backgroundImage: `url(${img.bg_test})`, backgroundRepeat: "repeat" }}
+      >
+        <Flex dim="row" className="justify-between items-center gap-4">
           <Link to={r.toppage} className="flex flex-row gap-2 items-center flex-0">
             {/* <img src={img.logo} className="h-9"></img> */}
             <div className={s.topbar.title + " text-black"}>{t.pages.topbar.title}</div>

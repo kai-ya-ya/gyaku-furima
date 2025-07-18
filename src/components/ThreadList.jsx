@@ -8,7 +8,7 @@ import "draft-js/dist/Draft.css";
 
 import { auth, db, storage } from "@firebaseApp";
 import { UserContext } from "@contexts";
-import { Page, Frame, Loading, Chat } from "@components";
+import { Loading, Chat } from "@components";
 import { t, s, r, img } from "@res";
 import { extractTags, decorateTags, img2url, url2blob, genDateID } from "@utils";
 

@@ -133,24 +133,32 @@ export default function () {
           <>
             <Frame
               tabs={[
-                { id: "0", title: "定義" },
+                { id: "0", title: "証明" },
                 { id: "1", title: "コメント" },
-                { id: "2", title: "他の定義" },
+                { id: "2", title: "他の証明" },
               ]}
             >
               <div id="0">
-                <Flex cname="items-center gap-2">
-                  <div className="flex flex-row gap-1 flex-wrap items-center px-4">
-                    <Formula formula={formula} showHighlight={showHighlight} />
-                  </div>
+                <Flex className="items-center gap-2">
+                  <Flex className={`px-4 min-h-32 justify-center`}>
+                    <Flex dim="row" className={"items-center gap-1 flex-wrap"}>
+                      <Text text={`"${formula.data.itemInfo.desc}"`} />
+                      <Text text={`より、`} />
+                      <Formula formula={formula} showHighlight={showHighlight} />
+                      <Text text={`である。`} />
+                      <Text className="w-full text-right" text={`Q.E.D.`} />
+                    </Flex>
+                  </Flex>
+                  <Flex dim="row" className={"justify-between items-center gap-2"}>
+                    <Text className={s.text.meta} text={`${timeAgo(formula.data.uploadInfo.createdAt)}`} />
+                    <Text className={s.text.meta} text={`by ${formula.data.uploadInfo.userId}`} />
+                  </Flex>
                   <button onClick={() => setShowHighlight(!showHighlight)}>
-                    <Text text={showHighlight ? ">>ハイライトを非表示<<" : ">>ハイライトを表示<<"} />
+                    <Text
+                      className={s.text.meta}
+                      text={showHighlight ? ">>ハイライトを非表示<<" : ">>ハイライトを表示<<"}
+                    />
                   </button>
-                  <Text
-                    cname={s.text.meta}
-                    text={`by ${formula.data.uploadInfo.userId}, ${timeAgo(formula.data.uploadInfo.createdAt)}`}
-                  />
-                  <Text text={formula.data.itemInfo.desc} />
                 </Flex>
               </div>
               <div id="1">aiueo</div>

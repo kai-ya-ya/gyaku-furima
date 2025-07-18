@@ -42,7 +42,10 @@ export default function ({ children, permission }) {
   }, [permission, loading, userData, navigate]);
 
   return (
-    <div className="flex flex-col h-screen overflow-y-scroll items-center font-SanariFontB002 p-2 gap-4">
+    <div
+      className="flex flex-col h-screen overflow-y-scroll items-center font-SanariFontB002 p-2 gap-4"
+      style={{ backgroundImage: `url(${img.bg_test})`, backgroundRepeat: "repeat" }}
+    >
       <TopBar ref={topbarRef} />
       <div className="w-full shrink-0" style={{ height: `${topbarDim.h}px` }} />
       {loading ? <Loading /> : children}
@@ -53,7 +56,13 @@ export default function ({ children, permission }) {
           <feTurbulence type="fractalNoise" baseFrequency="0.03" numOctaves="3" result="noise" />
           <feDisplacementMap in="SourceGraphic" in2="noise" scale="5" xChannelSelector="R" yChannelSelector="G" />
           <feGaussianBlur in="noise" stdDeviation="0.5" result="blurredNoise" />
-          <feDisplacementMap in="SourceGraphic" in2="blurredNoise" scale="3" xChannelSelector="R" yChannelSelector="G" />
+          <feDisplacementMap
+            in="SourceGraphic"
+            in2="blurredNoise"
+            scale="3"
+            xChannelSelector="R"
+            yChannelSelector="G"
+          />
         </filter>
       </svg>
     </div>
