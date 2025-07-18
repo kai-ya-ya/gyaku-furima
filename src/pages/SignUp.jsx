@@ -1,19 +1,12 @@
 // SignUp.jsx
 import { useState } from "react";
 import { createUserWithEmailAndPassword } from "firebase/auth";
-import {
-  collection,
-  query,
-  where,
-  getDocs,
-  setDoc,
-  doc,
-} from "firebase/firestore";
+import { collection, query, where, getDocs, setDoc, doc } from "firebase/firestore";
 import { useNavigate } from "react-router-dom";
 
 import { auth, db, storage } from "@firebaseApp";
-import { UserContext } from "@contexts";
-import { Page, Frame, Loading } from "@components";
+import Page from "@components/Page";
+import Frame from "@components/Frame";
 import { t, s, r, img } from "@res";
 import { timeAgo } from "@utils";
 
@@ -38,11 +31,7 @@ export default function SignUp() {
         if (!snapshot.empty) {
           setMsgErr(t.msg.sign_up.email_exists);
         } else {
-          const userCred = await createUserWithEmailAndPassword(
-            auth,
-            email,
-            password
-          );
+          const userCred = await createUserWithEmailAndPassword(auth, email, password);
           await setDoc(doc(db, "users", userCred.user.uid), {
             uid: userCred.user.uid,
             username: username,
@@ -58,7 +47,7 @@ export default function SignUp() {
 
   return (
     <Page permission="logout_only">
-      <Frame title={t.pages.signup.title}>
+      <Frame tabs={[{ id: "0", title: `${t.pages.signup.title}` }]}>
         <input
           className={s.item.field.input}
           placeholder={t.userdata.username}

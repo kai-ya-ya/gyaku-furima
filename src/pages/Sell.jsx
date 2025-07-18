@@ -4,8 +4,10 @@ import { ref, uploadBytes, getDownloadURL } from "firebase/storage";
 import { useNavigate, useLocation } from "react-router-dom";
 
 import { auth, db, storage } from "@firebaseApp";
-import { UserContext } from "@contexts";
-import { Page, Frame, TextField } from "@components";
+import { UserContext } from "@contexts/UserContext";
+import Page from "@components/Page";
+import Frame from "@components/Frame";
+import TextField from "@components/TextField";
 import { t, s, r, c, img } from "@res";
 import { extractTags, decorateTags, img2url, url2blob } from "@utils";
 
@@ -197,7 +199,7 @@ export default function (props) {
 
   return (
     <Page permission="login_only">
-      <Frame>
+      <Frame >
         <div className="flex flex-row justify-center gap-2 w-full">
           <button className={s.item.title}>{t.pages.sell.title}</button>
           <div className={s.item.title}>|</div>

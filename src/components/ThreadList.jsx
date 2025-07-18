@@ -7,8 +7,7 @@ import { Editor, EditorState } from "draft-js";
 import "draft-js/dist/Draft.css";
 
 import { auth, db, storage } from "@firebaseApp";
-import { UserContext } from "@contexts";
-import { Loading, Chat } from "@components";
+import Chat from "@components/Chat";
 import { t, s, r, img } from "@res";
 import { extractTags, decorateTags, img2url, url2blob, genDateID } from "@utils";
 

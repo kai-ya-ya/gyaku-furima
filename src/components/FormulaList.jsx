@@ -1,8 +1,8 @@
 import React, { useState, useEffect, useContext } from "react";
 import { useNavigate, Link } from "react-router-dom";
 
-import { UserContext } from "@contexts";
-import { Text, Formula, HandDrawnBorderBox } from "@components";
+import Formula from "@components/Formula";
+import HandDrawnBorderBox from "@components/HandDrawnBorderBox";
 import { t, s, r, img } from "@res";
 import { timeAgo } from "@utils";
 

@@ -5,7 +5,7 @@ import { useNavigate, Link, useSearchParams } from "react-router-dom";
 
 import { auth, db, storage } from "@firebaseApp";
 import { t, s, r, img } from "@res";
-import { UserContext } from "@contexts";
+import { UserContext } from "@contexts/UserContext";
 import { extractTags, decorateTags, img2url, url2blob, genDateID } from "@utils";
 
 export default function (props) {

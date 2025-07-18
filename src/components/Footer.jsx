@@ -1,10 +1,5 @@
 //Footer.jsx
 import React, { forwardRef, useState, useEffect, useContext } from "react";
-import { useNavigate, Link } from "react-router-dom";
-
-import { auth, db, storage } from "@firebaseApp";
-import { UserContext } from "@contexts";
-import { TopBar } from "@components";
 import { t, s, r, img } from "@res";
 
 export default function Footer(props) {

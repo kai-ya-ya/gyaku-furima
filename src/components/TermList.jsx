@@ -1,6 +1,8 @@
 import React, { useState, useEffect, useContext } from "react";
 
-import { Term, Flex, Text } from "@components";
+import Term from "@components/Term";
+import Text from "@components/Text";
+import Flex from "@components/Flex";
 import { t, s, r, img } from "@res";
 import { timeAgo } from "@utils";
 

@@ -5,8 +5,9 @@ import { signOut } from "firebase/auth";
 import { useNavigate } from "react-router-dom";
 
 import { auth, db, storage } from "@firebaseApp";
-import { UserContext } from "@contexts";
-import { Page, Frame } from "@components";
+import { UserContext } from "@contexts/UserContext";
+import Page from "@components/Page";
+import Frame from "@components/Frame";
 import { t, s, r, img } from "@res";
 
 export default function Mypage() {
@@ -15,7 +16,7 @@ export default function Mypage() {
 
   const handleLogout = async () => {
     try {
-      navigate(r.toppage)
+      navigate(r.toppage);
       await signOut(auth);
     } catch (logoutError) {
       console.error("ログアウト中にエラーが発生しました:", logoutError);
@@ -24,7 +25,7 @@ export default function Mypage() {
 
   return (
     <Page permission="login_only">
-      <Frame title={t.pages.mypage.title}>
+      <Frame tabs={[{ id: "0", title: t.pages.mypage.title }]}>
         <div className="flex flex-col items-center w-full align-center">
           <div className="w-1/4 aspect-square rounded-full">
             <img src={userData.iconURL} className="rounded-full w-full" />

@@ -1,7 +1,7 @@
 import React, { useState, useRef } from "react";
 
 import { auth, db, storage } from "@firebaseApp";
-import { UserContext } from "@contexts";
+import { UserContext } from "@contexts/UserContext";
 import { t, s, r, img } from "@res";
 import { timeAgo } from "@utils";
 import { Editor, EditorState, ContentState, CompositeDecorator } from "draft-js";

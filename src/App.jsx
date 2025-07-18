@@ -3,7 +3,7 @@ import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
 import "./index.css";
 import "draft-js/dist/Draft.css";
 
-import { UserProvider } from "@contexts";
+import { UserProvider } from "@contexts/UserContext";
 import { MyPage, SignIn, SignUp, TopPage, Sell, TermPage, FormulaPage, Search } from "@pages";
 import { t, s, r, img } from "@res";
 
