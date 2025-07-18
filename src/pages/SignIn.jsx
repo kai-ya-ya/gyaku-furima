@@ -3,8 +3,9 @@ import { signInWithEmailAndPassword } from "firebase/auth";
 import { useNavigate } from "react-router-dom";
 
 import { auth, db, storage } from "@firebaseApp";
-import { UserContext } from "@contexts";
-import { Page, Frame } from "@components";
+import { UserContext } from "@contexts/UserContext";
+import Page from "@components/Page";
+import Frame from "@components/Frame";
 import { t, s, r, img } from "@res";
 import { timeAgo } from "@utils";
 
@@ -25,7 +26,7 @@ export default function SignIn() {
 
   return (
     <Page permission="logout_only">
-      <Frame title={t.pages.signin.title}>
+      <Frame tabs={[{id: "0", title: t.pages.signin.title}]}>
         <input
           type="email"
           className={s.item.field.input}

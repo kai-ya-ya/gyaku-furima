@@ -2,9 +2,10 @@
 import React, { useRef, useState, useEffect, useContext } from "react";
 import { useNavigate, Link } from "react-router-dom";
 
-import { auth, db, storage } from "@firebaseApp";
-import { UserContext } from "@contexts";
-import { TopBar, Footer, Loading } from "@components";
+import Loading from "@components/Loading";
+import Footer from "@components/Footer";
+import TopBar from "@components/TopBar";
+import { UserContext } from "@contexts/UserContext";
 import { t, s, r, img } from "@res";
 
 export default function ({ children, permission }) {

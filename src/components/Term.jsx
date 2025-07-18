@@ -1,7 +1,8 @@
 // Term.jsx
 import React, { useState, useEffect, useContext } from "react";
 import { useNavigate } from "react-router-dom";
-import { HandDrawnBorderBox, Text } from "@components";
+import HandDrawnBorderBox from "@components/HandDrawnBorderBox";
+import Text from "@components/Text";
 import { t, s, r, img } from "@res";
 
 export default function ({ term, showHighlight }) {

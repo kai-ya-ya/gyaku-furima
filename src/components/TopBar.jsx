@@ -2,9 +2,9 @@
 import React, { forwardRef, useState, useEffect, useContext } from "react";
 import { useNavigate, Link } from "react-router-dom";
 
-import { auth, db, storage } from "@firebaseApp";
-import { UserContext } from "@contexts";
-import { HandDrawnBorderBox, Text, Flex } from "@components";
+import { UserContext } from "@contexts/UserContext";
+import HandDrawnBorderBox from "@components/HandDrawnBorderBox";
+import Flex from "@components/Flex";
 import { t, s, r, img } from "@res";
 import { genIcon } from "@utils";
 

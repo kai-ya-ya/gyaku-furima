@@ -3,8 +3,14 @@ import { collection, query, orderBy, limit, getDoc, doc, where, getDocs } from "
 import { useNavigate, Link, useSearchParams } from "react-router-dom";
 
 import { auth, db, storage } from "@firebaseApp";
-import { UserContext } from "@contexts";
-import { Page, Frame, Loading, Term, Swipe, Text, Flex } from "@components";
+import { UserContext } from "@contexts/UserContext";
+import Page from "@components/Page";
+import Frame from "@components/Frame";
+import Loading from "@components/Loading";
+import Term from "@components/Term";
+import Flex from "@components/Flex";
+import Swipe from "@components/Swipe";
+import Text from "@components/Text";
 import { t, s, r, img, operations, terms_test } from "@res";
 import { timeAgo } from "@utils";
 

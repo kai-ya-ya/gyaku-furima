@@ -8,8 +8,9 @@ import { functions } from "@firebaseApp";
 import { httpsCallable } from "firebase/functions";
 
 import { auth, db, storage } from "@firebaseApp";
-import { UserContext } from "@contexts";
-import { Page, Frame, Loading } from "@components";
+import { UserContext } from "@contexts/UserContext";
+import Page from "@components/Page";
+import Frame from "@components/Frame";
 import { t, s, r, img } from "@res";
 import { extractTags, decorateTags, img2url, url2blob } from "@utils";
 

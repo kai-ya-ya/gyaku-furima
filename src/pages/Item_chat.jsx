@@ -7,8 +7,10 @@ import { Editor, EditorState } from "draft-js";
 import "draft-js/dist/Draft.css";
 
 import { auth, db, storage } from "@firebaseApp";
-import { UserContext } from "@contexts";
-import { Page, Frame, Loading, ThreadList } from "@components";
+import { UserContext } from "@contexts/UserContext";
+import Page from "@components/Page";
+import Frame from "@components/Frame";
+import ThreadList from "@components/ThreadList";
 import { t, s, r, img } from "@res";
 import { extractTags, decorateTags, img2url, url2blob, genDateID } from "@utils";
 

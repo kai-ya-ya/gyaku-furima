@@ -4,11 +4,13 @@ import { collection, query, orderBy, limit, getDocs } from "firebase/firestore";
 import { Timestamp } from "firebase/firestore";
 import { useNavigate, Link } from "react-router-dom";
 
-import { auth, db, storage } from "@firebaseApp";
-import { UserContext } from "@contexts";
-import { Page, Frame, TagList, ItemCard, Swipe, TermList, FormulaList } from "@components";
+import { UserContext } from "@contexts/UserContext";
+import Page from "@components/Page";
+import Frame from "@components/Frame";
+import TermList from "@components/TermList";
+import FormulaList from "@components/FormulaList";
+import Swipe from "@components/Swipe";
 import { t, s, r, img, operations, terms_test, formulas_test } from "@res";
-import { timeAgo } from "@utils";
 import { Editor, EditorState, ContentState, CompositeDecorator } from "draft-js";
 
 export default function () {

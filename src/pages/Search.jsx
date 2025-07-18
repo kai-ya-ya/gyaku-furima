@@ -3,8 +3,9 @@ import { collection, query, where, orderBy, limit, getDocs } from "firebase/fire
 import { useSearchParams } from "react-router-dom";
 
 import { auth, db, storage } from "@firebaseApp";
-import { UserContext } from "@contexts";
-import { Page, Frame, Loading, ItemCard } from "@components";
+import { UserContext } from "@contexts/UserContext";
+import Page from "@components/Page";
+import Frame from "@components/Frame";
 import { t, s, r, img } from "@res";
 import { timeAgo } from "@utils";
 
@@ -48,7 +49,7 @@ export default function Search() {
 
   return (
     <Page>
-      <Frame title={`${searchWord}の検索結果`}>
+      <Frame tabs={[{ id: "0", title: `${searchWord}の検索結果` }]}>
         {/* {items.length === 0 ? (
           <p className="text-center text-gray-600">
             {t.pages.toppage.no_items_found}
