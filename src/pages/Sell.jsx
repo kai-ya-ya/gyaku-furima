@@ -8,6 +8,7 @@ import { UserContext } from "@contexts/UserContext";
 import Page from "@components/Page";
 import Frame from "@components/Frame";
 import TextField from "@components/TextField";
+import Text from "@components/Text";
 import { t, s, r, c, img } from "@res";
 import { extractTags, decorateTags, img2url, url2blob } from "@utils";
 
@@ -199,76 +200,78 @@ export default function (props) {
 
   return (
     <Page permission="login_only">
-      <Frame >
-        <div className="flex flex-row justify-center gap-2 w-full">
-          <button className={s.item.title}>{t.pages.sell.title}</button>
-          <div className={s.item.title}>|</div>
-          <button className={s.item.title_gray} onClick={() => navigate(r.sell_ai)}>
-            {t.pages.sell_ai.title}
+      <Frame
+        tabs={[
+          { id: "0", title: "式をつくる" },
+          { id: "1", title: "項をつくる" },
+        ]}
+      >
+        <div id="0">
+          <div className="grid grid-cols-1 sm:grid-cols-2 w-full bg-white p-2 gap-2">
+            <div className="relative flex flex-col items-center gap-2 aspect-square">
+              <div className="w-full">
+                <img src={imgInfo[currentPage]?.dataURL || ""} className="w-full" />
+              </div>
+              <div className="absolute flex flex-row justify-between w-full h-14 gap-4 p-2">
+                <input
+                  id="image-upload"
+                  type="file"
+                  accept="image/*"
+                  onChange={handleImageChange}
+                  ref={fileInputRef}
+                  className={`${
+                    imgInfo[currentPage].isSet ? "invisible" : ""
+                  } text-sm text-gray-500 file:mr-2 file:py-2 file:px-3 file:border-none file:bg-red-400/50 file:text-white hover:file:bg-red-500/50 file:cursor-pointer`}
+                />
+                <button
+                  className={`${
+                    imgInfo[currentPage].isSet ? "" : "invisible"
+                  } text-white bg-red-400/50 aspect-square text-xl hover:bg-red-500/50 h-full flex flex-col justify-center items-center`}
+                  onClick={handleImageClear}
+                >
+                  <div className="">{"✕"}</div>
+                </button>
+              </div>
+            </div>
+            <TextField
+              classname={s.item.field.input_lg + "col-span-2 sm:col-span-1 min-h-64"}
+              text={sellInfo.pages[currentPage]?.desc || ""}
+              onChange={(desc) => handleDescUpdate(desc)}
+              placeholder={t.pages.sell.desc}
+              decorator={decorateTags()}
+            />
+            <input
+              className={s.item.field.input + "col-span-2"}
+              placeholder={t.pages.sell.name}
+              value={sellInfo.title}
+              onChange={(e) => updateSellInfo({ title: e.target.value })}
+            />
+            <div className={s.item.tag.flexbox + "col-span-2"}>
+              {sellInfo.tags?.length > 0 ? (
+                sellInfo.tags.map((tag) => (
+                  <span key={tag} className={s.item.tag.view}>
+                    {tag}
+                  </span>
+                ))
+              ) : (
+                <div className="w-full h-full flex flex-col justify-center items-start col-span-2">
+                  <div className="text-sm text-gray-400 text-center">（タグなし）</div>
+                </div>
+              )}
+            </div>
+          </div>
+          {msgErr && <div className={s.item.field.err}>{msgErr}</div>}
+          <button
+            className={`${s.item.btn.ok} ${uploading ? "opacity-50 cursor-not-allowed" : ""}`}
+            onClick={upload}
+            disabled={uploading}
+          >
+            {uploading ? "アップロードしています" : t.pages.sell.upload}
           </button>
         </div>
-
-        <div className="grid grid-cols-1 sm:grid-cols-2 w-full bg-white p-2 gap-2">
-          <div className="relative flex flex-col items-center gap-2 aspect-square">
-            <div className="w-full">
-              <img src={imgInfo[currentPage]?.dataURL || ""} className="w-full" />
-            </div>
-            <div className="absolute flex flex-row justify-between w-full h-14 gap-4 p-2">
-              <input
-                id="image-upload"
-                type="file"
-                accept="image/*"
-                onChange={handleImageChange}
-                ref={fileInputRef}
-                className={`${
-                  imgInfo[currentPage].isSet ? "invisible" : ""
-                } text-sm text-gray-500 file:mr-2 file:py-2 file:px-3 file:border-none file:bg-red-400/50 file:text-white hover:file:bg-red-500/50 file:cursor-pointer`}
-              />
-              <button
-                className={`${
-                  imgInfo[currentPage].isSet ? "" : "invisible"
-                } text-white bg-red-400/50 aspect-square text-xl hover:bg-red-500/50 h-full flex flex-col justify-center items-center`}
-                onClick={handleImageClear}
-              >
-                <div className="">{"✕"}</div>
-              </button>
-            </div>
-          </div>
-          <TextField
-            classname={s.item.field.input_lg + "col-span-2 sm:col-span-1 min-h-64"}
-            text={sellInfo.pages[currentPage]?.desc || ""}
-            onChange={(desc) => handleDescUpdate(desc)}
-            placeholder={t.pages.sell.desc}
-            decorator={decorateTags()}
-          />
-          <input
-            className={s.item.field.input + "col-span-2"}
-            placeholder={t.pages.sell.name}
-            value={sellInfo.title}
-            onChange={(e) => updateSellInfo({ title: e.target.value })}
-          />
-          <div className={s.item.tag.flexbox + "col-span-2"}>
-            {sellInfo.tags?.length > 0 ? (
-              sellInfo.tags.map((tag) => (
-                <span key={tag} className={s.item.tag.view}>
-                  {tag}
-                </span>
-              ))
-            ) : (
-              <div className="w-full h-full flex flex-col justify-center items-start col-span-2">
-                <div className="text-sm text-gray-400 text-center">（タグなし）</div>
-              </div>
-            )}
-          </div>
+        <div id="1">
+          <Text className="text-center" text="test" />
         </div>
-        {msgErr && <div className={s.item.field.err}>{msgErr}</div>}
-        <button
-          className={`${s.item.btn.ok} ${uploading ? "opacity-50 cursor-not-allowed" : ""}`}
-          onClick={upload}
-          disabled={uploading}
-        >
-          {uploading ? "アップロードしています" : t.pages.sell.upload}
-        </button>
       </Frame>
     </Page>
   );

@@ -14,6 +14,10 @@
     ],
     "rewrites": [
       {
+        "source": "/og/**",
+        "function": "og"
+      },      
+      {
         "source": "**",
         "destination": "/index.html"
       }

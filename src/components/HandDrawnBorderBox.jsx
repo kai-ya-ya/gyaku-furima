@@ -6,7 +6,7 @@ export default function ({ children, cname_box = "", cname_bg = "", style_bg = {
     <>
       <div className={`relative ${cname_box}`} style={{ ...style_box }}>
         <div className={`absolute inset-0 ${cname_bg}`} style={{ filter: "url(#handDrawnNoise)", ...style_bg }}></div>
-        <div className={`relative z-10 bg-transparent`}>{children}</div>
+        <div className={`relative z-0 bg-transparent`}>{children}</div>
       </div>
     </>
   );

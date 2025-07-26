@@ -14,4 +14,5 @@ export default {
     banner_02: require("./banner_02.png"),
     banner_03: require("./banner_03.png"),
     bg_test: require("./Picture6.png"),
+    thumb_test: require("./Picture7.png"),
 }

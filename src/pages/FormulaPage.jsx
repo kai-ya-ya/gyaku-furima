@@ -11,6 +11,7 @@ import Formula from "@components/Formula";
 import Flex from "@components/Flex";
 import Swipe from "@components/Swipe";
 import Text from "@components/Text";
+import { Helmet } from "react-helmet";
 import { t, s, r, img, operations, formulas_test, terms_test } from "@res";
 import { timeAgo } from "@utils";
 
@@ -126,6 +127,13 @@ export default function () {
 
   return (
     <Page>
+      {/* <Helmet>
+        <title>定義ページ | MyApp</title>
+        <meta name="twitter:card" content="summary_large_image" />
+        <meta name="twitter:title" content="定義のタイトル" />
+        <meta name="twitter:description" content="この定義は…" />
+        <meta name="twitter:image" content={`https://dummyimage.com/600x400/000/fff&text=test`} />
+      </Helmet> */}
       {itemsError ? (
         <Frame tabs={[]}>
           <Text cname={"text-center"} text={`${itemsError}`} />

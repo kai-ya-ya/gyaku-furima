@@ -212,7 +212,7 @@ const formulas_test = [
       },
       formulaInfo: [
         terms_test[3],
-        operations[0],
+        operations[2],
         operations[5],
         terms_test[4],
         operations[0],

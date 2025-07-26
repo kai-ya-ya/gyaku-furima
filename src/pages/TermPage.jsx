@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useContext } from "react";
+import React, { useState, useEffect, useContext, useRef } from "react";
 import { collection, query, orderBy, limit, getDoc, doc, where, getDocs } from "firebase/firestore";
 import { useNavigate, Link, useSearchParams } from "react-router-dom";
 
@@ -11,6 +11,8 @@ import Term from "@components/Term";
 import Flex from "@components/Flex";
 import Swipe from "@components/Swipe";
 import Text from "@components/Text";
+import Share from "@components/Share";
+import HandDrawnBorderBox from "@components/HandDrawnBorderBox";
 import { t, s, r, img, operations, terms_test } from "@res";
 import { timeAgo } from "@utils";
 
@@ -24,6 +26,8 @@ export default function () {
   const navigate = useNavigate();
   const [items, setItems] = useState(null);
   const [showHighlight, setShowHighlight] = useState(true);
+  const ref = useRef(null);
+  const [imgUrl, setImgUrl] = useState(null);
 
   useEffect(() => {
     setItemsLoading(false);
@@ -149,7 +153,7 @@ export default function () {
                   {/* <Flex className="h-32 gap-1 flex-wrap justify-center items-center px-4">
                     <Term term={term} showHighlight={showHighlight} />
                   </Flex> */}
-                  <Flex className={`px-4 min-h-32 justify-center`}>
+                  <Flex ref={ref} className={`px-4 min-h-32 justify-center`}>
                     <Flex dim="row" className={"items-center gap-1 flex-wrap"}>
                       <Text text={`"${term.data.itemInfo.desc}"`} />
                       <Text text={`という`} />
@@ -162,6 +166,7 @@ export default function () {
                   <Flex dim="row" className={"justify-between items-center gap-2"}>
                     <Text className={s.text.meta} text={`${timeAgo(term.data.uploadInfo.createdAt)}`} />
                     <Text className={s.text.meta} text={`by ${term.data.uploadInfo.userId}`} />
+                    <Share ref={ref} setImgUrl={setImgUrl} />
                   </Flex>
                   <button onClick={() => setShowHighlight(!showHighlight)}>
                     <Text
@@ -184,6 +189,32 @@ export default function () {
         <Frame>
           <Loading />
         </Frame>
+      )}
+      {imgUrl && (
+        <div
+          className="w-full h-full fixed top-0 left-0 bg-gray-500/50 flex flex-col justify-center z-10 p-4"
+          style={{ backgroundImage: `url(${img.bg_test})`, backgroundRepeat: "repeat" }}
+        >
+          <Flex className="gap-2 p-2">
+            <HandDrawnBorderBox cname_box={`w-full`} cname_bg={`border-black border-2 rounded-lg`}>
+              <div id="0" className="rounded-xl">
+                <img src={imgUrl}></img>
+              </div>
+              <Flex dim="row" className="gap-2 p-2 justify-center">
+                <HandDrawnBorderBox cname_box={``} cname_bg={`border-black border-b-2`}>
+                  <button>
+                    <Text text="共有する" className="text-center"></Text>
+                  </button>
+                </HandDrawnBorderBox>
+                <HandDrawnBorderBox cname_box={``} cname_bg={`border-black border-b-2`}>
+                  <button onClick={() => setImgUrl(null)}>
+                    <Text text="やめる" className="text-center"></Text>
+                  </button>
+                </HandDrawnBorderBox>
+              </Flex>
+            </HandDrawnBorderBox>
+          </Flex>
+        </div>
       )}
     </Page>
   );
