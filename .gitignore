@@ -29,3 +29,5 @@ firebase-debug.log
 firebase-adminsdk.json
 
 .env
+.firebase/*.cache
+.firebase/hosting.YnVpbGQ.cache
