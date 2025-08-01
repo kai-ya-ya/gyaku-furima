@@ -32,18 +32,21 @@ var __importStar = (this && this.__importStar) || (function () {
         return result;
     };
 })();
+var __importDefault = (this && this.__importDefault) || function (mod) {
+    return (mod && mod.__esModule) ? mod : { "default": mod };
+};
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.og = void 0;
 const functions = __importStar(require("firebase-functions"));
 const admin = __importStar(require("firebase-admin"));
-const express = __importStar(require("express"));
-const cors = __importStar(require("cors"));
+const express_1 = __importDefault(require("express"));
+const cors_1 = __importDefault(require("cors"));
 admin.initializeApp();
 const db = admin.firestore();
-const app = express();
-app.use(cors({ origin: true }));
+const app = (0, express_1.default)();
+app.use((0, cors_1.default)({ origin: true }));
+// /og/:id に対応
 app.get("*", async (req, res) => {
-    var _a, _b, _c, _d;
     const pathParts = req.path.split("/");
     const termId = pathParts[pathParts.length - 1];
     if (!termId) {
@@ -51,6 +54,7 @@ app.get("*", async (req, res) => {
         return;
     }
     try {
+        // Firestoreからデータ取得
         const docRef = db.collection("items").doc(termId);
         const docSnap = await docRef.get();
         if (!docSnap.exists) {
@@ -58,19 +62,20 @@ app.get("*", async (req, res) => {
             return;
         }
         const data = docSnap.data();
-        const title = (_b = (_a = data.itemInfo) === null || _a === void 0 ? void 0 : _a.desc) !== null && _b !== void 0 ? _b : "定義";
-        const typeName = (_d = (_c = data.itemInfo) === null || _c === void 0 ? void 0 : _c.type) !== null && _d !== void 0 ? _d : "";
-        const imageUrl = `https://gyaku-furima.web.app/images/og/${termId}.png`;
+        const title = encodeURIComponent(data.itemInfo.desc);
+        const typeName = data.itemInfo.type;
+        // ✅ ダミー画像URL
+        const imageUrl = `https://dummyimage.com/640x640/000/fff&text=${title}`;
         const html = `
 <!DOCTYPE html>
 <html lang="ja">
 <head>
   <meta charset="UTF-8">
   <meta name="twitter:card" content="summary_large_image">
-  <meta name="twitter:title" content="${title}">
+  <meta name="twitter:title" content="${data.itemInfo.desc}">
   <meta name="twitter:description" content="これは ${typeName} の定義です">
   <meta name="twitter:image" content="${imageUrl}">
-  <meta http-equiv="refresh" content="0; url=https://gyaku-furima.web.app/term?id=${termId}" />
+  <meta http-equiv="refresh" content="0; url=https://your-domain.com/term?id=${termId}" />
 </head>
 <body>
   <p>Redirecting...</p>

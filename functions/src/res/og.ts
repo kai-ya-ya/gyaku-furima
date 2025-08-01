@@ -1,7 +1,7 @@
 import * as functions from "firebase-functions";
 import * as admin from "firebase-admin";
-import * as express from "express";
-import * as cors from "cors";
+import express from "express";
+import cors from "cors";
 
 admin.initializeApp();
 const db = admin.firestore();
@@ -9,6 +9,7 @@ const db = admin.firestore();
 const app = express();
 app.use(cors({ origin: true }));
 
+// /og/:id に対応
 app.get("*", async (req: express.Request, res: express.Response) => {
   const pathParts = req.path.split("/");
   const termId = pathParts[pathParts.length - 1];
@@ -19,6 +20,7 @@ app.get("*", async (req: express.Request, res: express.Response) => {
   }
 
   try {
+    // Firestoreからデータ取得
     const docRef = db.collection("items").doc(termId);
     const docSnap = await docRef.get();
 
@@ -27,16 +29,23 @@ app.get("*", async (req: express.Request, res: express.Response) => {
       return;
     }
 
-    const data = docSnap.data() as {
-      itemInfo?: {
-        desc?: string;
-        type?: string;
+    type Term = {
+      itemInfo: {
+        desc: string;
+        type: string;
+      };
+      uploadInfo: {
+        userId: string;
+        createdAt: string;
       };
     };
 
-    const title = data.itemInfo?.desc ?? "定義";
-    const typeName = data.itemInfo?.type ?? "";
-    const imageUrl = `https://gyaku-furima.web.app/images/og/${termId}.png`;
+    const data = docSnap.data() as Term;
+    const title = encodeURIComponent(data.itemInfo.desc);
+    const typeName = data.itemInfo.type;
+
+    // ✅ ダミー画像URL
+    const imageUrl = `https://dummyimage.com/640x640/000/fff&text=${title}`;
 
     const html = `
 <!DOCTYPE html>
@@ -44,10 +53,10 @@ app.get("*", async (req: express.Request, res: express.Response) => {
 <head>
   <meta charset="UTF-8">
   <meta name="twitter:card" content="summary_large_image">
-  <meta name="twitter:title" content="${title}">
+  <meta name="twitter:title" content="${data.itemInfo.desc}">
   <meta name="twitter:description" content="これは ${typeName} の定義です">
   <meta name="twitter:image" content="${imageUrl}">
-  <meta http-equiv="refresh" content="0; url=https://gyaku-furima.web.app/term?id=${termId}" />
+  <meta http-equiv="refresh" content="0; url=https://your-domain.com/term?id=${termId}" />
 </head>
 <body>
   <p>Redirecting...</p>

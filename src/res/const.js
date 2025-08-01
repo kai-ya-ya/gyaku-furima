@@ -79,6 +79,28 @@ const operations = [
     },
   },
 ];
+const variables = [
+  {
+    category: "variable",
+    id: "0",
+    data: {
+      itemInfo: {
+        name: "x",
+        desc: "変数です",
+      },
+    },
+  },
+  {
+    category: "variable",
+    id: "1",
+    data: {
+      itemInfo: {
+        name: "y",
+        desc: "変数です",
+      },
+    },
+  },
+]
 const terms_test = [
   {
     category: "term",
@@ -192,6 +214,7 @@ const formulas_test = [
     id: "0",
     data: {
       itemInfo: {
+        type: "equality",
         name: "次世代掃除機",
         desc: "コードレスを実現しつつ吸引力持続ほしい",
       },
@@ -207,6 +230,7 @@ const formulas_test = [
     id: "1",
     data: {
       itemInfo: {
+        type: "equality",
         name: "次世代掃除機",
         desc: "サイクロン技術と小型高出力モーターで実現します",
       },
@@ -218,6 +242,28 @@ const formulas_test = [
         operations[0],
         terms_test[5],
         operations[6],
+        operations[4],
+        terms_test[6],
+      ],
+      uploadInfo: {
+        userId: "h",
+        createdAt: Timestamp.fromDate(new Date("2025-07-17T14:00:00Z")),
+      },
+    },
+  },
+  {
+    category: "fomula",
+    id: "2",
+    data: {
+      itemInfo: {
+        type: "equation",
+        name: "次世代掃除機",
+        desc: "何か足りない",
+      },
+      formulaInfo: [
+        terms_test[3],
+        operations[2],
+        variables[0],
         operations[4],
         terms_test[6],
       ],

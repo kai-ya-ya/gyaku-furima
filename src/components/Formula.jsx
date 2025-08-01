@@ -4,6 +4,7 @@ import { UserContext } from "@contexts/UserContext";
 import Text from "@components/Text";
 import Term from "@components/Term";
 import { t, s, r, img } from "@res";
+import Variables from "@components/Variables";
 
 export default function ({ formula, showHighlight }) {
   const formulaInfo = formula?.data.formulaInfo;
@@ -18,6 +19,8 @@ export default function ({ formula, showHighlight }) {
 
           return item.category == "term" ? (
             <Term key={key} term={item} showHighlight={showHighlight} />
+          ) : item.category == "variable" ? (
+            <Variables key={key} term={item} showHighlight={showHighlight} />
           ) : item.category == "operation" ? (
             <div key={key}>
               <Text className={`text-2xl truncate`} text={item.data.itemInfo.name} />
