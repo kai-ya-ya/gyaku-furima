@@ -100,7 +100,7 @@ export default {
       bg: "bg-yellow-300",
       border: "border-yellow-300",
     },
-    problem: {
+    challenge: {
       bg: "bg-purple-300",
       border: "border-purple-300",
     },

@@ -4,13 +4,16 @@ import React, { useState, useEffect, useContext } from "react";
 import Text from "@components/Text";
 import { t, s, r, img } from "@res";
 
-export default function ({ children, tabs = [], cname_body = "", cname_children = "" }) {
+export default function ({ children, tabs = [], cname_body = "", cname_children = "", initTabId }) {
   const getTab = (tabId) => {
     return React.Children.toArray(children).filter((child) => {
       return React.isValidElement(child) && child.props && child.props.id === tabId;
     });
   };
-  const [activeTabId, setActiveTabId] = useState(tabs.length > 0 ? tabs[0].id : children);
+  const [activeTabId, setActiveTabId] = useState(initTabId || (tabs.length > 0 ? tabs[0].id : children));
+  useEffect(() => {
+    if (initTabId) setActiveTabId(initTabId);
+  }, [initTabId]);
 
   return (
     <div className={`flex flex-col gap-0 items-center h-full ${cname_body}`}>

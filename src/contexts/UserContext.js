@@ -1,6 +1,6 @@
 // contexts/UserContext.js
 import React, { createContext, useContext } from 'react';
-import { useUserData } from '../hooks/useUserData'; // 作成したカスタムフック
+import { useUserData } from '../hooks/useUserData';
 
 export const UserContext = createContext(null);
 

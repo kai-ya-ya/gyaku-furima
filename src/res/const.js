@@ -5,123 +5,6 @@ export default {
   thumb_def_size: 640,
   thumb_def_type: "image/jpeg",
   thumb_def_quality: 0.8,
-  concepts: [
-    {
-      id: 0,
-      type: "domain",
-      name: "睡眠と目覚め",
-      desc: "個人の睡眠習慣と快適な目覚めを支援する領域",
-    },
-    {
-      id: 1,
-      type: "needs",
-      name: "早起きするのが辛い",
-      desc: "目覚めが悪く、日中の活動に支障をきたす",
-    },
-    {
-      id: 2,
-      type: "needs",
-      name: "二度寝をしてしまう",
-      desc: "アラームを止めても再度寝てしまい、遅刻につながる",
-    },
-    {
-      id: 3,
-      type: "persona",
-      name: "多忙なビジネスパーソン",
-      desc: "日中は仕事で忙しく、朝の時間を有効活用したいと考えているが、目覚めが悪く困っている",
-    },
-    {
-      id: 4,
-      type: "context",
-      name: "平日の朝",
-      desc: "出勤前で、限られた時間で準備をしなければならない状況",
-    },
-    {
-      id: 5,
-      type: "context",
-      name: "寝室",
-      desc: "スマートフォンが手元にある環境で、快適な目覚めを求めている",
-    },
-    {
-      id: 6,
-      type: "seeds",
-      name: "スマホアプリ開発",
-      desc: "スマートフォンを活用したソフトウェアの開発技術",
-    },
-    {
-      id: 7,
-      type: "seeds",
-      name: "生体センサー技術",
-      desc: "心拍数や動きなどの生体情報を取得する技術",
-    },
-    {
-      id: 8,
-      type: "idea",
-      name: "スマート睡眠サイクル目覚ましアプリ",
-      desc: "ユーザーの睡眠サイクルを検知し、最適なタイミングでアラームを鳴らすスマートフォンアプリ",
-    },
-    {
-      id: 9,
-      type: "use_case",
-      name: "快適な目覚めを体験する",
-      desc: "ユーザーが設定した起床時間範囲内で、眠りの浅いレム睡眠時にアラームが鳴り、快適に目覚める",
-    },
-    {
-      id: 10,
-      type: "use_case",
-      name: "睡眠状態を可視化する",
-      desc: "アプリが記録した睡眠データをグラフで確認し、自身の睡眠の質を把握する",
-    },
-    {
-      id: 11,
-      type: "scenario",
-      name: "朝の快適な目覚め",
-      desc: "ユーザーは就寝前にアプリでアラームを設定する。アプリは睡眠サイクルをモニターし、設定時間の20分前から最も目覚めやすいタイミングで穏やかなアラームを鳴らす。ユーザーは自然に目を覚まし、スッキリとした気分で一日を始めることができる。",
-    },
-    {
-      id: 12,
-      type: "function",
-      name: "睡眠サイクル検知機能",
-      desc: "スマートフォンの加速度センサーなどを利用してユーザーの体動を検出し、睡眠段階を推定する",
-    },
-    {
-      id: 13,
-      type: "function",
-      name: "スマートアラーム機能",
-      desc: "眠りの浅い段階で段階的に音量を上げる、または光を点灯させるなど、穏やかな方法でユーザーを目覚めさせる",
-    },
-    {
-      id: 14,
-      type: "function",
-      name: "睡眠データ記録・表示機能",
-      desc: "毎日の睡眠時間、睡眠サイクル、目覚めの質などを記録し、グラフや統計で表示する",
-    },
-    {
-      id: 15,
-      type: "product",
-      name: "スッキリめざまし",
-      desc: "快適な目覚めと質の高い睡眠体験を提供するスマートフォンアプリ",
-    },
-    {
-      id: 16,
-      type: "customer_journey",
-      name: "スッキリめざまし導入と定着の旅",
-      desc: "ユーザーが朝の目覚めに関する課題を感じ、アプリストアで「目覚まし」と検索。スッキリめざましを発見し、評価を確認後ダウンロード。初日は効果を半信半疑で使うが、翌朝の快適な目覚めに感動。その後、毎日利用する中で睡眠データを確認し、自身の睡眠習慣を改善していく。",
-    },
-  ],
-  type_desc: {
-    domain: "プロダクトが存在する特定の知識分野や活動領域。",
-    needs: "ユーザーが抱える課題や満たされていない欲求。",
-    persona: "ターゲット顧客層を具体化した仮想ユーザー像。",
-    context: "ユーザーがプロダクトを利用する際の具体的な状況や背景。",
-    seeds: "企業が持つ独自の技術、ノウハウ、リソースなど。",
-    idea: "ニーズとシーズ、ペルソナ、コンテキストが結合して生まれる解決策の着想。",
-    use_case: "プロダクトを通じてユーザーが達成したい具体的な目的や機能。",
-    scenario: "特定のユースケースが、特定の状況下で時系列にどのように進行するかを記述したもの。",
-    function: "プロダクトが提供する具体的な能力や動作。",
-    product: "ニーズを解決し、ユースケースやシナリオを実現するための具体的な成果物。",
-    customer_journey: "顧客がプロダクトやサービスと接するライフサイクル全体をマッピングしたもの。",
-  },
   testData: [
     {
       id: "needs_0",
@@ -264,37 +147,37 @@ export default {
       star: 2,
     },
     {
-      id: "problem_0",
+      id: "challenge_0",
       title: "農夫エルムは夜間の畑のスライムに悩んでいる",
-      type: "problem",
+      type: "challenge",
       desc: "夜間に活動するスライムによって畑の作物が荒らされ、エルムは毎晩見回りを強いられている。",
       star: 1,
     },
     {
-      id: "problem_1",
+      id: "challenge_1",
       title: "物理攻撃が効かないスライムの排除が困難",
-      type: "problem",
+      type: "challenge",
       desc: "剣や槍といった一般的な武器が通じないため、スライムを効率的に倒す方法がない。",
       star: 1,
     },
     {
-      id: "problem_2",
+      id: "challenge_2",
       title: "スライムの体液が環境を破壊する",
-      type: "problem",
+      type: "challenge",
       desc: "スライムを倒すと土壌が汚染され、畑が使えなくなるという新たな問題が発生する。",
       star: 2,
     },
     {
-      id: "problem_3",
+      id: "challenge_3",
       title: "スライムの発生源が不明",
-      type: "problem",
+      type: "challenge",
       desc: "どこからスライムが現れるのか、なぜ個体数が増えたのかが分からず、根本的な解決策が立てられない。",
       star: 2,
     },
     {
-      id: "problem_4",
+      id: "challenge_4",
       title: "村全体で統一された対策がない",
-      type: "problem",
+      type: "challenge",
       desc: "各農夫がバラバラに対処しているため、村全体のスライム問題を解決できていない。",
       star: 3,
     },
@@ -334,6 +217,26 @@ export default {
       star: 2,
     },
   ],
+  menu: {
+    ITEM: "item",
+    ENCHANT: "enchant",
+    MESSAGE_LOG: "message_log",
+    OPTION: "option",
+  },
+  types: {
+    NEEDS: "needs",
+    SEEDS: "seeds",
+    PERSONA: "persona",
+    CONTEXT: "context",
+    CHALLENGE: "challenge",
+    IDEA: "idea",
+  },
+  actions: {
+    SELECT_ITEM: "",
+    UNSELECT_ITEM: "",
+    ADD_MESSAGE: "",
+    MERGE: "",
+  },
   fragments: {
     needs: {
       name: "ニーズ",
@@ -351,8 +254,8 @@ export default {
       name: "コンテクスト",
       desc: "ユーザーの具体的な状況や背景",
     },
-    problem: {
-      name: "プロブレム",
+    challenge: {
+      name: "チャレンジ",
       desc: "ニーズとシーズ、ペルソナ、コンテキストが結合して生まれる解決すべき問題",
     },
     idea: {
@@ -361,266 +264,3 @@ export default {
     },
   }
 };
-const operations = [
-  {
-    category: "operation",
-    id: "0",
-    data: {
-      itemInfo: {
-        name: "+",
-        desc: "足します",
-      },
-    },
-  },
-  {
-    category: "operation",
-    id: "1",
-    data: {
-      itemInfo: {
-        name: "-",
-        desc: "引きます",
-      },
-    },
-  },
-  {
-    category: "operation",
-    id: "2",
-    data: {
-      itemInfo: {
-        name: "×",
-        desc: "掛けます",
-      },
-    },
-  },
-  {
-    category: "operation",
-    id: "3",
-    data: {
-      itemInfo: {
-        name: "÷",
-        desc: "割ります",
-      },
-    },
-  },
-  {
-    category: "operation",
-    id: "4",
-    data: {
-      itemInfo: {
-        name: "=",
-        desc: "等しくなります",
-      },
-    },
-  },
-  {
-    category: "operation",
-    id: "5",
-    data: {
-      itemInfo: {
-        name: "(",
-        desc: "左側です",
-      },
-    },
-  },
-  {
-    category: "operation",
-    id: "6",
-    data: {
-      itemInfo: {
-        name: ")",
-        desc: "右側です",
-      },
-    },
-  },
-];
-const variables = [
-  {
-    category: "variable",
-    id: "0",
-    data: {
-      itemInfo: {
-        name: "x",
-        desc: "変数です",
-      },
-    },
-  },
-  {
-    category: "variable",
-    id: "1",
-    data: {
-      itemInfo: {
-        name: "y",
-        desc: "変数です",
-      },
-    },
-  },
-];
-const terms_test = [
-  {
-    category: "term",
-    id: "0",
-    data: {
-      itemInfo: {
-        type: "pains",
-        name: "掃除中吸引力がすぐに落ちる",
-        desc: "掃除機を使ってて、ゴミがたまるにつれて吸引力が落ちるのが嫌",
-      },
-      uploadInfo: {
-        userId: "てすと",
-        createdAt: Timestamp.fromDate(new Date("2025-07-16T10:00:00Z")),
-      },
-    },
-  },
-  {
-    category: "term",
-    id: "1",
-    data: {
-      itemInfo: {
-        type: "pains",
-        name: "掃除機のコードに引っかかる",
-        desc: "ちょっと方向変えるだけで掃除機のコードに引っかかるのどうにかしてほしい",
-      },
-      uploadInfo: {
-        userId: "b",
-        createdAt: Timestamp.fromDate(new Date("2025-07-14T10:00:00Z")),
-      },
-    },
-  },
-  {
-    category: "term",
-    id: "2",
-    data: {
-      itemInfo: {
-        type: "needs",
-        name: "掃除をストレスなくやりたい",
-        desc: "部屋はきれいになっても心はストレスであふれそうです",
-      },
-      uploadInfo: {
-        userId: "c",
-        createdAt: Timestamp.fromDate(new Date("2025-07-12T10:00:00Z")),
-      },
-    },
-  },
-  {
-    category: "term",
-    id: "3",
-    data: {
-      itemInfo: {
-        type: "wants",
-        name: "吸引力が持続するコードレス掃除機が欲しい",
-        desc: "あるといいですよね",
-      },
-      uploadInfo: {
-        userId: "d",
-        createdAt: Timestamp.fromDate(new Date("2025-07-17T04:00:00Z")),
-      },
-    },
-  },
-  {
-    category: "term",
-    id: "4",
-    data: {
-      itemInfo: {
-        type: "seeds",
-        name: "サイクロン技術",
-        desc: "遠心力を利用してゴミと空気を分離する仕組みです",
-      },
-      uploadInfo: {
-        userId: "e",
-        createdAt: Timestamp.fromDate(new Date("2025-07-12T02:00:00Z")),
-      },
-    },
-  },
-  {
-    category: "term",
-    id: "5",
-    data: {
-      itemInfo: {
-        type: "seeds",
-        name: "小型高出力モーター",
-        desc: "ちっちゃいけどパワフルなモーターです",
-      },
-      uploadInfo: {
-        userId: "f",
-        createdAt: Timestamp.fromDate(new Date("2025-07-13T10:00:00Z")),
-      },
-    },
-  },
-  {
-    category: "term",
-    id: "6",
-    data: {
-      itemInfo: {
-        type: "ideas",
-        name: "コードレスクリーナー",
-        desc: "サイクロン技術と小型モーター技術を用いた次世代の掃除機です。コードレスを実現しつつパワフルで持続する吸引力を提供します。",
-      },
-      uploadInfo: {
-        userId: "g",
-        createdAt: Timestamp.fromDate(new Date("2025-07-17T11:00:00Z")),
-      },
-    },
-  },
-];
-const formulas_test = [
-  {
-    category: "fomula",
-    id: "0",
-    data: {
-      itemInfo: {
-        type: "equality",
-        name: "次世代掃除機",
-        desc: "コードレスを実現しつつ吸引力持続ほしい",
-      },
-      formulaInfo: [terms_test[0], operations[0], terms_test[1], operations[4], terms_test[3]],
-      uploadInfo: {
-        userId: "h",
-        createdAt: Timestamp.fromDate(new Date("2025-07-17T13:00:00Z")),
-      },
-    },
-  },
-  {
-    category: "fomula",
-    id: "1",
-    data: {
-      itemInfo: {
-        type: "equality",
-        name: "次世代掃除機",
-        desc: "サイクロン技術と小型高出力モーターで実現します",
-      },
-      formulaInfo: [
-        terms_test[3],
-        operations[2],
-        operations[5],
-        terms_test[4],
-        operations[0],
-        terms_test[5],
-        operations[6],
-        operations[4],
-        terms_test[6],
-      ],
-      uploadInfo: {
-        userId: "h",
-        createdAt: Timestamp.fromDate(new Date("2025-07-17T14:00:00Z")),
-      },
-    },
-  },
-  {
-    category: "fomula",
-    id: "2",
-    data: {
-      itemInfo: {
-        type: "equation",
-        name: "次世代掃除機",
-        desc: "何か足りない",
-      },
-      formulaInfo: [terms_test[3], operations[2], variables[0], operations[4], terms_test[6]],
-      uploadInfo: {
-        userId: "h",
-        createdAt: Timestamp.fromDate(new Date("2025-07-17T14:00:00Z")),
-      },
-    },
-  },
-];
-
-export { operations, terms_test, formulas_test };
