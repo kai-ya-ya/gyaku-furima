@@ -2,7 +2,6 @@ import React, { useState, useEffect, useContext } from "react";
 import { useNavigate, Link } from "react-router-dom";
 
 import Formula from "@components/Formula";
-import HandDrawnBorderBox from "@components/HandDrawnBorderBox";
 import { t, s, r, img } from "@res";
 import { timeAgo } from "@utils";
 
@@ -37,7 +36,7 @@ export default function ({ formulas }) {
                     <div className={s.text.meta}>{timeAgo(formula.data.uploadInfo.createdAt)}</div>
                   </div>
                 </div>
-                {i < formulas.length - 1 && <HandDrawnBorderBox cname_bg={"border-black border-b-2 mx-4"} />}
+                {i < formulas.length - 1 && <div className={"border-black border-b-2 mx-4"}></div>}
               </>
             );
           })}

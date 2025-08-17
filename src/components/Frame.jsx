@@ -1,11 +1,10 @@
 // Frame.jsx
 import React, { useState, useEffect, useContext } from "react";
 
-import HandDrawnBorderBox from "@components/HandDrawnBorderBox";
 import Text from "@components/Text";
 import { t, s, r, img } from "@res";
 
-export default function ({ children, tabs = [] }) {
+export default function ({ children, tabs = [], cname_body = "", cname_children = "" }) {
   const getTab = (tabId) => {
     return React.Children.toArray(children).filter((child) => {
       return React.isValidElement(child) && child.props && child.props.id === tabId;
@@ -14,23 +13,28 @@ export default function ({ children, tabs = [] }) {
   const [activeTabId, setActiveTabId] = useState(tabs.length > 0 ? tabs[0].id : children);
 
   return (
-    <div className="flex flex-col gap-0 items-center w-full">
-      <div className="flex flex-row justify-start gap-0 w-full">
-        {tabs.map((tab, i) => (
-          <HandDrawnBorderBox
-            key={i}
-            cname_box={`w-full`}
-            cname_bg={`border-black border-2 rounded-t-lg ${i < tabs.length - 1 && "border-r-0"} ${activeTabId === tab.id && "border-b-0"}`}
-          >
-            <button className="w-full" onClick={tab.id && (() => setActiveTabId(tab.id))}>
-              <Text className="text-center py-1" text={activeTabId === tab.id ? `>>${tab.title}<<` : tab.title} />
-            </button>
-          </HandDrawnBorderBox>
-        ))}
+    <div className={`flex flex-col gap-0 items-center h-full ${cname_body}`}>
+      <div className="w-full">
+        <div className="flex flex-row justify-start gap-0 overflow-x-scroll">
+          {tabs.map((tab, i) => (
+            <div
+              key={i}
+              className={`w-full bg-white border-black border-2 rounded-t-xl ${i < tabs.length - 1 && "border-r-0"} ${
+                activeTabId === tab.id && "border-b-0"
+              }`}
+            >
+              <button className="w-full" onClick={tab.id && (() => setActiveTabId(tab.id))}>
+                <Text className="text-center px-2 py-1 truncate" text={tab.title} />
+              </button>
+            </div>
+          ))}
+        </div>
       </div>
-      <HandDrawnBorderBox cname_box={`w-full p-2`} cname_bg={`border-black border-2 border-t-0 rounded-b-lg`}>
+      <div
+        className={`w-full bg-white p-2 border-black border-2 border-t-0 rounded-b-xl flex-grow overflow-scroll ${cname_children}`}
+      >
         {getTab(activeTabId) || children}
-      </HandDrawnBorderBox>
+      </div>
     </div>
   );
 }

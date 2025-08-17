@@ -11,5 +11,6 @@ export default {
     item_comment: `/item_comment`,
     term: `/term`,
     formula: `/formula`,
-
+    sandbox: `/sandbox`,
+    gametest: `/gametest`
 }

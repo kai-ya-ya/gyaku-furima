@@ -4,7 +4,7 @@ import { t, s, r, img } from "@res";
 
 export default function Footer(props) {
   return (
-    <div className="w-full h-10 flex flex-col justify-center items-center shrink-0">
+    <div className="w-full h-10 flex flex-col justify-center items-center flex-shrink-0 shrink-0">
         <div className="text-center text-sm text-gray-500">逆フリマ@Geiot2025</div>
     </div>
   );

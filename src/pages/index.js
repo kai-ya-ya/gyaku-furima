@@ -9,3 +9,5 @@ export { default as TopPage } from './TopPage';
 export { default as Item_chat } from './Item_chat';
 export { default as TermPage } from './TermPage';
 export { default as FormulaPage } from './FormulaPage';
+export { default as Sandbox } from './Sandbox';
+export { default as GameTest } from './GameTest';

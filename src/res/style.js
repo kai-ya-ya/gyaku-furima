@@ -30,7 +30,7 @@ export default {
       view: `bg-white text-black px-3 py-1 rounded-full truncate `,
       flexbox: `flex flex-row flex-none gap-2 flex-wrap overflow-x-scroll items-start `,
       xs: {
-        view: `text-xs bg-white text-black px-2 py-0.5 rounded-full truncate mx-0.5`,
+        view: `text-xs bg-white text-black px-2 py-0.5 rounded-full </div> mx-0.5`,
         flexbox: `flex flex-row flex-none gap-1 flex-wrap overflow-x-scroll`,
       },
     },
@@ -82,6 +82,32 @@ export default {
     text: "bg-yellow-400/50 px-0",
     tag: "px-2 text-center font-bold border-2 border-black-400 text-xs rounded-full text-black-400",
     name: "変数",
+  },
+  fragments: {
+    needs: {
+      bg: "bg-red-300",
+      border: "border-red-300",
+    },
+    seeds: {
+      bg: "bg-blue-300",
+      border: "border-blue-300",
+    },
+    persona: {
+      bg: "bg-green-300",
+      border: "border-green-300",
+    },
+    context: {
+      bg: "bg-yellow-300",
+      border: "border-yellow-300",
+    },
+    problem: {
+      bg: "bg-purple-300",
+      border: "border-purple-300",
+    },
+    idea: {
+      bg: "bg-orange-300",
+      border: "border-orange-300",
+    },
   },
 };
 
