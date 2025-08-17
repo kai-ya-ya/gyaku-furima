@@ -8,6 +8,10 @@ import { GameContext } from "@contexts/GameContext";
 export default function () {
   const { state, dispatch } = useContext(GameContext);
 
+  const handleSendDebugMessage = () => {
+    dispatch({ type: c.action.type.SEND_MESSAGE, value: { role: "user", content: `this is test\n${Math.floor(Math.random() * 100)}` } });
+  }
+
   return (
     <Frame
       tabs={[
@@ -19,9 +23,15 @@ export default function () {
       <div id="1" className="h-full flex flex-col gap-2">
         <button
           className="border-2 border-black"
-          onClick={() => dispatch({ type: "debug_addMessage", value: { role: "system", content: `this is test\n${Math.floor(Math.random() * 100)}` } })}
+          onClick={handleSendDebugMessage}
         >
           add dialog
+        </button>
+        <button
+          className="border-2 border-black"
+          onClick={console.log(state)}
+        >
+          state check
         </button>
       </div>
     </Frame>

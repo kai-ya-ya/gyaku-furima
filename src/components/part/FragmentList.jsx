@@ -5,11 +5,11 @@ import Fragment from "./Fragment";
 import Frame from "../Frame";
 import { t, s, r, img, c } from "@res";
 
-export default function ({ types, activeFragment, setActiveFragment, initTabId }) {
+export default function ({ types, initTabId }) {
   const { state, dispatch } = useContext(GameContext);
-  const tabs_fragment = Object.values(c.types)
+  const tabs_fragment = Object.values(c.fragment.type)
     .filter((type) => types.includes(type))
-    .map((type, i) => ({ id: type, title: c.fragments[type].name, icon: "" }));
+    .map((type, i) => ({ id: type, title: c.fragment.info[type].name, icon: "" }));
   const tabs = [types.length > 1 && { id: "all", title: "すべて", icon: "" }, ...tabs_fragment];
 
   const getFragments = (types) => {
@@ -18,12 +18,7 @@ export default function ({ types, activeFragment, setActiveFragment, initTabId }
     return (
       <>
         {filteredFragments.map((data, i) => (
-          <Fragment
-            key={data.id}
-            data={data}
-            onClick={(data) => setActiveFragment(data)}
-            isActive={data.id === activeFragment?.id}
-          />
+          <Fragment key={data.id} data={data} />
         ))}
       </>
     );

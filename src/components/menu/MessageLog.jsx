@@ -7,17 +7,18 @@ import { GameContext } from "@contexts/GameContext";
 
 export default function () {
   const { state, dispatch } = useContext(GameContext);
+  console.log(state);
 
-  //   useEffect(() => {
-  //     console.log(state.messages)
-  //   }, [state])
+    useEffect(() => {
+      console.log(state)
+    }, [state])
 
   return (
     <Frame tabs={[{ id: "0", title: "会話ログ" }]}>
       <div id="0" className="bg-white border-black border-2 rounded-xl h-full p-2 flex flex-col gap-2 overflow-y-scroll">
         {state.messages.map((message, i) => (
           <div key={i} className="border-b-2 border-black p-2">
-            <Text text={`${message.role || "a"}: ${message.content || ""}`} />
+            {message && <Text text={`${message.role || "a"}: ${message.content || ""}`} />}
           </div>
         ))}
       </div>

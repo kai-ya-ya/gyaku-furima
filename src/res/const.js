@@ -223,44 +223,55 @@ export default {
     MESSAGE_LOG: "message_log",
     OPTION: "option",
   },
-  types: {
-    NEEDS: "needs",
-    SEEDS: "seeds",
-    PERSONA: "persona",
-    CONTEXT: "context",
-    CHALLENGE: "challenge",
-    IDEA: "idea",
+  action: {
+    type: {
+      SELECT_ITEM: "select_item",
+      ADD_FRAGMENT: "add_fragment",
+      SELECT_FRAGMENT: "select_fragment",
+      ADD_MESSAGE: "add_message",
+      SEND_MESSAGE: "send_message",
+      ENCHANT_MERGE: "enchant_merge",
+      SEND_MESSAGE: "send_message",
+    },
   },
-  actions: {
-    SELECT_ITEM: "",
-    UNSELECT_ITEM: "",
-    ADD_MESSAGE: "",
-    MERGE: "",
+  status: {
+    SUCCESS: "success",
+    FAILED: "failed",
   },
-  fragments: {
-    needs: {
-      name: "ニーズ",
-      desc: "ユーザーが抱える課題や欲求",
+  fragment: {
+    type: {
+      NEEDS: "needs",
+      SEEDS: "seeds",
+      PERSONA: "persona",
+      CONTEXT: "context",
+      CHALLENGE: "challenge",
+      IDEA: "idea",
     },
-    seeds: {
-      name: "シーズ",
-      desc: "ユーザーの持つ技術や知識、資源",
+    info: {
+      needs: {
+        name: "ニーズ",
+        desc: "ユーザーが抱える課題や欲求",
+      },
+      seeds: {
+        name: "シーズ",
+        desc: "ユーザーの持つ技術や知識、資源",
+      },
+      persona: {
+        name: "ペルソナ",
+        desc: "具体化した仮想ユーザー像",
+      },
+      context: {
+        name: "コンテクスト",
+        desc: "ユーザーの具体的な状況や背景",
+      },
+      challenge: {
+        name: "チャレンジ",
+        desc: "ニーズとシーズ、ペルソナ、コンテキストが結合して生まれる解決すべき問題",
+      },
+      idea: {
+        name: "アイデア",
+        desc: "チャレンジを解決できるもの",
+      },
     },
-    persona: {
-      name: "ペルソナ",
-      desc: "具体化した仮想ユーザー像",
-    },
-    context: {
-      name: "コンテクスト",
-      desc: "ユーザーの具体的な状況や背景",
-    },
-    challenge: {
-      name: "チャレンジ",
-      desc: "ニーズとシーズ、ペルソナ、コンテキストが結合して生まれる解決すべき問題",
-    },
-    idea: {
-      name: "アイデア",
-      desc: "プロブレムを解決できるもの",
-    },
-  }
+  },
 };

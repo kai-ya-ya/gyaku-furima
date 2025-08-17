@@ -1,7 +1,10 @@
 // Fragment.jsx
+import React, { useState, useEffect, useContext } from "react";
+import { GameContext } from "@contexts/GameContext";
 import { t, s, r, img, c } from "@res";
 
-export default function ({ data, onClick, isActive }) {
+export default function ({ data }) {
+  const { state, dispatch } = useContext(GameContext);
   let img_star = null;
   switch (data.star) {
     case 1:
@@ -19,7 +22,10 @@ export default function ({ data, onClick, isActive }) {
       <div className="h-full flex-shrink-0">
         <img className="h-8 bg-white rounded-full p-1" src={img_star}></img>
       </div>
-      <button className="flex-grow truncate text-left" onClick={() => onClick(data)}>
+      <button
+        className="flex-grow truncate text-left"
+        onClick={() => dispatch({ type: c.action.type.SELECT_FRAGMENT, value: data })}
+      >
         {data.title}
       </button>
     </div>
