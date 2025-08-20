@@ -7,14 +7,15 @@ function genFragments(type, num = 1) {
 }
 
 function genFragmentsComplete() {
-  return Object.values(c.fragment.type).map((type) => genFragment(type));
+  const { ALL, ...allTypes } = c.fragment.type;
+  return Object.values(allTypes).map((type) => genFragment(type));
 }
 
 function genFragment(type) {
+  const { ALL, ...allTypes } = c.fragment.type;
   const newFragmentId = crypto.randomUUID();
   const newFragmentType =
-    type ||
-    c.fragment.type[Object.keys(c.fragment.type)[Math.floor(Math.random() * Object.keys(c.fragment.type).length)]];
+    type || allTypes[Object.keys(allTypes)[Math.floor(Math.random() * Object.keys(c.fragment.type).length)]];
   const newFragmentStar = Math.floor(1 + Math.random() * 3);
 
   return {
@@ -78,7 +79,13 @@ function genMessages(type, inputs) {
         },
       ];
     }
-    case c.message.type.ENCHANT_SCAMPER:
+    case c.action.type.ENCHANT_SCAMPER.S:
+    case c.action.type.ENCHANT_SCAMPER.C:
+    case c.action.type.ENCHANT_SCAMPER.A:
+    case c.action.type.ENCHANT_SCAMPER.M:
+    case c.action.type.ENCHANT_SCAMPER.P:
+    case c.action.type.ENCHANT_SCAMPER.E:
+    case c.action.type.ENCHANT_SCAMPER.R:
       return [
         {
           id: crypto.randomUUID(),
@@ -106,7 +113,7 @@ function genMessages(type, inputs) {
 export default function (action) {
   console.log(`api_debug: ${action.type}`);
   console.log(action.value);
-  const state = action.state;
+  const state = action.state; //
 
   switch (action.type) {
     case c.action.type.INIT_GAME: {
@@ -115,7 +122,7 @@ export default function (action) {
         data: {
           gameId: crypto.randomUUID(),
           player: { name: "てすと" },
-          fragments: [],
+          fragments: c.testData,
           messages: [],
           progress: "Discover",
           stage: {
@@ -125,6 +132,7 @@ export default function (action) {
           },
           messageWindow: [],
           result_merge: null,
+          result_scamper: null,
         },
       };
     }
@@ -191,7 +199,7 @@ export default function (action) {
     case c.action.type.ENCHANT_MERGE: {
       const newFragments = genFragments(c.fragment.type.CHALLENGE, 1);
       const newMessages = genMessages(action.type, [
-        ...Object.values(action.value).map((fragment) => fragment.title),
+        ...Object.values(action.value).map((slotItem) => slotItem.fragment.title),
         ...newFragments.map((fragment) => fragment.title),
       ]);
       return {
@@ -211,9 +219,9 @@ export default function (action) {
     case c.action.type.ENCHANT_SCAMPER.P:
     case c.action.type.ENCHANT_SCAMPER.E:
     case c.action.type.ENCHANT_SCAMPER.R: {
-      const newFragments = genFragments(c.fragment.type.CHALLENGE, 1);
+      const newFragments = genFragments(null, 1);
       const newMessages = genMessages(action.type, [
-        ...action.value.map((fragment) => fragment.title),
+        ...Object.values(action.value).map((slotItem) => slotItem.fragment.title),
         ...newFragments.map((fragment) => fragment.title),
       ]);
       return {
@@ -222,6 +230,7 @@ export default function (action) {
           fragments: [...state.fragments, ...newFragments],
           messages: [...state.messages, ...newMessages],
           messageWindow: newMessages,
+          result_scamper: newFragments[0],
         },
       };
     }

@@ -291,31 +291,31 @@ export default {
       R: "rearrange",
     },
     info: {
-      substitute: {
+      S: {
         name: "代用する",
         desc: "何か別のものに置き換えられないか？",
       },
-      combine: {
+      C: {
         name: "組み合わせる",
         desc: "複数の要素を組み合わせられないか？",
       },
-      adapt: {
+      A: {
         name: "適応させる",
         desc: "ほかの要素から何か適用できないか？",
       },
-      modify: {
+      M: {
         name: "修正する",
         desc: "形や大きさを変えられないか？",
       },
-      put_to_other: {
+      P: {
         name: "転用する",
         desc: "現在の用途とは別の目的で使えないか？",
       },
-      eliminate: {
+      E: {
         name: "取り除く",
         desc: "何かを削除または簡略化できないか？",
       },
-      rearrange: {
+      R: {
         name: "再編成する",
         desc: "順番を逆もしくは入れ替えられないか？",
       },

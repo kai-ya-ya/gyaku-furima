@@ -3,7 +3,7 @@ import React, { useState, useEffect, useContext } from "react";
 import { GameContext } from "@contexts/GameContext";
 import { t, s, r, img, c } from "@res";
 
-export default function ({ fragment = {}, dispatch = null, isActive = false }) {
+export default function ({ fragment = {}, dispatch = null, isActive = false, activeSlot = null }) {
   let img_star = null;
   switch (fragment.star) {
     case 1:
@@ -19,10 +19,13 @@ export default function ({ fragment = {}, dispatch = null, isActive = false }) {
 
   const handleClick = (e) => {
     e.stopPropagation();
+    if (activeSlot) {
+      dispatch({ type: c.action.type.SELECT_SLOT, value: activeSlot, debug: "Fragment.jsx - 0" });
+    }
     dispatch({
       type: isActive ? c.action.type.DEACTIVE_FRAGMENT : c.action.type.ACTIVE_FRAGMENT,
       value: fragment,
-      debug: "fragment.jsx - 0",
+      debug: "fragment.jsx - 1",
     });
   };
 

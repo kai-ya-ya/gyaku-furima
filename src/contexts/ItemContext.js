@@ -2,7 +2,6 @@ import React, { createContext, useReducer } from "react";
 import { t, s, r, img, c } from "@res";
 
 const defaultState = {
-  allowed_types: [],
   allowed_setTypes: [],
   slot: [],
   activeSlot: null,
@@ -13,9 +12,10 @@ const defaultState = {
 
 function initSlot(allowed_setTypes) {
   let slot = {};
+  const { ALL, ...allTypes } = c.fragment.type;
   allowed_setTypes.map((types = [], i) => {
     slot[i] = {
-      allowed_types: types.includes(c.fragment.type.ALL) ? Object.values(c.fragment.type) : types,
+      allowed_types: types.includes(c.fragment.type.ALL) ? Object.values(allTypes) : types,
       fragment: null,
     };
   });
@@ -29,7 +29,10 @@ function reducer(state_item, action) {
       updates = { activeFragment: action.value };
       break;
     case c.action.type.DEACTIVE_FRAGMENT:
-      updates = { activeFragment: null };
+      updates = {
+        activeSlot: null,
+        activeFragment: null,
+      };
       break;
     case c.action.type.ACTIVE_FRAGMENT_TYPE:
       updates = { activeFragmentType: action.value };
@@ -37,24 +40,34 @@ function reducer(state_item, action) {
     case c.action.type.SET_SLOT:
       updates = {
         activeFragment: null,
-        slot: { ...state_item.slot, [action.value]: state_item.activeFragment },
+        activeSlot: null,
+        slot: {
+          ...state_item.slot,
+          [state_item.activeSlot]: { ...state_item.slot[state_item.activeSlot], fragment: state_item.activeFragment },
+        },
       };
       break;
     case c.action.type.SET_SLOTS:
       updates = {
         activeFragment: null,
+        activeSlot: null,
         slot: { ...state_item.slot, ...action.value },
       };
       break;
     case c.action.type.REMOVE_SLOT:
       updates = {
         activeFragment: null,
-        slot: { ...state_item.slot, [action.value]: null },
+        activeSlot: null,
+        slot: {
+          ...state_item.slot,
+          [state_item.activeSlot]: { ...state_item.slot[state_item.activeSlot], fragment: null },
+        },
       };
       break;
     case c.action.type.RESET_SLOT:
       updates = {
         activeFragment: null,
+        activeSlot: null,
         slot: initSlot(state_item.allowed_setTypes),
       };
       break;
@@ -81,10 +94,9 @@ function reducer(state_item, action) {
 
 const ItemContext = createContext(defaultState);
 
-function ItemProvider({ children, allowed_types, allowed_setTypes }) {
+function ItemProvider({ children, allowed_setTypes }) {
   const initialState = {
     ...defaultState,
-    allowed_types: allowed_types,
     allowed_setTypes: allowed_setTypes,
     slot: initSlot(allowed_setTypes),
   };

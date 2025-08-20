@@ -9,10 +9,11 @@ function reducer(state, action) {
   console.log(`[${action.debug}] ${action.type}`);
   switch (action.type) {
     case c.action.type.RESET_RESULTS: {
-      return { ...state, result_merge: null, };
+      return { ...state, result_merge: null, result_scamper: null };
     }
     default: {
       const response = api_debug({ type: action.type, value: action.value, state: state || null });
+      console.log(response);
       return { ...state, ...response.data };
     }
   }

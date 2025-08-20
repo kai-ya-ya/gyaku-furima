@@ -9,6 +9,7 @@ import MessageLog from "./MessageLog";
 import Option from "./Option";
 import Info from "./Info";
 import { GameContext } from "@contexts/GameContext";
+import { ItemProvider } from "@contexts/ItemContext";
 
 export default function () {
   const [menuOpen, setMenuOpen] = useState(true);
@@ -66,7 +67,9 @@ export default function () {
       </div>
       <div className="p-2 col-span-2 sm:col-span-1 row-span-2">
         {activeMenuItem === c.menu.ITEM ? (
-          <Item />
+          <ItemProvider allowed_setTypes={[[c.fragment.type.ALL]]}>
+            <Item />
+          </ItemProvider>
         ) : activeMenuItem === c.menu.ENCHANT ? (
           <Enchant />
         ) : activeMenuItem === c.menu.MESSAGE_LOG ? (

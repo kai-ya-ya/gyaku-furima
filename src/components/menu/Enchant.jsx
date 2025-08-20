@@ -4,7 +4,6 @@ import { t, s, r, img, c } from "@res";
 import Frame from "../Frame";
 import Scamper from "../part/Scamper/Scamper";
 import Merge from "../part/Merge/Merge";
-import { MergeProvider } from "@contexts/MergeContext";
 import { ItemProvider } from "@contexts/ItemContext";
 
 export default function () {
@@ -16,9 +15,16 @@ export default function () {
       ]}
     >
       <div id="0" className="h-full flex flex-col gap-2">
-        <MergeProvider>
+        <ItemProvider
+          allowed_setTypes={[
+            [c.fragment.type.NEEDS],
+            [c.fragment.type.SEEDS],
+            [c.fragment.type.PERSONA],
+            [c.fragment.type.CONTEXT],
+          ]}
+        >
           <Merge />
-        </MergeProvider>
+        </ItemProvider>
       </div>
       <div id="1" className="h-full flex flex-col gap-2">
         <ItemProvider

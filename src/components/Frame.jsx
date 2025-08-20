@@ -4,19 +4,19 @@ import React, { useState, useEffect, useContext } from "react";
 import Text from "@components/Text";
 import { t, s, r, img } from "@res";
 
-export default function ({ children, tabs = [], cname_body = "", cname_children = "", initTabId = null, cond = null }) {
+export default function ({ children, tabs = [], cname_body = "", cname_children = "", initTabId = null, conds = null }) {
   const getTab = (tabId) => {
     return React.Children.toArray(children).filter((child) => {
       return React.isValidElement(child) && child.props && child.props.id === tabId;
     });
   };
-  const [activeTabId, setActiveTabId] = useState(initTabId || (tabs.length > 0 ? tabs[0].id : children));
+  const [activeTabId, setActiveTabId] = useState(!!initTabId ? initTabId : (tabs.length > 0 ? tabs[0].id : children));
   useEffect(() => {
     if (initTabId) setActiveTabId(initTabId);
   }, [initTabId]);
 
   return (
-    <div cond={cond} className={`flex flex-col gap-0 items-center h-full ${cname_body}`}>
+    <div conds={conds} className={`flex flex-col gap-0 items-center h-full ${cname_body}`}>
       <div className="w-full">
         <div className="flex flex-row justify-start gap-0 overflow-x-scroll">
           {tabs.map((tab, i) => (
