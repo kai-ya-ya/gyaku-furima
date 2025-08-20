@@ -8,8 +8,8 @@ import { GameContext } from "@contexts/GameContext";
 export default function () {
   const { state, dispatch } = useContext(GameContext);
 
-  const handleSendDebugMessage = () => {
-    dispatch({ type: c.action.type.SEND_MESSAGE, value: { role: "user", content: `this is test\n${Math.floor(Math.random() * 100)}` } });
+  const handleSendDebugMessage = (type, message) => {
+    dispatch({ type: type, value: `デバッグ：${message}`});
   }
 
   return (
@@ -23,9 +23,13 @@ export default function () {
       <div id="1" className="h-full flex flex-col gap-2">
         <button
           className="border-2 border-black"
-          onClick={handleSendDebugMessage}
-        >
-          add dialog
+          onClick={() => handleSendDebugMessage(c.action.type.DEBUG_RANDOM_FRAGMENTS, "ランダムにフラグメントを取得")}
+        >ランダムにフラグメントを取得
+        </button>
+        <button
+          className="border-2 border-black"
+          onClick={() => handleSendDebugMessage(c.action.type.DEBUG_COMPLETE_FRAGMENTS, "全種類のフラグメントを取得")}
+        >全種類のフラグメントを取得
         </button>
         <button
           className="border-2 border-black"

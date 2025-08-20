@@ -7,11 +7,6 @@ import { GameContext } from "@contexts/GameContext";
 
 export default function () {
   const { state, dispatch } = useContext(GameContext);
-  console.log(state);
-
-    useEffect(() => {
-      console.log(state)
-    }, [state])
 
   return (
     <Frame tabs={[{ id: "0", title: "会話ログ" }]}>

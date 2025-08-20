@@ -225,21 +225,105 @@ export default {
   },
   action: {
     type: {
+      DEBUG_RANDOM_FRAGMENTS: "debug_random_fragments",
+      DEBUG_COMPLETE_FRAGMENTS: "debug_complete_fragments",
+      INIT_GAME: "init_game",
+      NEXT_DAY: "next_day",
+      CHANGE_PROGRESS: "change_progress",
       SELECT_ITEM: "select_item",
+      GET_FRAGMENT: "get_fragment",
       ADD_FRAGMENT: "add_fragment",
-      SELECT_FRAGMENT: "select_fragment",
+      SET_FRAGMENT: "set_fragment",
+      SET_FRAGMENTS: "set_fragments",
+      REMOVE_FRAGMENT: "remove_fragment",
+      RESET_FRAGMENTS: "reset_fragments",
+      ACTIVE_FRAGMENT: "active_fragment",
+      DEACTIVE_FRAGMENT: "deactive_fragment",
+      ACTIVE_FRAGMENT_TYPE: "active_fragment_type",
+      RESET_RESULTS: "reset_results",
       ADD_MESSAGE: "add_message",
       SEND_MESSAGE: "send_message",
       ENCHANT_MERGE: "enchant_merge",
       SEND_MESSAGE: "send_message",
+      SET_SLOT: "set_slot",
+      SET_SLOTS: "set_slots",
+      REMOVE_SLOT: "remove_slot",
+      RESET_SLOT: "reset_slot",
+      SELECT_SLOT: "select_slot",
+      UNSELECT_SLOT: "unselect_slot",
+      ENCHANT_SCAMPER: {
+        S: "enchant_scamper_s",
+        C: "enchant_scamper_c",
+        A: "enchant_scamper_a",
+        M: "enchant_scamper_m",
+        P: "enchant_scamper_p",
+        E: "enchant_scamper_e",
+        R: "enchant_scamper_r",
+      },
     },
+  },
+  message: {
+    type: {
+      TALK: "talk",
+      USER_ACTION: "user_action",
+      FREE_ACTION: "free_action",
+      GET_FRAGMENTS: "get_fragments",
+      ENCHANT_MERGE: "enchant_merge",
+      ENCHANT_SCAMPER: "enchant_scamper",
+    },
+    role: {
+      SYSTEM: "system",
+      USER: "user",
+    }
   },
   status: {
     SUCCESS: "success",
     FAILED: "failed",
   },
+  scamper: {
+    type: {
+      S: "substitute",
+      C: "combine",
+      A: "adapt",
+      M: "modify",
+      P: "put_to_other",
+      E: "eliminate",
+      R: "rearrange",
+    },
+    info: {
+      substitute: {
+        name: "代用する",
+        desc: "何か別のものに置き換えられないか？",
+      },
+      combine: {
+        name: "組み合わせる",
+        desc: "複数の要素を組み合わせられないか？",
+      },
+      adapt: {
+        name: "適応させる",
+        desc: "ほかの要素から何か適用できないか？",
+      },
+      modify: {
+        name: "修正する",
+        desc: "形や大きさを変えられないか？",
+      },
+      put_to_other: {
+        name: "転用する",
+        desc: "現在の用途とは別の目的で使えないか？",
+      },
+      eliminate: {
+        name: "取り除く",
+        desc: "何かを削除または簡略化できないか？",
+      },
+      rearrange: {
+        name: "再編成する",
+        desc: "順番を逆もしくは入れ替えられないか？",
+      },
+    },
+  },
   fragment: {
     type: {
+      ALL: "all",
       NEEDS: "needs",
       SEEDS: "seeds",
       PERSONA: "persona",
@@ -248,6 +332,10 @@ export default {
       IDEA: "idea",
     },
     info: {
+      all: {
+        name: "ALL",
+        desc: "ALL",
+      },
       needs: {
         name: "ニーズ",
         desc: "ユーザーが抱える課題や欲求",

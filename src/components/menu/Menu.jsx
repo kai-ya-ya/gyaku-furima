@@ -7,6 +7,7 @@ import Item from "./Item";
 import Enchant from "./Enchant";
 import MessageLog from "./MessageLog";
 import Option from "./Option";
+import Info from "./Info";
 import { GameContext } from "@contexts/GameContext";
 
 export default function () {
@@ -73,7 +74,7 @@ export default function () {
         ) : activeMenuItem === c.menu.OPTION ? (
           <Option />
         ) : (
-          <div className="bg-white border-black border-2 rounded-xl p-2">基本情報</div>
+          <Info />
         )}
       </div>
     </>

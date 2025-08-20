@@ -22,7 +22,7 @@ export default function () {
             <div className="flex flex-row gap-2 justify-center">
               <button
                 className="h-16 w-16 bg-green-300 border-0 border-black rounded-xl"
-                onClick={() => dispatch({ type: c.action.type.SELECT_FRAGMENT, value: null })}
+                onClick={() => dispatch({ type: c.action.type.ACTIVE_FRAGMENT, value: null })}
               >
                 閉じる
               </button>

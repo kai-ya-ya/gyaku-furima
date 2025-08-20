@@ -4,7 +4,7 @@ import React, { useState, useEffect, useContext } from "react";
 import Text from "@components/Text";
 import { t, s, r, img } from "@res";
 
-export default function ({ children, tabs = [], cname_body = "", cname_children = "", initTabId }) {
+export default function ({ children, tabs = [], cname_body = "", cname_children = "", initTabId = null, cond = null }) {
   const getTab = (tabId) => {
     return React.Children.toArray(children).filter((child) => {
       return React.isValidElement(child) && child.props && child.props.id === tabId;
@@ -16,7 +16,7 @@ export default function ({ children, tabs = [], cname_body = "", cname_children 
   }, [initTabId]);
 
   return (
-    <div className={`flex flex-col gap-0 items-center h-full ${cname_body}`}>
+    <div cond={cond} className={`flex flex-col gap-0 items-center h-full ${cname_body}`}>
       <div className="w-full">
         <div className="flex flex-row justify-start gap-0 overflow-x-scroll">
           {tabs.map((tab, i) => (

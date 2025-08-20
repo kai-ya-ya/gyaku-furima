@@ -84,6 +84,10 @@ export default {
     name: "変数",
   },
   fragments: {
+    all: {
+      bg: "bg-gray-300",
+      border: "border-gray-300",
+    },
     needs: {
       bg: "bg-red-300",
       border: "border-red-300",
@@ -109,6 +113,15 @@ export default {
       border: "border-orange-300",
     },
   },
+  scampers: {
+    S: "bg-green-400 text-white",
+    C: "bg-green-400 text-white",
+    A: "bg-green-400 text-white",
+    M: "bg-green-400 text-white",
+    P: "bg-green-400 text-white",
+    E: "bg-green-400 text-white",
+    R: "bg-green-400 text-white",
+  }
 };
 
 const theme = {

@@ -3,10 +3,9 @@ import React, { useState, useEffect, useContext } from "react";
 import { GameContext } from "@contexts/GameContext";
 import { t, s, r, img, c } from "@res";
 
-export default function ({ data }) {
-  const { state, dispatch } = useContext(GameContext);
+export default function ({ fragment = {}, dispatch = null, isActive = false }) {
   let img_star = null;
-  switch (data.star) {
+  switch (fragment.star) {
     case 1:
       img_star = img.star_1;
       break;
@@ -17,16 +16,27 @@ export default function ({ data }) {
       img_star = img.star_3;
       break;
   }
+
+  const handleClick = (e) => {
+    e.stopPropagation();
+    dispatch({
+      type: isActive ? c.action.type.DEACTIVE_FRAGMENT : c.action.type.ACTIVE_FRAGMENT,
+      value: fragment,
+      debug: "fragment.jsx - 0",
+    });
+  };
+
   return (
-    <div className={`w-full flex gap-2 p-1 rounded-full ${s.fragments[data.type].bg}`}>
+    <div
+      className={`w-full flex gap-2 p-1 rounded-full ${s.fragments[fragment.type]?.bg || ""} border-2 ${
+        isActive ? "border-white border-dashed" : "border-transparent"
+      }`}
+    >
       <div className="h-full flex-shrink-0">
         <img className="h-8 bg-white rounded-full p-1" src={img_star}></img>
       </div>
-      <button
-        className="flex-grow truncate text-left"
-        onClick={() => dispatch({ type: c.action.type.SELECT_FRAGMENT, value: data })}
-      >
-        {data.title}
+      <button className="flex-grow truncate text-left" onClick={handleClick}>
+        {fragment.title}
       </button>
     </div>
   );
